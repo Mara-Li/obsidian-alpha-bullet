@@ -157,7 +157,7 @@ export default class SortMarkdownList extends Plugin {
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							const newContent = this.sorts.replaceAlphaListInMarkdown(
+							const newContent = this.sorts.replaceAlphaListWithTitleInMarkdown(
 								content,
 								true,
 							);
