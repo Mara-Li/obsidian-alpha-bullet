@@ -1,207 +1,20 @@
 /** biome-ignore-all lint/style/useNamingConvention: snake case for frontmatter */
 
-import { browser, expect } from "@wdio/globals";
-import * as fs from "fs";
-import * as path from "path";
 import { obsidianPage } from "wdio-obsidian-service";
-import type { SortMarkdownListSettings } from "../../src/interfaces";
-import { EXPECT_SIMPLE_LIST, type Expectation } from "../fixtures";
-
-const manifest = JSON.parse(
-	fs.readFileSync(`${path.resolve(__dirname, "..", "..", "manifest.json")}`, "utf-8")
-) as { id: string; name: string; version: string };
-
-import dedent from "dedent";
-
-console.log(`Running tests for ${manifest.name} v${manifest.version}`);
-
-const folder = path.resolve(__dirname, "..");
-const fixtures = path.resolve(folder, "fixtures");
-
-enum ECommands {
-	SortMarkdownList = "sort-markdown-list",
-	SortMarkdownListReverse = "sort-markdown-list-reverse",
-	SortMarkdownListAdvanced = "sort-markdown-list-advanced",
-	SortMarkdownListReverseAdvanced = "sort-markdown-list-reverse-advanced",
-	SortMarkdownListAuto = "sort-markdown-list-auto",
-}
-
-type Options = {
-	title?: string;
-} & SortMarkdownListSettings;
-
-function stringifyFrontmatter(frontmatter?: Options): string {
-	return frontmatter
-		? dedent(`---
-			sml_sort: ${frontmatter.sml_sort};
-			sml_reverse: ${frontmatter.sml_reverse};
-			sml_advanced: ${frontmatter.sml_advanced};
-			sml_level: ${frontmatter.sml_level};
-			---\n
-	`)
-		: "";
-}
-
-async function createFixture(fixtureName: string, frontmatter?: Options) {
-	const fixtureContent = fs.readFileSync(path.join(fixtures, fixtureName), "utf-8");
-	const frontmatterContent = stringifyFrontmatter(frontmatter);
-	await browser.executeObsidian(
-		async ({ app }, content, fileName, fm) => {
-			if (fm) content = `${frontmatterContent}${content}`;
-			await app.vault.create(fileName, content);
-		},
-		fixtureContent,
-		fixtureName,
-		frontmatterContent
-	);
-
-	await obsidianPage.openFile(fixtureName);
-	const fileOpened = await browser.executeObsidian(({ app, obsidian }) => {
-		const leaf = app.workspace.getActiveViewOfType(obsidian.MarkdownView)?.leaf;
-		if (leaf?.view instanceof obsidian.MarkdownView) {
-			return leaf.view.file?.path;
-		}
-		return null;
-	});
-
-	expect(fileOpened).toBe(fixtureName);
-}
-
-async function runTestWithFixture(
-	fixtureName: string,
-	command: ECommands,
-	frontmatter?: Options
-) {
-	await createFixture(fixtureName, frontmatter);
-	await browser.executeObsidianCommand(`${manifest.id}:${command}`);
-
-	//return updated content
-	return await browser.executeObsidian(({ app, obsidian }, fileName) => {
-		const file = app.vault.getAbstractFileByPath(fileName);
-		if (file && file instanceof obsidian.TFile) {
-			return app.vault.read(file);
-		}
-		return "";
-	}, fixtureName);
-}
-
-function generatedFm(expected: Expectation, frontmatter?: Options) {
-	const strifiyedFrontmatter = frontmatter
-		? dedent(`---
-			sml_sort: ${frontmatter.sml_sort};
-			sml_reverse: ${frontmatter.sml_reverse};
-			sml_advanced: ${frontmatter.sml_advanced};
-			sml_level: ${frontmatter.sml_level};
-			---\n
-	`)
-		: "";
-	return {
-		alpha: dedent(`${strifiyedFrontmatter}${expected.alpha}`),
-		alphaReverse: dedent(`${strifiyedFrontmatter}${expected.alphaReverse}`),
-		withTitle: dedent(`${strifiyedFrontmatter}${expected.withTitle}`),
-		withTitleReverse: dedent(`${strifiyedFrontmatter}${expected.withTitleReverse}`),
-	};
-}
-
-async function testAllType(input: string, expected: Expectation, frontmatter?: Options) {
-	const expectedFm = generatedFm(expected, frontmatter);
-	it(`sort alphabetical`, async function () {
-		const result = await runTestWithFixture(input, ECommands.SortMarkdownList);
-		expect(result).toBe(expectedFm.alpha);
-	});
-	it(`sort alphabetical with title`, async function () {
-		const result = await runTestWithFixture(input, ECommands.SortMarkdownListAdvanced);
-		expect(result).toBe(expectedFm.withTitle);
-	});
-	it(`sort alphabetical (reverse)`, async function () {
-		const result = await runTestWithFixture(input, ECommands.SortMarkdownListReverse);
-		expect(result).toBe(expectedFm.withTitle);
-	});
-	it(`sort alphabetical with title (reverse)`, async function () {
-		const result = await runTestWithFixture(
-			input,
-			ECommands.SortMarkdownListReverseAdvanced
-		);
-		expect(result).toBe(expectedFm.withTitleReverse);
-	});
-}
-
-async function addFrontmatter(input: string, expected: Expectation) {
-	const allFrontmatterPossibles: Options[] = [
-		{
-			title: "Default",
-			sml_sort: true,
-			sml_reverse: false,
-			sml_advanced: false,
-			sml_level: 1,
-		},
-		{
-			title: "Default + reverse",
-			sml_sort: true,
-			sml_reverse: true,
-			sml_advanced: false,
-			sml_level: 1,
-		},
-		{
-			title: "default + advanced",
-			sml_sort: true,
-			sml_reverse: false,
-			sml_advanced: true,
-			sml_level: 1,
-		},
-		{
-			title: "reverse + advanced",
-			sml_sort: true,
-			sml_reverse: true,
-			sml_advanced: true,
-			sml_level: 1,
-		},
-		{
-			title: "default + advanced",
-			sml_sort: true,
-			sml_reverse: true,
-			sml_advanced: true,
-			sml_level: 1,
-		},
-	];
-
-	for (const frontmatter of allFrontmatterPossibles) {
-		it(`${frontmatter.title}`, async function () {
-			const generatedExpected = generatedFm(expected, frontmatter);
-			const result = await runTestWithFixture(
-				input,
-				ECommands.SortMarkdownListAuto,
-				frontmatter
-			);
-			expect(result).toBe(generatedExpected.alpha);
-		});
-	}
-}
-
-const expecteds = [
-	{
-		fileName: "simple_list.md",
-		expected: EXPECT_SIMPLE_LIST,
-	},
-	{
-		fileName: "fruits_animals.md",
-		expected: EXPECT_SIMPLE_LIST,
-	},
-	{
-		fileName: "mixed_content.md",
-		expected: EXPECT_SIMPLE_LIST,
-	},
-	{
-		fileName: "accents_case.md",
-		expected: EXPECT_SIMPLE_LIST,
-	},
-	{
-		fileName: "simple_list.md",
-		expected: EXPECT_SIMPLE_LIST,
-	},
-];
+import {
+	addFrontmatter,
+	createFixture,
+	ECommands,
+	expecteds,
+	manifest,
+	testAllType,
+	type Options,
+} from ".";
 
 describe("No frontmatter sort", () => {
+	beforeEach(async function () {
+		await obsidianPage.resetVault();
+	});
 	for (const item of expecteds) {
 		it(item.fileName, async () => {
 			await testAllType(item.fileName, item.expected);
@@ -210,6 +23,9 @@ describe("No frontmatter sort", () => {
 });
 
 describe("Automated frontmatter sort", () => {
+	beforeEach(async function () {
+		await obsidianPage.resetVault();
+	});
 	for (const item of expecteds) {
 		it(item.fileName, async () => {
 			await addFrontmatter(item.fileName, item.expected);
@@ -218,16 +34,18 @@ describe("Automated frontmatter sort", () => {
 });
 
 describe("Neg test", () => {
-	const neg: Options = {
-		title: "Disabled sort",
-		sml_sort: false,
-		sml_reverse: true,
-		sml_advanced: true,
-		sml_level: 1,
-	};
+	beforeEach(async function () {
+		await obsidianPage.resetVault();
+	});
 
 	it("The command should not exists", async () => {
-		await createFixture("simple_list.md", neg);
+		await createFixture("simple_list.md", {
+			title: "Disabled sort",
+			sml_sort: false,
+			sml_reverse: true,
+			sml_advanced: true,
+			sml_level: 1,
+		});
 		const command = await browser.executeObsidian(({ app }, commandName) => {
 			return app.commands.findCommand(commandName) ?? null;
 		}, `${manifest.id}:${ECommands.SortMarkdownListAuto}`);
