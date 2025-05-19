@@ -22,7 +22,8 @@
 			"@wdio/globals/types",
 			"@wdio/mocha-framework",
 			"wdio-obsidian-service",
-			"mocha"
+			"mocha",
+			"uniformize"
 		],
 		"lib": [
 			"DOM",

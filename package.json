@@ -1,7 +1,7 @@
 {
-  "name": "sample-plugin",
+  "name": "sort-markdown-list",
   "version": "0.0.0",
-  "description": "",
+  "description": "Add multiple commands to sort a markdown list.",
   "main": "main.js",
   "private": true,
   "scripts": {
@@ -12,16 +12,16 @@
     "export": "node esbuild.config.mjs --production --vault",
     "bump": "dotenv -- node commit-and-tag-version.mjs",
     "postbump": "dotenv -- if-env SKIP_POST_BUMP=true && echo skip bump || git push --follow-tags origin master",
-    "predeploy": "pnpm run bump",
-    "deploy": "pnpm run export",
-    "lint": "pnpm biome format --write src/"
+    "predeploy": "bun run bump",
+    "deploy": "bun run export",
+    "lint": "bun biome format --write src/"
   },
   "engines": {
     "node": "^22.2.0"
   },
   "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "author": "Mara-Li",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@biomejs/biome": "^2.0.0-beta.4",
     "@types/node": "^22.15.19",
@@ -46,13 +46,8 @@
     "dedent": "^1.5.3",
     "dotenv": "^16.5.0",
     "dotenv-cli": "^8.0.0",
-    "ejs": "^3.1.10",
-    "execa": "^9.5.2",
-    "git-user-name": "^2.0.0",
-    "license": "^1.0.3",
     "obsidian-typings": "^3.7.1",
-    "prompts": "^2.4.2",
-    "spdx-license-list": "^6.10.0",
+    "uniformize": "^2.4.0",
     "wdio-obsidian-reporter": "^1.2.0",
     "wdio-obsidian-service": "^1.2.0"
   },
