@@ -181,10 +181,6 @@ export default class SortMarkdownList extends Plugin {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				const options = file ? this.readFrontmatter(file) : this.settings;
-				console.log(
-					"options",
-					file && fileIsMarkdownOpened && options.sml_sort,
-				);
 				if (file && fileIsMarkdownOpened && options.sml_sort) {
 					if (!checking) {
 						const newContent = this.chooseCommands(file, options);
