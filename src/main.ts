@@ -4,6 +4,7 @@ import { Plugin, type TFile } from "obsidian";
 import { resources, translationLanguage } from "./i18n";
 import { DEFAULT_SETTINGS, type SortMarkdownListSettings } from "./interfaces";
 import { Sorts } from "./sorts";
+import { MarkdownListSortSettings } from "./settings";
 
 export default class SortMarkdownList extends Plugin {
 	settings!: SortMarkdownListSettings;
@@ -24,13 +25,17 @@ export default class SortMarkdownList extends Plugin {
 		const content = await this.app.vault.read(file);
 		const sort = new Sorts(options.sml_level);
 		if (options.sml_advanced)
-			return sort.replaceAlphaListWithTitleInMarkdown(content, options.sml_reverse);
+			return sort.replaceAlphaListWithTitleInMarkdown(
+				content,
+				options.sml_reverse,
+			);
 		return sort.replaceAlphaListInMarkdown(content, options.sml_reverse);
 	}
 
 	async onload() {
 		console.log(`[${this.manifest.name}] Loaded`);
 		await this.loadSettings();
+		this.addSettingTab(new MarkdownListSortSettings(this.app, this));
 
 		//load i18next
 		await i18next.init({
@@ -45,39 +50,47 @@ export default class SortMarkdownList extends Plugin {
 		this.addCommand({
 			id: "sort-markdown-list",
 			name: "Alphabetical",
-			//@ts-ignore
-			checkCallback: async (checking: boolean) => {
+			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
-
-				if (!checking) {
-					if (file && fileIsMarkdownOpened) {
-						const content = await this.app.vault.read(file);
-						const newContent = this.sorts.replaceAlphaListInMarkdown(content);
-						await this.app.vault.modify(file, newContent);
+				if (file && fileIsMarkdownOpened) {
+					if (!checking) {
+						const content = this.app.vault.read(file).then((content) => {
+							const newContent = this.sorts.replaceAlphaListInMarkdown(content);
+							return newContent;
+						});
+						content.then((content) => {
+							this.app.vault.modify(file, content);
+						});
 					}
+					return true;
 				}
+				return false;
 			},
 		});
 
 		//command 2: Sort "advanced" with title as letter
-		//TODO: Add settings tabs
-
 		this.addCommand({
 			id: "sort-markdown-list-advanced",
 			name: "Advanced",
-			//@ts-ignore
-			checkCallback: async (checking: boolean) => {
+			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
-
-				if (!checking) {
-					if (file && fileIsMarkdownOpened) {
-						const content = await this.app.vault.read(file);
-						const newContent = this.sorts.replaceAlphaListInMarkdown(content);
-						await this.app.vault.modify(file, newContent);
+				if (file && fileIsMarkdownOpened) {
+					if (!checking) {
+						const content = this.app.vault.read(file).then((content) => {
+							const newContent =
+								this.sorts.replaceAlphaListWithTitleInMarkdown(content);
+							return newContent;
+						});
+						content.then((content) => {
+							const newContent = this.sorts.replaceAlphaListInMarkdown(content);
+							this.app.vault.modify(file, newContent);
+						});
 					}
+					return true;
 				}
+				return false;
 			},
 		});
 
@@ -85,18 +98,25 @@ export default class SortMarkdownList extends Plugin {
 		this.addCommand({
 			id: "sort-markdown-list-reverse",
 			name: "Reverse",
-			//@ts-ignore
-			checkCallback: async (checking: boolean) => {
+			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
-
-				if (!checking) {
-					if (file && fileIsMarkdownOpened) {
-						const content = await this.app.vault.read(file);
-						const newContent = this.sorts.replaceAlphaListInMarkdown(content, true);
-						await this.app.vault.modify(file, newContent);
+				if (file && fileIsMarkdownOpened) {
+					if (!checking) {
+						const content = this.app.vault.read(file).then((content) => {
+							const newContent = this.sorts.replaceAlphaListInMarkdown(
+								content,
+								true,
+							);
+							return newContent;
+						});
+						content.then((content) => {
+							this.app.vault.modify(file, content);
+						});
 					}
+					return true;
 				}
+				return false;
 			},
 		});
 
@@ -104,18 +124,25 @@ export default class SortMarkdownList extends Plugin {
 		this.addCommand({
 			id: "sort-markdown-list-reverse-advanced",
 			name: "Reverse Advanced",
-			//@ts-ignore
-			checkCallback: async (checking: boolean) => {
+			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
-
-				if (!checking) {
-					if (file && fileIsMarkdownOpened) {
-						const content = await this.app.vault.read(file);
-						const newContent = this.sorts.replaceAlphaListInMarkdown(content, true);
-						await this.app.vault.modify(file, newContent);
+				if (file && fileIsMarkdownOpened) {
+					if (!checking) {
+						const content = this.app.vault.read(file).then((content) => {
+							const newContent = this.sorts.replaceAlphaListInMarkdown(
+								content,
+								true,
+							);
+							return newContent;
+						});
+						content.then((content) => {
+							this.app.vault.modify(file, content);
+						});
 					}
+					return true;
 				}
+				return false;
 			},
 		});
 
@@ -123,17 +150,24 @@ export default class SortMarkdownList extends Plugin {
 		this.addCommand({
 			id: "sort-markdown-list-auto",
 			name: "Sort based on frontmatter",
-			//@ts-ignore
-			checkCallback: async (checking: boolean) => {
+			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				const options = file ? this.readFrontmatter(file) : this.settings;
-				if (!checking) {
-					if (file && fileIsMarkdownOpened && options.sml_sort) {
-						const newContent = await this.chooseCommands(file, options);
-						await this.app.vault.modify(file, newContent);
+				console.log(
+					"options",
+					file && fileIsMarkdownOpened && options.sml_sort,
+				);
+				if (file && fileIsMarkdownOpened && options.sml_sort) {
+					if (!checking) {
+						const newContent = this.chooseCommands(file, options);
+						newContent.then((content) => {
+							this.app.vault.modify(file, content);
+						});
 					}
+					return true;
 				}
+				return false;
 			},
 		});
 	}
