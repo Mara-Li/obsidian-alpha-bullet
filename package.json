@@ -15,7 +15,7 @@
 		"predeploy": "bun run bump",
 		"deploy": "bun run export",
 		"lint": "bun biome format --write src/",
-		"e2e": "bun wdio run ./wdio.conf.mts"
+		"e2e": "bun run build && bun wdio run ./wdio.conf.mts"
 	},
 	"engines": {
 		"node": "^22.2.0"
@@ -24,7 +24,7 @@
 	"author": "Mara-Li",
 	"license": "GPL-3.0-or-later",
 	"devDependencies": {
-		"@biomejs/biome": "^2.0.0-beta.4",
+		"@biomejs/biome": "^2.0.0-beta.5",
 		"@types/node": "^22.15.19",
 		"builtin-modules": "5.0.0",
 		"i18next": "^25.0.1",
