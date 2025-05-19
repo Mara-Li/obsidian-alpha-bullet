@@ -10,14 +10,41 @@ export default class SortMarkdownList extends Plugin {
 	settings!: SortMarkdownListSettings;
 	sorts!: Sorts;
 
+	private convertStrToBool(str?: string | boolean): boolean | undefined {
+		if (!str) return undefined;
+		if (typeof str === "boolean") return str;
+		const trueValues = ["true", "1", "yes", "on"];
+		const falseValues = ["false", "0", "no", "off"];
+		if (trueValues.includes(str.toLowerCase())) return true;
+		if (falseValues.includes(str.toLowerCase())) return false;
+		return undefined;
+	}
+
+	private levelNumber(str: unknown, defaultValue = 0): number {
+		if (typeof str === "number") return str;
+		if (typeof str === "string") {
+			const parsed = Number(str);
+			if (!isNaN(parsed)) return parsed;
+		}
+		return defaultValue;
+	}
+
 	readFrontmatter(file: TFile): SortMarkdownListSettings {
 		const frontmatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
 		if (!frontmatter) return this.settings;
 		return {
-			sml_sort: frontmatter.sml_sort ?? this.settings.sml_sort,
-			sml_reverse: frontmatter.sml_reverse ?? this.settings.sml_reverse,
-			sml_advanced: frontmatter.sml_advanced ?? this.settings.sml_advanced,
-			sml_level: frontmatter.sml_level ?? this.settings.sml_level,
+			sml_sort:
+				this.convertStrToBool(frontmatter.sml_sort) ?? this.settings.sml_sort,
+			sml_reverse:
+				this.convertStrToBool(frontmatter.sml_reverse) ??
+				this.settings.sml_reverse,
+			sml_advanced:
+				this.convertStrToBool(frontmatter.sml_advanced) ??
+				this.settings.sml_advanced,
+			sml_level: this.levelNumber(
+				frontmatter.sml_level,
+				this.settings.sml_level,
+			),
 		};
 	}
 
