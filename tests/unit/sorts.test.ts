@@ -21,10 +21,13 @@ function testAllListTypes(input: string, expected: Expectation) {
 		const inputList = input.replace(/^- /gm, `${type} `);
 		const alphaExpected = expected.alpha.replace(/^- /gm, `${type} `);
 		const withTitleExpected = expected.withTitle.replace(/^- /gm, `${type} `);
-		const alphaExpectedReverse = expected.alphaReverse.replace(/^- /gm, `${type} `);
+		const alphaExpectedReverse = expected.alphaReverse.replace(
+			/^- /gm,
+			`${type} `,
+		);
 		const withTitleExpectedReverse = expected.withTitleReverse.replace(
 			/^- /gm,
-			`${type} `
+			`${type} `,
 		);
 
 		test(`sortAlphabetical (${type})`, () => {
@@ -34,7 +37,9 @@ function testAllListTypes(input: string, expected: Expectation) {
 			expect(sort.alphabeticalWithTitle(inputList)).toBe(withTitleExpected);
 		});
 		test(`replaceAlphaListWithTitleInMarkdown (${type})`, () => {
-			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toBe(withTitleExpected);
+			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toBe(
+				withTitleExpected,
+			);
 		});
 
 		// Tests inversés
@@ -42,34 +47,50 @@ function testAllListTypes(input: string, expected: Expectation) {
 			expect(sort.sortAlphabetical(inputList, true)).toBe(alphaExpectedReverse);
 		});
 		test(`alphabeticalWithTitle (${type}, reverse)`, () => {
-			expect(sort.alphabeticalWithTitle(inputList, true)).toBe(withTitleExpectedReverse);
+			expect(sort.alphabeticalWithTitle(inputList, true)).toBe(
+				withTitleExpectedReverse,
+			);
 		});
 		test(`replaceAlphaListWithTitleInMarkdown (${type}, reverse)`, () => {
 			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList, true)).toBe(
-				withTitleExpectedReverse
+				withTitleExpectedReverse,
 			);
 		});
 	}
 }
 
 describe("sorts.ts", () => {
-	describe("simple_list.md", () => {
+	test("simple_list.md", () => {
 		const input = loadFixture("simple_list.md");
 		testAllListTypes(input, EXPECT_SIMPLE_LIST);
 	});
 
-	describe("fruits_animals.md", () => {
+	test("fruits_animals.md", () => {
 		const input = loadFixture("fruits_animals.md");
 		testAllListTypes(input, EXPECT_FRUITS_ANIMALS);
 	});
 
-	describe("mixed_content.md", () => {
+	test("mixed_content.md", () => {
 		const input = loadFixture("mixed_content.md");
 		testAllListTypes(input, EXPECT_MIXED_CONTENT);
 	});
 
-	describe("accents_case.md", () => {
+	test("accents_case.md", () => {
 		const input = loadFixture("accents_case.md");
 		testAllListTypes(input, EXPECT_ACCENTS_CASE);
 	});
+});
+
+describe("Verify heading level", () => {
+	const headingToTest = [0, 1, 6, 7]; //Extreme case based on < min and > max
+	const expected = ["#", "#", "######", "######"];
+	for (const i in headingToTest) {
+		const headingLevel = headingToTest[i];
+		const expectedHeading = expected[i];
+		test(`Heading level ${headingLevel} → ${expectedHeading}`, () => {
+			const sort = new Sorts(headingLevel);
+			const result = sort.getHeading();
+			expect(result).toBe(expectedHeading);
+		});
+	}
 });

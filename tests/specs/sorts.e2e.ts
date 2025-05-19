@@ -46,9 +46,13 @@ describe("Neg test", () => {
 			sml_advanced: true,
 			sml_level: 1,
 		});
-		const command = await browser.executeObsidian(({ app }, commandName) => {
-			return app.commands.findCommand(commandName) ?? null;
-		}, `${manifest.id}:${ECommands.SortMarkdownListAuto}`);
-		expect(command).toBe(null);
+		//we should FAIL to execute the command in the command palette
+		let error = false;
+		try {
+			await browser.executeObsidianCommand(ECommands.SortMarkdownListAuto);
+		} catch (e) {
+			error = true;
+		}
+		expect(error).toBe(true);
 	});
 });
