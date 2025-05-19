@@ -10,7 +10,9 @@ import {
 } from "../fixtures";
 
 function loadFixture(name: string): string {
-	return readFileSync(join(__dirname, "../fixtures", name), "utf8").trim();
+	return readFileSync(join(__dirname, "../fixtures", name), "utf8")
+		.trim()
+		.replaceAll(/\r\n/g, "\n");
 }
 
 const sort = new Sorts(2);
@@ -31,54 +33,54 @@ function testAllListTypes(input: string, expected: Expectation) {
 		);
 
 		test(`sortAlphabetical (${type})`, () => {
-			expect(sort.sortAlphabetical(inputList)).toBe(alphaExpected);
+			expect(sort.sortAlphabetical(inputList)).toEqual(alphaExpected);
 		});
 		test(`alphabeticalWithTitle (${type})`, () => {
-			expect(sort.alphabeticalWithTitle(inputList)).toBe(withTitleExpected);
+			expect(sort.alphabeticalWithTitle(inputList)).toEqual(withTitleExpected);
 		});
 		test(`replaceAlphaListWithTitleInMarkdown (${type})`, () => {
-			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toBe(
+			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toEqual(
 				withTitleExpected,
 			);
 		});
 
 		// Tests inversés
 		test(`sortAlphabetical (${type}, reverse)`, () => {
-			expect(sort.sortAlphabetical(inputList, true)).toBe(alphaExpectedReverse);
+			expect(sort.sortAlphabetical(inputList, true)).toEqual(
+				alphaExpectedReverse,
+			);
 		});
 		test(`alphabeticalWithTitle (${type}, reverse)`, () => {
-			expect(sort.alphabeticalWithTitle(inputList, true)).toBe(
+			expect(sort.alphabeticalWithTitle(inputList, true)).toEqual(
 				withTitleExpectedReverse,
 			);
 		});
 		test(`replaceAlphaListWithTitleInMarkdown (${type}, reverse)`, () => {
-			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList, true)).toBe(
+			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList, true)).toEqual(
 				withTitleExpectedReverse,
 			);
 		});
 	}
 }
 
-describe("sorts.ts", () => {
-	test("simple_list.md", () => {
-		const input = loadFixture("simple_list.md");
-		testAllListTypes(input, EXPECT_SIMPLE_LIST);
-	});
+describe("simple_list", () => {
+	const input = loadFixture("simple_list.md");
+	testAllListTypes(input, EXPECT_SIMPLE_LIST);
+});
 
-	test("fruits_animals.md", () => {
-		const input = loadFixture("fruits_animals.md");
-		testAllListTypes(input, EXPECT_FRUITS_ANIMALS);
-	});
+describe("fruits_animals", () => {
+	const input = loadFixture("fruits_animals.md");
+	testAllListTypes(input, EXPECT_FRUITS_ANIMALS);
+});
 
-	test("mixed_content.md", () => {
-		const input = loadFixture("mixed_content.md");
-		testAllListTypes(input, EXPECT_MIXED_CONTENT);
-	});
+describe("mixed_content", () => {
+	const input = loadFixture("mixed_content.md");
+	testAllListTypes(input, EXPECT_MIXED_CONTENT);
+});
 
-	test("accents_case.md", () => {
-		const input = loadFixture("accents_case.md");
-		testAllListTypes(input, EXPECT_ACCENTS_CASE);
-	});
+describe("accents_case", () => {
+	const input = loadFixture("accents_case.md");
+	testAllListTypes(input, EXPECT_ACCENTS_CASE);
 });
 
 describe("Verify heading level", () => {
