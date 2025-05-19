@@ -1,7 +1,7 @@
 import { browser, expect } from "@wdio/globals";
-import { obsidianPage } from "wdio-obsidian-service";
 import * as fs from "fs";
 import * as path from "path";
+import { obsidianPage } from "wdio-obsidian-service";
 
 const manifest = JSON.parse(
 	fs.readFileSync(`${path.resolve(__dirname, "..", "..", "manifest.json")}`, "utf-8")

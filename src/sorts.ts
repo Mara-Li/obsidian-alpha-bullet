@@ -32,7 +32,7 @@ export class Sorts {
 	}
 
 	private getHeading() {
-		const level = this.headingLevel;
+		const level = this.headingLevel > 6 ? 6 : this.headingLevel;
 		return level > 0 ? "#".repeat(level) : "#"; // Default to level 1
 	}
 
@@ -95,7 +95,7 @@ export class Sorts {
 						const firstLetter = groupLines[j]
 							.replace(MARKDOWN_PREFIX, "")
 							.trim()?.[0]
-							?.toLowerCase();
+							?.standardize();
 						j++;
 						while (
 							j < groupLines.length &&

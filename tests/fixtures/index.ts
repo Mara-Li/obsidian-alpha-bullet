@@ -6,25 +6,22 @@ export interface Expectation {
 }
 
 export const EXPECT_SIMPLE_LIST: Expectation = {
-	alpha: [
-		"- Arcane: book",
-		"  - sub: page",
-		"- Magic: wand",
-		"  - sub: spell"
-	].join("\n"),
+	alpha: ["- Arcane: book", "  - sub: page", "- Magic: wand", "  - sub: spell"].join(
+		"\n"
+	),
 	withTitle: [
 		"## A",
 		"- Arcane: book",
 		"  - sub: page",
 		"## M",
 		"- Magic: wand",
-		"  - sub: spell"
+		"  - sub: spell",
 	].join("\n"),
 	alphaReverse: [
 		"- Magic: wand",
 		"  - sub: spell",
 		"- Arcane: book",
-		"  - sub: page"
+		"  - sub: page",
 	].join("\n"),
 	withTitleReverse: [
 		"## M",
@@ -32,8 +29,8 @@ export const EXPECT_SIMPLE_LIST: Expectation = {
 		"  - sub: spell",
 		"## A",
 		"- Arcane: book",
-		"  - sub: page"
-	].join("\n")
+		"  - sub: page",
+	].join("\n"),
 };
 
 export const EXPECT_FRUITS_ANIMALS: Expectation = {
@@ -43,7 +40,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Banana: fruit",
 		"  - sub: yellow",
 		"- Zebra: animal",
-		"  - sub: stripes"
+		"  - sub: stripes",
 	].join("\n"),
 	withTitle: [
 		"## A",
@@ -54,7 +51,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"  - sub: yellow",
 		"## Z",
 		"- Zebra: animal",
-		"  - sub: stripes"
+		"  - sub: stripes",
 	].join("\n"),
 	alphaReverse: [
 		"- Zebra: animal",
@@ -62,7 +59,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Banana: fruit",
 		"  - sub: yellow",
 		"- Apple: fruit",
-		"  - sub: red"
+		"  - sub: red",
 	].join("\n"),
 	withTitleReverse: [
 		"## Z",
@@ -73,8 +70,8 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"  - sub: yellow",
 		"## A",
 		"- Apple: fruit",
-		"  - sub: red"
-	].join("\n")
+		"  - sub: red",
+	].join("\n"),
 };
 
 export const EXPECT_MIXED_CONTENT: Expectation = {
@@ -87,7 +84,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"Some text.",
 		"",
 		"- Cat: furry",
-		"- Zebra: black and white"
+		"- Zebra: black and white",
 	].join("\n"),
 	withTitle: [
 		"Introduction",
@@ -102,7 +99,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"## C",
 		"- Cat: furry",
 		"## Z",
-		"- Zebra: black and white"
+		"- Zebra: black and white",
 	].join("\n"),
 	alphaReverse: [
 		"Introduction",
@@ -113,7 +110,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"Some text.",
 		"",
 		"- Zebra: black and white",
-		"- Cat: furry"
+		"- Cat: furry",
 	].join("\n"),
 	withTitleReverse: [
 		"Introduction",
@@ -128,6 +125,13 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"## Z",
 		"- Zebra: black and white",
 		"## C",
-		"- Cat: furry"
-	].join("\n")
+		"- Cat: furry",
+	].join("\n"),
+};
+
+export const EXPECT_ACCENTS_CASE: Expectation = {
+	alpha: ["- Été: été", "- Zèbre: animal"].join("\n"),
+	withTitle: ["## E", "- Été: été", "## Z", "- Zèbre: animal"].join("\n"),
+	alphaReverse: ["- Zèbre: animal", "- Été: été"].join("\n"),
+	withTitleReverse: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join("\n"),
 };

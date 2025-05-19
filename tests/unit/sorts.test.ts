@@ -1,20 +1,19 @@
-import {
-	sortAlphabetical,
-	alphabeticalWithTitle,
-	replaceAlphaListWithTitleInMarkdown,
-} from "../../src/sorts";
-import {
-	EXPECT_SIMPLE_LIST,
-	EXPECT_FRUITS_ANIMALS,
-	EXPECT_MIXED_CONTENT,
-	type Expectation,
-} from "../fixtures/index";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { Sorts } from "../../src/sorts";
+import {
+	EXPECT_ACCENTS_CASE,
+	EXPECT_FRUITS_ANIMALS,
+	EXPECT_MIXED_CONTENT,
+	EXPECT_SIMPLE_LIST,
+	type Expectation,
+} from "../fixtures";
 
 function loadFixture(name: string): string {
 	return readFileSync(join(__dirname, "../fixtures", name), "utf8").trim();
 }
+
+const sort = new Sorts(2);
 
 function testAllListTypes(input: string, expected: Expectation) {
 	const types = ["-", "*", "+"];
@@ -29,24 +28,24 @@ function testAllListTypes(input: string, expected: Expectation) {
 		);
 
 		test(`sortAlphabetical (${type})`, () => {
-			expect(sortAlphabetical(inputList)).toBe(alphaExpected);
+			expect(sort.sortAlphabetical(inputList)).toBe(alphaExpected);
 		});
 		test(`alphabeticalWithTitle (${type})`, () => {
-			expect(alphabeticalWithTitle(inputList)).toBe(withTitleExpected);
+			expect(sort.alphabeticalWithTitle(inputList)).toBe(withTitleExpected);
 		});
 		test(`replaceAlphaListWithTitleInMarkdown (${type})`, () => {
-			expect(replaceAlphaListWithTitleInMarkdown(inputList)).toBe(withTitleExpected);
+			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toBe(withTitleExpected);
 		});
 
 		// Tests inversés
 		test(`sortAlphabetical (${type}, reverse)`, () => {
-			expect(sortAlphabetical(inputList, true)).toBe(alphaExpectedReverse);
+			expect(sort.sortAlphabetical(inputList, true)).toBe(alphaExpectedReverse);
 		});
 		test(`alphabeticalWithTitle (${type}, reverse)`, () => {
-			expect(alphabeticalWithTitle(inputList, true)).toBe(withTitleExpectedReverse);
+			expect(sort.alphabeticalWithTitle(inputList, true)).toBe(withTitleExpectedReverse);
 		});
 		test(`replaceAlphaListWithTitleInMarkdown (${type}, reverse)`, () => {
-			expect(replaceAlphaListWithTitleInMarkdown(inputList, true)).toBe(
+			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList, true)).toBe(
 				withTitleExpectedReverse
 			);
 		});
@@ -67,5 +66,10 @@ describe("sorts.ts", () => {
 	describe("mixed_content.md", () => {
 		const input = loadFixture("mixed_content.md");
 		testAllListTypes(input, EXPECT_MIXED_CONTENT);
+	});
+
+	describe("accents_case.md", () => {
+		const input = loadFixture("accents_case.md");
+		testAllListTypes(input, EXPECT_ACCENTS_CASE);
 	});
 });
