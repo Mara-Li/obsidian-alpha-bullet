@@ -1,6 +1,6 @@
 import "uniformize";
 
-const MARKDOWN_PREFIX = /^[\*+-]/;
+const MARKDOWN_PREFIX = /^[\*+-] /;
 
 export class Sorts {
 	constructor(private headingLevel: number = 1) {}
