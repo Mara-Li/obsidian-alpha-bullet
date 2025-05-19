@@ -10,13 +10,13 @@ export default class SortMarkdownList extends Plugin {
 	settings!: SortMarkdownListSettings;
 	sorts!: Sorts;
 
-	private convertStrToBool(str?: string | boolean): boolean | undefined {
+	private convertStrToBool(str?: unknown): boolean | undefined {
 		if (!str) return undefined;
 		if (typeof str === "boolean") return str;
 		const trueValues = ["true", "1", "yes", "on"];
 		const falseValues = ["false", "0", "no", "off"];
-		if (trueValues.includes(str.toLowerCase())) return true;
-		if (falseValues.includes(str.toLowerCase())) return false;
+		if (trueValues.includes(str.toString().toLowerCase())) return true;
+		if (falseValues.includes(str.toString().toLowerCase())) return false;
 		return undefined;
 	}
 
