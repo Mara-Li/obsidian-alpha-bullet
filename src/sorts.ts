@@ -29,7 +29,7 @@ function extractListBlocks(lines: string[]) {
 }
 
 // Trie chaque groupe de listes séparément, laisse le reste intact
-export function sortAlphabetical(markdown: string) {
+export function sortAlphabetical(markdown: string, reverse: boolean = false) {
 	const lines = markdown.split("\n");
 	const result: string[] = [];
 	let i = 0;
@@ -47,7 +47,11 @@ export function sortAlphabetical(markdown: string) {
 			}
 			const groupLines = lines.slice(start, end);
 			const blocks = extractListBlocks(groupLines);
-			blocks.sort((a, b) => getSortableText(a[0]).localeCompare(getSortableText(b[0])));
+			blocks.sort((a, b) =>
+				reverse
+					? getSortableText(b[0]).localeCompare(getSortableText(a[0]))
+					: getSortableText(a[0]).localeCompare(getSortableText(b[0]))
+			);
 			result.push(...blocks.map((block) => block.join("\n")));
 			i = end;
 		} else {
@@ -59,7 +63,7 @@ export function sortAlphabetical(markdown: string) {
 }
 
 // Trie chaque groupe de listes séparément, ajoute les titres, laisse le reste intact
-export function alphabeticalWithTitle(markdown: string) {
+export function alphabeticalWithTitle(markdown: string, reverse: boolean = false) {
 	const lines = markdown.split("\n");
 	const result: string[] = [];
 	let i = 0;
@@ -102,14 +106,18 @@ export function alphabeticalWithTitle(markdown: string) {
 				}
 			}
 			blocks.sort((a, b) =>
-				getSortableText(a.lines[0]).localeCompare(getSortableText(b.lines[0]))
+				reverse
+					? getSortableText(b.lines[0]).localeCompare(getSortableText(a.lines[0]))
+					: getSortableText(a.lines[0]).localeCompare(getSortableText(b.lines[0]))
 			);
 			const grouped = new Map<string, string[][]>();
 			for (const block of blocks) {
 				if (!grouped.has(block.key)) grouped.set(block.key, []);
 				grouped.get(block.key)!.push(block.lines);
 			}
-			const sortedKeys = Array.from(grouped.keys()).sort((a, b) => a.localeCompare(b));
+			const sortedKeys = Array.from(grouped.keys()).sort((a, b) =>
+				reverse ? b.localeCompare(a) : a.localeCompare(b)
+			);
 			result.push(
 				sortedKeys
 					.map(
@@ -130,10 +138,13 @@ export function alphabeticalWithTitle(markdown: string) {
 	return result.join("\n");
 }
 
-export function replaceAlphaListInMarkdown(content: string) {
-	return sortAlphabetical(content);
+export function replaceAlphaListInMarkdown(content: string, reverse: boolean = false) {
+	return sortAlphabetical(content, reverse);
 }
 
-export function replaceAlphaListWithTitleInMarkdown(content: string) {
-	return alphabeticalWithTitle(content);
+export function replaceAlphaListWithTitleInMarkdown(
+	content: string,
+	reverse: boolean = false
+) {
+	return alphabeticalWithTitle(content, reverse);
 }

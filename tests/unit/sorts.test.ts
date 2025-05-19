@@ -1,16 +1,16 @@
-import { readFileSync } from "fs";
-import { join } from "path";
 import {
+	sortAlphabetical,
 	alphabeticalWithTitle,
 	replaceAlphaListWithTitleInMarkdown,
-	sortAlphabetical,
 } from "../../src/sorts";
 import {
+	EXPECT_SIMPLE_LIST,
 	EXPECT_FRUITS_ANIMALS,
 	EXPECT_MIXED_CONTENT,
-	EXPECT_SIMPLE_LIST,
 	type Expectation,
-} from "../fixtures";
+} from "../fixtures/index";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 function loadFixture(name: string): string {
 	return readFileSync(join(__dirname, "../fixtures", name), "utf8").trim();
@@ -22,6 +22,11 @@ function testAllListTypes(input: string, expected: Expectation) {
 		const inputList = input.replace(/^- /gm, `${type} `);
 		const alphaExpected = expected.alpha.replace(/^- /gm, `${type} `);
 		const withTitleExpected = expected.withTitle.replace(/^- /gm, `${type} `);
+		const alphaExpectedReverse = expected.alphaReverse.replace(/^- /gm, `${type} `);
+		const withTitleExpectedReverse = expected.withTitleReverse.replace(
+			/^- /gm,
+			`${type} `
+		);
 
 		test(`sortAlphabetical (${type})`, () => {
 			expect(sortAlphabetical(inputList)).toBe(alphaExpected);
@@ -31,6 +36,19 @@ function testAllListTypes(input: string, expected: Expectation) {
 		});
 		test(`replaceAlphaListWithTitleInMarkdown (${type})`, () => {
 			expect(replaceAlphaListWithTitleInMarkdown(inputList)).toBe(withTitleExpected);
+		});
+
+		// Tests inversés
+		test(`sortAlphabetical (${type}, reverse)`, () => {
+			expect(sortAlphabetical(inputList, true)).toBe(alphaExpectedReverse);
+		});
+		test(`alphabeticalWithTitle (${type}, reverse)`, () => {
+			expect(alphabeticalWithTitle(inputList, true)).toBe(withTitleExpectedReverse);
+		});
+		test(`replaceAlphaListWithTitleInMarkdown (${type}, reverse)`, () => {
+			expect(replaceAlphaListWithTitleInMarkdown(inputList, true)).toBe(
+				withTitleExpectedReverse
+			);
 		});
 	}
 }
