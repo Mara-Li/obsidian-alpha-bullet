@@ -31,7 +31,7 @@ export class Sorts {
 		return blocks;
 	}
 
-	private getHeading() {
+	getHeading() {
 		const level = this.headingLevel > 6 ? 6 : this.headingLevel;
 		return level > 0 ? "#".repeat(level) : "#"; // Default to level 1
 	}
@@ -56,8 +56,12 @@ export class Sorts {
 				const blocks = this.extractListBlocks(groupLines);
 				blocks.sort((a, b) =>
 					reverse
-						? this.getSortableText(b[0]).localeCompare(this.getSortableText(a[0]))
-						: this.getSortableText(a[0]).localeCompare(this.getSortableText(b[0]))
+						? this.getSortableText(b[0]).localeCompare(
+								this.getSortableText(a[0]),
+							)
+						: this.getSortableText(a[0]).localeCompare(
+								this.getSortableText(b[0]),
+							),
 				);
 				result.push(...blocks.map((block) => block.join("\n")));
 				i = end;
@@ -114,11 +118,11 @@ export class Sorts {
 				blocks.sort((a, b) =>
 					reverse
 						? this.getSortableText(b.lines[0]).localeCompare(
-								this.getSortableText(a.lines[0])
+								this.getSortableText(a.lines[0]),
 							)
 						: this.getSortableText(a.lines[0]).localeCompare(
-								this.getSortableText(b.lines[0])
-							)
+								this.getSortableText(b.lines[0]),
+							),
 				);
 				const grouped = new Map<string, string[][]>();
 				for (const block of blocks) {
@@ -126,7 +130,7 @@ export class Sorts {
 					grouped.get(block.key)!.push(block.lines);
 				}
 				const sortedKeys = Array.from(grouped.keys()).sort((a, b) =>
-					reverse ? b.localeCompare(a) : a.localeCompare(b)
+					reverse ? b.localeCompare(a) : a.localeCompare(b),
 				);
 				result.push(
 					sortedKeys
@@ -135,9 +139,9 @@ export class Sorts {
 								`${this.getHeading()} ${key.toUpperCase()}\n${grouped
 									.get(key)!
 									.map((lines) => lines.join("\n"))
-									.join("\n")}`
+									.join("\n")}`,
 						)
-						.join("\n")
+						.join("\n"),
 				);
 				i = end;
 			} else {
@@ -152,7 +156,10 @@ export class Sorts {
 		return this.sortAlphabetical(content, reverse);
 	}
 
-	replaceAlphaListWithTitleInMarkdown(content: string, reverse: boolean = false) {
+	replaceAlphaListWithTitleInMarkdown(
+		content: string,
+		reverse: boolean = false,
+	) {
 		return this.alphabeticalWithTitle(content, reverse);
 	}
 }
