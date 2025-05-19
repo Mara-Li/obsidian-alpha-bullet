@@ -1,0 +1,4 @@
+- Magic: wand
+  - sub: spell
+- Arcane: book
+  - sub: page
