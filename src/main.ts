@@ -20,14 +20,12 @@ export default class SortMarkdownList extends Plugin {
 		};
 	}
 
-	async chooseCommands(file: TFile) {
-		const options = this.readFrontmatter(file);
+	async chooseCommands(file: TFile, options: SortMarkdownListSettings) {
 		const content = await this.app.vault.read(file);
 		const sort = new Sorts(options.sml_level);
 		if (options.sml_advanced)
 			return sort.replaceAlphaListWithTitleInMarkdown(content, options.sml_reverse);
-		if (options.sml_sort)
-			return sort.replaceAlphaListInMarkdown(content, options.sml_reverse);
+		return sort.replaceAlphaListInMarkdown(content, options.sml_reverse);
 	}
 
 	async onload() {
@@ -122,6 +120,22 @@ export default class SortMarkdownList extends Plugin {
 		});
 
 		//commands 5 : Auto sort based on frontmatter.
+		this.addCommand({
+			id: "sort-markdown-list-auto",
+			name: "Sort based on frontmatter",
+			//@ts-ignore
+			checkCallback: async (checking: boolean) => {
+				const file = this.app.workspace.getActiveFile();
+				const fileIsMarkdownOpened = file?.extension === "md";
+				const options = file ? this.readFrontmatter(file) : this.settings;
+				if (!checking) {
+					if (file && fileIsMarkdownOpened && options.sml_sort) {
+						const newContent = await this.chooseCommands(file, options);
+						await this.app.vault.modify(file, newContent);
+					}
+				}
+			},
+		});
 	}
 
 	onunload() {
