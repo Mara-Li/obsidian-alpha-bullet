@@ -76,7 +76,7 @@ export default class SortMarkdownList extends Plugin {
 		//commands 1 : Sort entire content alpha 'simple'
 		this.addCommand({
 			id: "sort-markdown-list",
-			name: "Alphabetical",
+			name: "Alphabetical (A-Z)",
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
@@ -99,7 +99,7 @@ export default class SortMarkdownList extends Plugin {
 		//command 2: Sort "advanced" with title as letter
 		this.addCommand({
 			id: "sort-markdown-list-advanced",
-			name: "Advanced",
+			name: "Advanced Alphabetical (A-Z)",
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
@@ -124,7 +124,7 @@ export default class SortMarkdownList extends Plugin {
 		//command 3: sort reverse
 		this.addCommand({
 			id: "sort-markdown-list-reverse",
-			name: "Reverse",
+			name: "Reverse (Z-A)",
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
@@ -150,7 +150,7 @@ export default class SortMarkdownList extends Plugin {
 		//command 4: sort reverse with title as letter
 		this.addCommand({
 			id: "sort-markdown-list-reverse-advanced",
-			name: "Reverse Advanced",
+			name: "Reverse (Z-A) Advanced",
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
