@@ -52,18 +52,26 @@ Some text.
 ```
 
 ### Frontmatter Support
-You can setup option in the frontmatter, allowing interaction with other plugins (i.e. Linter, Macros…) with using the `Sort based on frontmatter` command.
+You can configure sorting options directly in your note's frontmatter, allowing seamless interaction with other plugins (such as Linter, Macros, etc.) by using the `Sort based on frontmatter` command.
+
+**Example frontmatter:**
+```yaml
+---
+sml_sort: true
+sml_descending: false
+sml_advanced: true
+sml_level: 2
+---
+```
 
 > [!TIP]
-> The settings of the plugin allow to set the default values when no frontmatter keys are found.
+> The plugin's settings let you define default values if no frontmatter keys are found.
 
-The keys that are supported are:
-- `sml_sort`: Sort the list based on the frontmatter key. The value can be `true` or `false`. Setting to `false` will disable the sorting. 
-- `sml_descending` : Sort the list in descending order. The value can be `true` or `false`. 
-- `sml_advanced`: Group each first word by their initial letter. The value can be `true` or `false`. 
-- `sml_level` : The level of the heading to use for grouping. The value must be between 1 and 6, and must be a number. 
-
-
+**Supported frontmatter keys:**
+- `sml_sort`: Enable or disable sorting for the list. (`true` or `false`)
+- `sml_descending`: Sort the list in descending order. (`true` or `false`)
+- `sml_advanced`: Group items by their initial letter. (`true` or `false`)
+- `sml_level`: Heading level for grouping (number between 1 and 6).
 
 ## 📥 Installation
 
@@ -96,5 +104,11 @@ For questions, suggestions, or bug reports, open an issue on [GitHub](https://gi
 
 Contributions are welcome!
 
+> [!WARNING]
+> English is not my native language, so if you find any mistakes, please let me know!
+> Also, issue must be in English, please! I will not answer in other languages, even if I understand them. I think it is better for everyone to use English for the sake of references and future readers.
+> Thank you for your understanding!
 
-
+---
+## Credits & Acknowledgements
+- [Jesse Hines](https://github.com/jesse-r-s-hines/wdio-obsidian-service) for wdio obsidian service, that finally made me able to test the plugin in a real obsidian environment automatically. It mean a lot for a QA tester like me!
