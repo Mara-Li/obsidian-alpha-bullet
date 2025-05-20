@@ -6,9 +6,12 @@ export interface Expectation {
 }
 
 export const EXPECT_SIMPLE_LIST: Expectation = {
-	alpha: ["- Arcane: book", "  - sub: page", "- Magic: wand", "  - sub: spell"].join(
-		"\n"
-	),
+	alpha: [
+		"- Arcane: book",
+		"  - sub: page",
+		"- Magic: wand",
+		"  - sub: spell",
+	].join("\n"),
 	withTitle: [
 		"## A",
 		"- Arcane: book",
@@ -133,5 +136,25 @@ export const EXPECT_ACCENTS_CASE: Expectation = {
 	alpha: ["- Été: été", "- Zèbre: animal"].join("\n"),
 	withTitle: ["## E", "- Été: été", "## Z", "- Zèbre: animal"].join("\n"),
 	alphaReverse: ["- Zèbre: animal", "- Été: été"].join("\n"),
-	withTitleReverse: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join("\n"),
+	withTitleReverse: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join(
+		"\n",
+	),
+};
+
+const FRONTMATTER_TEST = [
+	"---",
+	"title: Test Document",
+	"date: 2023-10-01",
+	"tags: ",
+	"	- test",
+	"	- example",
+	"---",
+	"",
+].join("\n");
+
+export const WITH_FRONTMATTER: Expectation = {
+	alpha: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.alpha,
+	withTitle: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.withTitle,
+	alphaReverse: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.alphaReverse,
+	withTitleReverse: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.withTitleReverse,
 };

@@ -5,7 +5,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { obsidianPage } from "wdio-obsidian-service";
 import { ECommands, SortMarkdownListSettings } from "../../src/interfaces";
-import { EXPECT_SIMPLE_LIST, type Expectation } from "../fixtures";
+import {
+	EXPECT_SIMPLE_LIST,
+	WITH_FRONTMATTER,
+	type Expectation,
+} from "../fixtures";
 
 export const manifest = JSON.parse(
 	fs.readFileSync(
@@ -29,7 +33,7 @@ function stringifyFrontmatter(frontmatter?: Options): string {
 	return frontmatter
 		? dedent(`---
 			sml_sort: ${frontmatter.sml_sort};
-			sml_reverse: ${frontmatter.sml_reverse};
+			sml_descending: ${frontmatter.sml_descending};
 			sml_advanced: ${frontmatter.sml_advanced};
 			sml_level: ${frontmatter.sml_level};
 			---\n
@@ -90,7 +94,7 @@ function generatedFm(expected: Expectation, frontmatter?: Options) {
 	const strifiyedFrontmatter = frontmatter
 		? dedent(`---
 			sml_sort: ${frontmatter.sml_sort};
-			sml_reverse: ${frontmatter.sml_reverse};
+			sml_descending: ${frontmatter.sml_descending};
 			sml_advanced: ${frontmatter.sml_advanced};
 			sml_level: ${frontmatter.sml_level};
 			---\n
@@ -135,35 +139,35 @@ export async function addFrontmatter(input: string, expected: Expectation) {
 		{
 			title: "Default",
 			sml_sort: true,
-			sml_reverse: false,
+			sml_descending: false,
 			sml_advanced: false,
 			sml_level: 1,
 		},
 		{
 			title: "Default + reverse",
 			sml_sort: true,
-			sml_reverse: true,
+			sml_descending: true,
 			sml_advanced: false,
 			sml_level: 1,
 		},
 		{
 			title: "default + advanced",
 			sml_sort: true,
-			sml_reverse: false,
+			sml_descending: false,
 			sml_advanced: true,
 			sml_level: 1,
 		},
 		{
 			title: "reverse + advanced",
 			sml_sort: true,
-			sml_reverse: true,
+			sml_descending: true,
 			sml_advanced: true,
 			sml_level: 1,
 		},
 		{
 			title: "default + advanced",
 			sml_sort: true,
-			sml_reverse: true,
+			sml_descending: true,
 			sml_advanced: true,
 			sml_level: 1,
 		},
@@ -202,5 +206,9 @@ export const expecteds = [
 	{
 		fileName: "simple_list.md",
 		expected: EXPECT_SIMPLE_LIST,
+	},
+	{
+		fileName: "with_frontmatter.md",
+		expected: WITH_FRONTMATTER,
 	},
 ];

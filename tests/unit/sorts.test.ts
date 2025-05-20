@@ -6,6 +6,7 @@ import {
 	EXPECT_FRUITS_ANIMALS,
 	EXPECT_MIXED_CONTENT,
 	EXPECT_SIMPLE_LIST,
+	WITH_FRONTMATTER,
 	type Expectation,
 } from "../fixtures";
 
@@ -32,30 +33,30 @@ function testAllListTypes(input: string, expected: Expectation) {
 			`${type} `,
 		);
 
-		test(`sortAlphabetical (${type})`, () => {
+		test(`ascending (${type})`, () => {
 			expect(sort.sortAlphabetical(inputList)).toEqual(alphaExpected);
 		});
-		test(`alphabeticalWithTitle (${type})`, () => {
+		test(`ascending advanced (${type})`, () => {
 			expect(sort.alphabeticalWithTitle(inputList)).toEqual(withTitleExpected);
 		});
-		test(`replaceAlphaListWithTitleInMarkdown (${type})`, () => {
+		test(`Replace: ascending advanced (${type})`, () => {
 			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toEqual(
 				withTitleExpected,
 			);
 		});
 
 		// Tests inversés
-		test(`sortAlphabetical (${type}, reverse)`, () => {
+		test(`descending (${type})`, () => {
 			expect(sort.sortAlphabetical(inputList, true)).toEqual(
 				alphaExpectedReverse,
 			);
 		});
-		test(`alphabeticalWithTitle (${type}, reverse)`, () => {
+		test(`descending advanced (${type})`, () => {
 			expect(sort.alphabeticalWithTitle(inputList, true)).toEqual(
 				withTitleExpectedReverse,
 			);
 		});
-		test(`replaceAlphaListWithTitleInMarkdown (${type}, reverse)`, () => {
+		test(`replace: descending advanced (${type})`, () => {
 			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList, true)).toEqual(
 				withTitleExpectedReverse,
 			);
@@ -81,6 +82,11 @@ describe("mixed_content", () => {
 describe("accents_case", () => {
 	const input = loadFixture("accents_case.md");
 	testAllListTypes(input, EXPECT_ACCENTS_CASE);
+});
+
+describe("with_frontmatter", () => {
+	const input = loadFixture("with_frontmatter.md");
+	testAllListTypes(input, WITH_FRONTMATTER);
 });
 
 describe("Verify heading level", () => {

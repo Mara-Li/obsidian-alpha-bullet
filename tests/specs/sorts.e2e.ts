@@ -35,7 +35,7 @@ describe("Neg test", () => {
 		await createFixture("simple_list.md", {
 			title: "Disabled sort",
 			sml_sort: false,
-			sml_reverse: true,
+			sml_descending: true,
 			sml_advanced: true,
 			sml_level: 1,
 		});
