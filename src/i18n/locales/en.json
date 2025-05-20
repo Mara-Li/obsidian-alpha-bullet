@@ -1,9 +1,21 @@
 {
+  "advanced": "Advanced",
   "commands": {
-    "advancedAlpha": "Advanced Alphabetical (A-Z)",
-    "alphabetical": "Alphabetical (A-Z)",
+    "advancedAlpha": "Advanced ascending order (A-Z)",
+    "alphabetical": "Ascending order (A-Z)",
     "auto": "Sort based on frontmatter",
-    "reverse": "Reverse (Z-A)",
-    "reverseAdvanced": "Reverse (Z-A) Advanced"
-  }
+    "reverse": "Descending order (Z-A)",
+    "reverseAdvanced": "Advanced descending order (Z-A)"
+  },
+  "keys": "keys",
+  "level": "Heading level",
+  "reverse": "Reverse",
+  "settings": {
+    "advanced": "Use the advanced sort (each letter will be a heading)",
+    "description": " \t\tThe frontmatter allows to use automatically the right commands based on the frontmatter. Conveniant when used with the linter plugin and other macros.",
+    "disable": "Disable the command (can be forced using other commands)",
+    "level": "Heading level for the advanced sort (1-6)",
+    "reverse": "Reverse the order of the sort (Z-A)"
+  },
+  "sort": "Sort"
 }
