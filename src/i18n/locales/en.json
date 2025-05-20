@@ -1,1 +1,9 @@
-{}
+{
+  "commands": {
+    "advancedAlpha": "Advanced Alphabetical (A-Z)",
+    "alphabetical": "Alphabetical (A-Z)",
+    "auto": "Sort based on frontmatter",
+    "reverse": "Reverse (Z-A)",
+    "reverseAdvanced": "Reverse (Z-A) Advanced"
+  }
+}

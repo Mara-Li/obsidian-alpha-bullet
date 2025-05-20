@@ -4,7 +4,7 @@ import { browser, expect } from "@wdio/globals";
 import * as fs from "fs";
 import * as path from "path";
 import { obsidianPage } from "wdio-obsidian-service";
-import type { SortMarkdownListSettings } from "../../src/interfaces";
+import { ECommands, SortMarkdownListSettings } from "../../src/interfaces";
 import { EXPECT_SIMPLE_LIST, type Expectation } from "../fixtures";
 
 export const manifest = JSON.parse(
@@ -20,14 +20,6 @@ console.log(`Running tests for ${manifest.name} v${manifest.version}`);
 
 const folder = path.resolve(__dirname, "..");
 const fixtures = path.resolve(folder, "fixtures");
-
-export enum ECommands {
-	SortMarkdownList = "sort-markdown-list",
-	SortMarkdownListReverse = "sort-markdown-list-reverse",
-	SortMarkdownListAdvanced = "sort-markdown-list-advanced",
-	SortMarkdownListReverseAdvanced = "sort-markdown-list-reverse-advanced",
-	SortMarkdownListAuto = "sort-markdown-list-auto",
-}
 
 export type Options = {
 	title?: string;
@@ -121,28 +113,19 @@ export async function testAllType(
 ) {
 	const expectedFm = generatedFm(expected, frontmatter);
 	it(`sort alphabetical`, async function () {
-		const result = await runTestWithFixture(input, ECommands.SortMarkdownList);
+		const result = await runTestWithFixture(input, ECommands.Alphabetical);
 		expect(result).toBe(expectedFm.alpha);
 	});
 	it(`sort alphabetical with title`, async function () {
-		const result = await runTestWithFixture(
-			input,
-			ECommands.SortMarkdownListAdvanced,
-		);
+		const result = await runTestWithFixture(input, ECommands.AdvancedAlpha);
 		expect(result).toBe(expectedFm.withTitle);
 	});
 	it(`sort alphabetical (reverse)`, async function () {
-		const result = await runTestWithFixture(
-			input,
-			ECommands.SortMarkdownListReverse,
-		);
+		const result = await runTestWithFixture(input, ECommands.Reverse);
 		expect(result).toBe(expectedFm.withTitle);
 	});
 	it(`sort alphabetical with title (reverse)`, async function () {
-		const result = await runTestWithFixture(
-			input,
-			ECommands.SortMarkdownListReverseAdvanced,
-		);
+		const result = await runTestWithFixture(input, ECommands.AdvancedReverse);
 		expect(result).toBe(expectedFm.withTitleReverse);
 	});
 }
@@ -191,7 +174,7 @@ export async function addFrontmatter(input: string, expected: Expectation) {
 			const generatedExpected = generatedFm(expected, frontmatter);
 			const result = await runTestWithFixture(
 				input,
-				ECommands.SortMarkdownListAuto,
+				ECommands.AutoOnFrontmatter,
 				frontmatter,
 			);
 			expect(result).toBe(generatedExpected.alpha);

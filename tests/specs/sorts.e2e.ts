@@ -1,15 +1,8 @@
 /** biome-ignore-all lint/style/useNamingConvention: snake case for frontmatter */
 
 import { obsidianPage } from "wdio-obsidian-service";
-import {
-	addFrontmatter,
-	createFixture,
-	ECommands,
-	expecteds,
-	manifest,
-	testAllType,
-	type Options,
-} from ".";
+import { addFrontmatter, createFixture, expecteds, testAllType } from ".";
+import { ECommands } from "../../src/interfaces";
 
 describe("No frontmatter sort", () => {
 	beforeEach(async function () {
@@ -49,7 +42,7 @@ describe("Neg test", () => {
 		//we should FAIL to execute the command in the command palette
 		let error = false;
 		try {
-			await browser.executeObsidianCommand(ECommands.SortMarkdownListAuto);
+			await browser.executeObsidianCommand(ECommands.AutoOnFrontmatter);
 		} catch (e) {
 			error = true;
 		}
