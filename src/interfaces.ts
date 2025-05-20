@@ -12,3 +12,11 @@ export const DEFAULT_SETTINGS: SortMarkdownListSettings = {
 	sml_advanced: false,
 	sml_level: 1,
 };
+
+export enum ECommands {
+	Alphabetical = "alphabetical",
+	Reverse = "reverse",
+	AdvancedAlpha = "advanced-alphabetical",
+	AdvancedReverse = "reverse-advanced",
+	AutoOnFrontmatter = "auto-on-frontmatter",
+}

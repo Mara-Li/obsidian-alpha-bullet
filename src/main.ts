@@ -2,9 +2,15 @@
 import i18next from "i18next";
 import { Plugin, type TFile } from "obsidian";
 import { resources, translationLanguage } from "./i18n";
-import { DEFAULT_SETTINGS, type SortMarkdownListSettings } from "./interfaces";
+import {
+	DEFAULT_SETTINGS,
+	ECommands,
+	type SortMarkdownListSettings,
+} from "./interfaces";
 import { Sorts } from "./sorts";
 import { MarkdownListSortSettings } from "./settings";
+import is from "@sindresorhus/is";
+import boolean = is.boolean;
 
 export default class SortMarkdownList extends Plugin {
 	settings!: SortMarkdownListSettings;
@@ -12,7 +18,7 @@ export default class SortMarkdownList extends Plugin {
 
 	private convertStrToBool(str?: unknown): boolean | undefined {
 		if (!str) return undefined;
-		if (typeof str === "boolean") return str;
+		if (str instanceof Boolean) return str.valueOf();
 		const trueValues = ["true", "1", "yes", "on"];
 		const falseValues = ["false", "0", "no", "off"];
 		if (trueValues.includes(str.toString().toLowerCase())) return true;
@@ -21,8 +27,8 @@ export default class SortMarkdownList extends Plugin {
 	}
 
 	private levelNumber(str: unknown, defaultValue = 0): number {
-		if (typeof str === "number") return str;
-		if (typeof str === "string") {
+		if (str instanceof Number) return str.valueOf();
+		if (str instanceof String) {
 			const parsed = Number(str);
 			if (!isNaN(parsed)) return parsed;
 		}
@@ -75,16 +81,15 @@ export default class SortMarkdownList extends Plugin {
 
 		//commands 1 : Sort entire content alpha 'simple'
 		this.addCommand({
-			id: "sort-markdown-list",
-			name: "Alphabetical (A-Z)",
+			id: ECommands.Alphabetical,
+			name: i18next.t("commands.alphabetical"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							const newContent = this.sorts.replaceAlphaListInMarkdown(content);
-							return newContent;
+							return this.sorts.replaceAlphaListInMarkdown(content);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
@@ -98,17 +103,15 @@ export default class SortMarkdownList extends Plugin {
 
 		//command 2: Sort "advanced" with title as letter
 		this.addCommand({
-			id: "sort-markdown-list-advanced",
-			name: "Advanced Alphabetical (A-Z)",
+			id: ECommands.AdvancedAlpha,
+			name: i18next.t("commands.advancedAlpha"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							const newContent =
-								this.sorts.replaceAlphaListWithTitleInMarkdown(content);
-							return newContent;
+							return this.sorts.replaceAlphaListWithTitleInMarkdown(content);
 						});
 						content.then((content) => {
 							const newContent = this.sorts.replaceAlphaListInMarkdown(content);
@@ -123,19 +126,15 @@ export default class SortMarkdownList extends Plugin {
 
 		//command 3: sort reverse
 		this.addCommand({
-			id: "sort-markdown-list-reverse",
-			name: "Reverse (Z-A)",
+			id: ECommands.Reverse,
+			name: i18next.t("commands.reverse"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							const newContent = this.sorts.replaceAlphaListInMarkdown(
-								content,
-								true,
-							);
-							return newContent;
+							return this.sorts.replaceAlphaListInMarkdown(content, true);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
@@ -149,19 +148,18 @@ export default class SortMarkdownList extends Plugin {
 
 		//command 4: sort reverse with title as letter
 		this.addCommand({
-			id: "sort-markdown-list-reverse-advanced",
-			name: "Reverse (Z-A) Advanced",
+			id: ECommands.AdvancedReverse,
+			name: i18next.t("commands.reverseAdvanced"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							const newContent = this.sorts.replaceAlphaListWithTitleInMarkdown(
+							return this.sorts.replaceAlphaListWithTitleInMarkdown(
 								content,
 								true,
 							);
-							return newContent;
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
@@ -175,8 +173,8 @@ export default class SortMarkdownList extends Plugin {
 
 		//commands 5 : Auto sort based on frontmatter.
 		this.addCommand({
-			id: "sort-markdown-list-auto",
-			name: "Sort based on frontmatter",
+			id: ECommands.AutoOnFrontmatter,
+			name: i18next.t("commands.auto"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
