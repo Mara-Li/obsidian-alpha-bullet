@@ -12,7 +12,7 @@ export class Sorts {
 	}
 
 	private getSortableText(line: string): string {
-		return (line.split(":")[0] ?? line).standardize();
+		return (line.split(":")[0].replace(/\W+/g, "") ?? line).standardize();
 	}
 
 	private isIndented(line: string): boolean {
@@ -153,16 +153,9 @@ export class Sorts {
 			.join("\n");
 	}
 
-	replaceAlphaListInMarkdown(content: string, reverse = false): string {
-		return this.sortAlphabetical(content, reverse);
-	}
-
-	replaceAlphaListWithTitleInMarkdown(
-		content: string,
-		reverse = false,
-	): string {
+	private cleanLines(content: string): string {
 		const lines = content.split("\n");
-		const cleaned = lines
+		return lines
 			.filter((line) => {
 				const match = line.match(TITLE_PREFIX);
 				if (!match) return true;
@@ -170,7 +163,16 @@ export class Sorts {
 				return title.length !== 1 || !/^[A-ZÀ-Ÿ]$/i.test(title);
 			})
 			.join("\n");
+	}
 
-		return this.alphabeticalWithTitle(cleaned, reverse);
+	replaceAlphaListInMarkdown(content: string, reverse = false): string {
+		return this.sortAlphabetical(this.cleanLines(content), reverse);
+	}
+
+	replaceAlphaListWithTitleInMarkdown(
+		content: string,
+		reverse = false,
+	): string {
+		return this.alphabeticalWithTitle(this.cleanLines(content), reverse);
 	}
 }

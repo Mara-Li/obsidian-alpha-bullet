@@ -9,21 +9,20 @@ import {
 } from "./interfaces";
 import { Sorts } from "./sorts";
 import { MarkdownListSortSettings } from "./settings";
-import is from "@sindresorhus/is";
-import boolean = is.boolean;
 
 export default class SortMarkdownList extends Plugin {
 	settings!: SortMarkdownListSettings;
 	sorts!: Sorts;
 
-	private convertStrToBool(str?: unknown): boolean | undefined {
-		if (!str) return undefined;
-		if (str instanceof Boolean) return str.valueOf();
+	private convertStrToBool(defaultValue: boolean, str?: unknown): boolean {
+		console.log("convertStrToBool", str);
+		if (str == null) return defaultValue;
+		if (str instanceof Boolean) return str === true;
 		const trueValues = ["true", "1", "yes", "on"];
 		const falseValues = ["false", "0", "no", "off"];
 		if (trueValues.includes(str.toString().toLowerCase())) return true;
 		if (falseValues.includes(str.toString().toLowerCase())) return false;
-		return undefined;
+		return defaultValue;
 	}
 
 	private levelNumber(str: unknown, defaultValue = 0): number {
@@ -39,14 +38,18 @@ export default class SortMarkdownList extends Plugin {
 		const frontmatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
 		if (!frontmatter) return this.settings;
 		return {
-			sml_sort:
-				this.convertStrToBool(frontmatter.sml_sort) ?? this.settings.sml_sort,
-			sml_reverse:
-				this.convertStrToBool(frontmatter.sml_reverse) ??
-				this.settings.sml_reverse,
-			sml_advanced:
-				this.convertStrToBool(frontmatter.sml_advanced) ??
+			sml_sort: this.convertStrToBool(
+				this.settings.sml_sort,
+				frontmatter.sml_sort,
+			),
+			sml_descending: this.convertStrToBool(
+				this.settings.sml_descending,
+				frontmatter.sml_descending,
+			),
+			sml_advanced: this.convertStrToBool(
 				this.settings.sml_advanced,
+				frontmatter.sml_advanced,
+			),
 			sml_level: this.levelNumber(
 				frontmatter.sml_level,
 				this.settings.sml_level,
@@ -60,9 +63,9 @@ export default class SortMarkdownList extends Plugin {
 		if (options.sml_advanced)
 			return sort.replaceAlphaListWithTitleInMarkdown(
 				content,
-				options.sml_reverse,
+				options.sml_descending,
 			);
-		return sort.replaceAlphaListInMarkdown(content, options.sml_reverse);
+		return sort.replaceAlphaListInMarkdown(content, options.sml_descending);
 	}
 
 	async onload() {
