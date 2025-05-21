@@ -5,8 +5,11 @@ import * as path from "path";
 import { ECommands, SortMarkdownListSettings } from "../../src/interfaces";
 import {
 	EXPECT_SIMPLE_LIST,
-	WITH_FRONTMATTER,
+	EXPECT_FRONTMATTER,
 	type Expectation,
+	EXPECT_FRUITS_ANIMALS,
+	EXPECT_MIXED_CONTENT,
+	EXPECT_ACCENTS_CASE,
 } from "../fixtures";
 
 export const manifest = JSON.parse(
@@ -15,8 +18,6 @@ export const manifest = JSON.parse(
 		"utf-8",
 	),
 ) as { id: string; name: string; version: string };
-
-import dedent from "dedent";
 
 export type Options = {
 	title?: ECommands | string;
@@ -38,10 +39,10 @@ export function stringifyFrontmatter(frontmatter?: Options): string {
 export function generatedFm(expected: Expectation, frontmatter?: Options) {
 	const fm = stringifyFrontmatter(frontmatter);
 	return {
-		alpha: dedent(`${fm}${expected.ascending}`),
-		alphaReverse: dedent(`${fm}${expected.advancedAsc}`),
-		withTitle: dedent(`${fm}${expected.advanced}`),
-		withTitleReverse: dedent(`${fm}${expected.AdvancedDesc}`),
+		alpha: normalize(`${fm}${expected.ascending}`),
+		alphaReverse: normalize(`${fm}${expected.advancedAsc}`),
+		withTitle: normalize(`${fm}${expected.advanced}`),
+		withTitleReverse: normalize(`${fm}${expected.AdvancedDesc}`),
 	};
 }
 
@@ -49,7 +50,7 @@ export function getExpectedKey(title?: string) {
 	switch (title) {
 		case ECommands.Ascending:
 			return "alpha";
-		case ECommands.descending:
+		case ECommands.Descending:
 			return "alphaReverse";
 		case ECommands.AdvancedAsc:
 			return "withTitle";
@@ -67,22 +68,29 @@ export const expecteds = [
 	},
 	{
 		fileName: "fruits_animals.md",
-		expected: EXPECT_SIMPLE_LIST,
+		expected: EXPECT_FRUITS_ANIMALS,
 	},
 	{
 		fileName: "mixed_content.md",
-		expected: EXPECT_SIMPLE_LIST,
+		expected: EXPECT_MIXED_CONTENT,
 	},
 	{
 		fileName: "accents_case.md",
-		expected: EXPECT_SIMPLE_LIST,
-	},
-	{
-		fileName: "simple_list.md",
-		expected: EXPECT_SIMPLE_LIST,
+		expected: EXPECT_ACCENTS_CASE,
 	},
 	{
 		fileName: "with_frontmatter.md",
-		expected: WITH_FRONTMATTER,
+		expected: EXPECT_FRONTMATTER,
 	},
 ];
+
+export function normalize(str: string) {
+	return str
+		.replace(/\r\n/g, "\n") // Windows → Unix
+		.replace(/\r/g, "\n") // Mac old-style → Unix
+		.replace(/\s+$/g, "")
+		.trimEnd(); // Remove trailing whitespace;
+}
+
+export const folder = path.resolve(__dirname, "..");
+export const fixtures = path.resolve(folder, "fixtures");

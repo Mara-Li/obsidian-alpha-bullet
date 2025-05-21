@@ -150,7 +150,7 @@ const FRONTMATTER_TEST = [
 	"",
 ].join("\n");
 
-export const WITH_FRONTMATTER: Expectation = {
+export const EXPECT_FRONTMATTER: Expectation = {
 	ascending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.ascending,
 	advanced: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advanced,
 	advancedAsc: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advancedAsc,

@@ -1,5 +1,5 @@
 import * as path from "node:path";
-import {ReportAggregator } from 'wdio-html-nice-reporter';
+import { ReportAggregator } from "wdio-html-nice-reporter";
 import * as os from "node:os";
 import dotenv from "dotenv";
 import {
@@ -7,6 +7,7 @@ import {
 	resolveObsidianVersions,
 } from "wdio-obsidian-service";
 import stripAnsi from "strip-ansi";
+import fs from "node:fs";
 const cacheDir = path.resolve(os.tmpdir(), ".obsidian-cache");
 dotenv.config();
 
@@ -37,7 +38,7 @@ if (process.env.OBSIDIAN_VERSIONS) {
 } else {
 	versions = [["latest", "latest"]];
 }
-let reportAggregator : ReportAggregator;
+let reportAggregator: ReportAggregator;
 export const config: WebdriverIO.Config = {
 	runner: "local",
 
@@ -75,29 +76,66 @@ export const config: WebdriverIO.Config = {
 
 	cacheDir: cacheDir,
 
-	logLevel: "debug",
+	logLevel: "warn",
 	reporters: [
-    ["html-nice", {
-            debug: false,
-            outputDir: './reports/html-reports/',
-            filename: 'report.html',
-            reportTitle: 'Web Test Report',
-            useOnAfterCommandForScreenshot: false,
-            linkScreenshots: true,
-			showInBrowser: true,
-			theme: 'dark',
-			produceJson: false,
-			produceHtml: true,
-			plugins: [
-				'wdio-html-nice-reporter',
-				'wdio-obsidian-reporter'
-			]
-        }]  
-  ],
-  afterTest: function (test, context, {error}) {
-	if (error && typeof error.message === "string") {
-		error.message = stripAnsi(error.message);
-	}
-  }
+		[
+			"html-nice",
+			{
+				debug: false,
+				outputDir: "./reports/html-reports/",
+				filename: "report.html",
+				reportTitle: "Web Test Report",
+				useOnAfterCommandForScreenshot: false,
+				linkScreenshots: true,
+				showInBrowser: true,
+				theme: "dark",
+				produceJson: true,
+				produceHtml: true,
+				removeOutput: false,
+				plugins: ["wdio-html-nice-reporter", "wdio-obsidian-reporter"],
+			},
+		],
+	],
+	afterTest: function (test, context, { error }) {
+		if (error) {
+			if (typeof error.message === "string") {
+				error.message = stripAnsi(error.message);
+			}
+			if (typeof error.stack === "string") {
+				error.stack = stripAnsi(error.stack);
+			}
 
-}
+			for (const key of Object.keys(error)) {
+				const value = (error as any)[key];
+				if (typeof value === "string") {
+					(error as any)[key] = stripAnsi(value);
+				}
+			}
+		}
+	},
+	onPrepare: async function () {
+		reportAggregator = new ReportAggregator({
+			outputDir: "./reports/html-reports/",
+			filename: "report.html",
+			reportTitle: "Web Test Report",
+			browserName: "obsidian",
+			collapseTests: false,
+			showInBrowser: true,
+			removeOutput: false,
+			produceJson: false,
+		});
+		await reportAggregator.clean(); // remove old reports
+	},
+	onComplete: async function () {
+		await reportAggregator.createReport();
+		const files = fs.readdirSync("./reports/html-reports/");
+		for (const file of files) {
+			if (file.endsWith(".json")) {
+				fs.unlinkSync(path.join("./reports/html-reports/", file));
+			}
+			if (file.endsWith(".html") && file !== "report.html") {
+				fs.unlinkSync(path.join("./reports/html-reports/", file));
+			}
+		}
+	},
+};

@@ -1,6 +1,35 @@
 import { obsidianPage } from "wdio-obsidian-service";
-import { createFixture } from "./sorts.e2e";
 import { ECommands } from "../../src/interfaces";
+import { fixtures, stringifyFrontmatter, type Options } from "./helper";
+import path from "path";
+import fs from "fs";
+async function createFixture(fixtureName: string, frontmatter?: Options) {
+	const fixtureContent = fs.readFileSync(
+		path.join(fixtures, fixtureName),
+		"utf-8",
+	);
+	const frontmatterContent = stringifyFrontmatter(frontmatter);
+	await browser.executeObsidian(
+		async ({ app }, content, fileName, fm) => {
+			if (fm) content = `${fm}${content}`;
+			await app.vault.create(fileName, content);
+		},
+		fixtureContent,
+		fixtureName,
+		frontmatterContent,
+	);
+
+	await obsidianPage.openFile(fixtureName);
+	const fileOpened = await browser.executeObsidian(({ app, obsidian }) => {
+		const leaf = app.workspace.getActiveViewOfType(obsidian.MarkdownView)?.leaf;
+		if (leaf?.view instanceof obsidian.MarkdownView) {
+			return leaf.view.file?.path;
+		}
+		return null;
+	});
+
+	expect(fileOpened).toBe(fixtureName);
+}
 
 describe("Negative tests", () => {
 	beforeEach(async function () {

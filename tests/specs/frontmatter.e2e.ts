@@ -10,6 +10,7 @@ import {
 import { ECommands } from "../../src/interfaces";
 import path from "path";
 import fs from "fs";
+import { normalize } from "./helper";
 
 const allFrontmatterPossibles: Options[] = [
 	{
@@ -20,7 +21,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_level: 2,
 	},
 	{
-		title: ECommands.descending,
+		title: ECommands.Descending,
 		sml_sort: true,
 		sml_descending: true,
 		sml_advanced: false,
@@ -81,13 +82,17 @@ async function runTestWithFixture(
 ) {
 	await createFixture(fixtureName, frontmatter);
 	await browser.executeObsidianCommand(`${manifest.id}:${command}`);
-	return await browser.executeObsidian(async ({ app, obsidian }, fileName) => {
-		const file = app.vault.getAbstractFileByPath(fileName);
-		if (file && file instanceof obsidian.TFile) {
-			return await app.vault.read(file);
-		}
-		return "";
-	}, fixtureName);
+	const res = await browser.executeObsidian(
+		async ({ app, obsidian }, fileName) => {
+			const file = app.vault.getAbstractFileByPath(fileName);
+			if (file && file instanceof obsidian.TFile) {
+				return await app.vault.read(file);
+			}
+			return "";
+		},
+		fixtureName,
+	);
+	return normalize(res);
 }
 
 describe("Automated frontmatter sort", () => {
@@ -105,7 +110,7 @@ describe("Automated frontmatter sort", () => {
 						frontmatter,
 					);
 					const expectedKey = getExpectedKey(frontmatter.title);
-					expect(result).toBe(generatedExpected[expectedKey]);
+					expect(result).toBe(normalize(generatedExpected[expectedKey]));
 				});
 			}
 		});

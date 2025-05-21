@@ -6,7 +6,7 @@ import {
 	EXPECT_FRUITS_ANIMALS,
 	EXPECT_MIXED_CONTENT,
 	EXPECT_SIMPLE_LIST,
-	WITH_FRONTMATTER,
+	EXPECT_FRONTMATTER,
 	type Expectation,
 } from "../fixtures";
 
@@ -86,7 +86,7 @@ describe("accents_case", () => {
 
 describe("with_frontmatter", () => {
 	const input = loadFixture("with_frontmatter.md");
-	testAllListTypes(input, WITH_FRONTMATTER);
+	testAllListTypes(input, EXPECT_FRONTMATTER);
 });
 
 describe("Verify heading level", () => {
