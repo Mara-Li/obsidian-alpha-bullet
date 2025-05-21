@@ -52,7 +52,7 @@ export const config: WebdriverIO.Config = {
 		browserVersion: appVersion,
 		"wdio:obsidianOptions": {
 			installerVersion: installerVersion,
-			plugins: ["./dist", { id: "dataview" }],
+			plugins: ["./dist"],
 			// If you need to switch between multiple vaults, you can omit this and use
 			// `reloadObsidian` to open vaults during the test.
 			vault: process.env.VAULT_TEST,
@@ -113,7 +113,7 @@ export const config: WebdriverIO.Config = {
 			}
 		}
 	},
-	onPrepare: async function () {
+	onPrepare: function () {
 		reportAggregator = new ReportAggregator({
 			outputDir: "./reports/html-reports/",
 			filename: "report.html",
@@ -124,7 +124,7 @@ export const config: WebdriverIO.Config = {
 			removeOutput: false,
 			produceJson: false,
 		});
-		await reportAggregator.clean(); // remove old reports
+		reportAggregator.clean(); // remove old reports
 	},
 	onComplete: async function () {
 		await reportAggregator.createReport();
