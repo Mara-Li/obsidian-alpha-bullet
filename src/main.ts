@@ -14,24 +14,18 @@ export default class SortMarkdownList extends Plugin {
 	settings!: SortMarkdownListSettings;
 	sorts!: Sorts;
 
-	private convertStrToBool(defaultValue: boolean, str?: unknown): boolean {
-		console.log("convertStrToBool", str);
-		if (str == null) return defaultValue;
-		if (str instanceof Boolean) return str === true;
-		const trueValues = ["true", "1", "yes", "on"];
-		const falseValues = ["false", "0", "no", "off"];
-		if (trueValues.includes(str.toString().toLowerCase())) return true;
-		if (falseValues.includes(str.toString().toLowerCase())) return false;
+	private convertStrToBool(defaultValue: boolean, input?: unknown): boolean {
+		if (typeof input === "boolean") return input;
+		if (input == null) return defaultValue;
+		const val = String(input).toLowerCase();
+		if (["true", "1", "yes", "on"].includes(val)) return true;
+		if (["false", "0", "no", "off"].includes(val)) return false;
 		return defaultValue;
 	}
 
-	private levelNumber(str: unknown, defaultValue = 0): number {
-		if (str instanceof Number) return str.valueOf();
-		if (str instanceof String) {
-			const parsed = Number(str);
-			if (!isNaN(parsed)) return parsed;
-		}
-		return defaultValue;
+	private levelNumber(defaultValue: number, val?: unknown): number {
+		const num = Number(val);
+		return isNaN(num) ? defaultValue : num;
 	}
 
 	readFrontmatter(file: TFile): SortMarkdownListSettings {
@@ -51,8 +45,8 @@ export default class SortMarkdownList extends Plugin {
 				frontmatter.sml_advanced,
 			),
 			sml_level: this.levelNumber(
-				frontmatter.sml_level,
 				this.settings.sml_level,
+				frontmatter.sml_level,
 			),
 		};
 	}
@@ -84,7 +78,7 @@ export default class SortMarkdownList extends Plugin {
 
 		//commands 1 : Sort entire content alpha 'simple'
 		this.addCommand({
-			id: ECommands.Alphabetical,
+			id: ECommands.Ascending,
 			name: i18next.t("commands.alphabetical"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
@@ -106,7 +100,7 @@ export default class SortMarkdownList extends Plugin {
 
 		//command 2: Sort "advanced" with title as letter
 		this.addCommand({
-			id: ECommands.AdvancedAlpha,
+			id: ECommands.AdvancedAsc,
 			name: i18next.t("commands.advancedAlpha"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
@@ -129,7 +123,7 @@ export default class SortMarkdownList extends Plugin {
 
 		//command 3: sort reverse
 		this.addCommand({
-			id: ECommands.Reverse,
+			id: ECommands.descending,
 			name: i18next.t("commands.reverse"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
@@ -151,7 +145,7 @@ export default class SortMarkdownList extends Plugin {
 
 		//command 4: sort reverse with title as letter
 		this.addCommand({
-			id: ECommands.AdvancedReverse,
+			id: ECommands.AdvancedDesc,
 			name: i18next.t("commands.reverseAdvanced"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();

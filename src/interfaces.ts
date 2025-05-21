@@ -14,9 +14,9 @@ export const DEFAULT_SETTINGS: SortMarkdownListSettings = {
 };
 
 export enum ECommands {
-	Alphabetical = "alphabetical",
-	Reverse = "reverse",
-	AdvancedAlpha = "advanced-alphabetical",
-	AdvancedReverse = "reverse-advanced",
+	Ascending = "ascending",
+	descending = "descending",
+	AdvancedAsc = "advanced-ascending",
+	AdvancedDesc = "reverse-advanced",
 	AutoOnFrontmatter = "auto-on-frontmatter",
 }
