@@ -78,6 +78,7 @@ export const config: WebdriverIO.Config = {
 
 	logLevel: "warn",
 	reporters: [
+		"obsidian",
 		[
 			"html-nice",
 			{
@@ -91,7 +92,7 @@ export const config: WebdriverIO.Config = {
 				theme: "dark",
 				produceJson: true,
 				produceHtml: true,
-				removeOutput: false,
+				removeOutput: true,
 				plugins: ["wdio-html-nice-reporter", "wdio-obsidian-reporter"],
 			},
 		],
@@ -121,7 +122,7 @@ export const config: WebdriverIO.Config = {
 			browserName: "obsidian",
 			collapseTests: false,
 			showInBrowser: true,
-			removeOutput: false,
+			removeOutput: true,
 			produceJson: false,
 		});
 		reportAggregator.clean(); // remove old reports
