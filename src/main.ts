@@ -108,11 +108,13 @@ export default class SortMarkdownList extends Plugin {
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							return this.sorts.replaceAlphaListWithTitleInMarkdown(content);
+							return this.sorts.replaceAlphaListWithTitleInMarkdown(
+								content,
+								false,
+							);
 						});
 						content.then((content) => {
-							const newContent = this.sorts.replaceAlphaListInMarkdown(content);
-							this.app.vault.modify(file, newContent);
+							this.app.vault.modify(file, content);
 						});
 					}
 					return true;
@@ -123,7 +125,7 @@ export default class SortMarkdownList extends Plugin {
 
 		//command 3: sort reverse
 		this.addCommand({
-			id: ECommands.descending,
+			id: ECommands.Descending,
 			name: i18next.t("commands.reverse"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
