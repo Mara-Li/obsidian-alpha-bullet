@@ -1,3 +1,8 @@
+## [0.0.2](https://github.com/Mara-Li/obsidian-list-sort/compare/0.0.1...0.0.2) (2025-05-21)
+### Bug Fixes
+
+* multiple parsing that result on an empty line ([11eb119](https://github.com/Mara-Li/obsidian-list-sort/commit/11eb11935b34dc9c1732de58d40615880299cb8b))
+
 ## 0.0.1 (2025-05-20)
 ### Features
 

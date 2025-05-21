@@ -1,7 +1,7 @@
 {
 	"id": "sort-markdown-list",
 	"name": "Sort Markdown List",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"minAppVersion": "1.5.12",
 	"description": "Add multiple commands to sort a markdown list.",
 	"author": "Mara-Li",

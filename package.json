@@ -1,6 +1,6 @@
 {
 	"name": "sort-markdown-list",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Add multiple commands to sort a markdown list.",
 	"main": "main.js",
 	"private": true,
