@@ -2,7 +2,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { ECommands, SortMarkdownListSettings } from "../../src/interfaces";
+import { ECommands, AlphaBulletSettings } from "../../src/interfaces";
 import {
 	EXPECT_SIMPLE_LIST,
 	EXPECT_FRONTMATTER,
@@ -21,7 +21,7 @@ export const manifest = JSON.parse(
 
 export type Options = {
 	title?: ECommands | string;
-} & SortMarkdownListSettings;
+} & AlphaBulletSettings;
 
 export function stringifyFrontmatter(frontmatter?: Options): string {
 	if (!frontmatter) return "";

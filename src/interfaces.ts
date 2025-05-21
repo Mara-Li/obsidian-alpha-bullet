@@ -1,12 +1,12 @@
 /** biome-ignore-all lint/style/useNamingConvention: pythonic frontmatter key */
-export interface SortMarkdownListSettings {
+export interface AlphaBulletSettings {
 	sml_sort: boolean;
 	sml_descending: boolean;
 	sml_advanced: boolean;
 	sml_level: number;
 }
 
-export const DEFAULT_SETTINGS: SortMarkdownListSettings = {
+export const DEFAULT_SETTINGS: AlphaBulletSettings = {
 	sml_sort: true,
 	sml_descending: false,
 	sml_advanced: false,

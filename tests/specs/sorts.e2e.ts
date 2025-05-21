@@ -13,7 +13,7 @@ import {
 import { ECommands } from "../../src/interfaces";
 import path from "node:path";
 import fs from "node:fs";
-import type SortMarkdownList from "../../src/main";
+import type AlphaBullet from "../../src/main";
 
 export function expectMarkdownEqual(received: string, expected: string) {
 	expect(normalize(received)).toBe(normalize(expected));
@@ -73,7 +73,7 @@ describe("Commands test", () => {
 		//set the default value for the settings
 		const plug = await browser.executeObsidian(
 			async ({ app }, manifest: Record<string, string>) => {
-				const plugin = app.plugins.getPlugin(manifest.id) as SortMarkdownList;
+				const plugin = app.plugins.getPlugin(manifest.id) as AlphaBullet;
 				if (plugin) {
 					plugin.settings.sml_level = 2;
 					await plugin.saveSettings();

@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { Sorts } from "../../src/sorts";
+import { BulletSort } from "../../src/sorts";
 import dedent from "dedent";
 
 describe("replaceAlphaListWithTitleInMarkdown", () => {
-	const sorter = new Sorts(2); // heading level ##
+	const sorter = new BulletSort(2); // heading level ##
 
 	const unorderedList = ["## Z", "+ Zèbre: animal", "## É", "+ Été: été"].join(
 		"\n",

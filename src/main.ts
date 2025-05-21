@@ -5,14 +5,14 @@ import { resources, translationLanguage } from "./i18n";
 import {
 	DEFAULT_SETTINGS,
 	ECommands,
-	type SortMarkdownListSettings,
+	type AlphaBulletSettings,
 } from "./interfaces";
-import { Sorts } from "./sorts";
+import { BulletSort } from "./sorts";
 import { MarkdownListSortSettings } from "./settings";
 
-export default class SortMarkdownList extends Plugin {
-	settings!: SortMarkdownListSettings;
-	sorts!: Sorts;
+export default class AlphaBullet extends Plugin {
+	settings!: AlphaBulletSettings;
+	sorts!: BulletSort;
 
 	private convertStrToBool(defaultValue: boolean, input?: unknown): boolean {
 		if (typeof input === "boolean") return input;
@@ -28,7 +28,7 @@ export default class SortMarkdownList extends Plugin {
 		return isNaN(num) ? defaultValue : num;
 	}
 
-	readFrontmatter(file: TFile): SortMarkdownListSettings {
+	readFrontmatter(file: TFile): AlphaBulletSettings {
 		const frontmatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
 		if (!frontmatter) return this.settings;
 		return {
@@ -51,9 +51,9 @@ export default class SortMarkdownList extends Plugin {
 		};
 	}
 
-	async chooseCommands(file: TFile, options: SortMarkdownListSettings) {
+	async chooseCommands(file: TFile, options: AlphaBulletSettings) {
 		const content = await this.app.vault.read(file);
-		const sort = new Sorts(options.sml_level);
+		const sort = new BulletSort(options.sml_level);
 		if (options.sml_advanced)
 			return sort.replaceAlphaListWithTitleInMarkdown(
 				content,
@@ -198,11 +198,11 @@ export default class SortMarkdownList extends Plugin {
 
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-		this.sorts = new Sorts(this.settings.sml_level);
+		this.sorts = new BulletSort(this.settings.sml_level);
 	}
 
 	async saveSettings() {
 		await this.saveData(this.settings);
-		this.sorts = new Sorts(this.settings.sml_level); //reload
+		this.sorts = new BulletSort(this.settings.sml_level); //reload
 	}
 }

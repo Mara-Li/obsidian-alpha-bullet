@@ -1,9 +1,9 @@
 {
-	"id": "sort-markdown-list",
-	"name": "Sort Markdown List",
+	"id": "alpha-bullet",
+	"name": "Alpha Bullet",
 	"version": "0.0.2",
 	"minAppVersion": "1.5.12",
-	"description": "Add multiple commands to sort a markdown list.",
+	"description": "Sorts bulleted lists alphabetically.",
 	"author": "Mara-Li",
 	"authorUrl": "https://github.com/Mara-Li",
 	"isDesktopOnly": false

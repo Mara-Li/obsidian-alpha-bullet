@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import { Sorts } from "../../src/sorts";
+import { BulletSort } from "../../src/sorts";
 import {
 	EXPECT_ACCENTS_CASE,
 	EXPECT_FRUITS_ANIMALS,
@@ -16,7 +16,7 @@ function loadFixture(name: string): string {
 		.replaceAll(/\r\n/g, "\n");
 }
 
-const sort = new Sorts(2);
+const sort = new BulletSort(2);
 
 function testAllListTypes(input: string, expected: Expectation) {
 	const types = ["-", "*", "+"];
@@ -96,7 +96,7 @@ describe("Verify heading level", () => {
 		const headingLevel = headingToTest[i];
 		const expectedHeading = expected[i];
 		test(`Heading level ${headingLevel} → ${expectedHeading}`, () => {
-			const sort = new Sorts(headingLevel);
+			const sort = new BulletSort(headingLevel);
 			const result = sort.getHeading();
 			expect(result).toBe(expectedHeading);
 		});

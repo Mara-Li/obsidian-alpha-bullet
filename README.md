@@ -1,4 +1,4 @@
-# Sort Markdown List
+# Alpha Bullet
 
 A simple and efficient Obsidian plugin to quickly sort your markdown lists. It sorts alphabetically based on the first word of each line, with advanced options available.
 
@@ -12,7 +12,7 @@ A simple and efficient Obsidian plugin to quickly sort your markdown lists. It s
 ## ⚙️ Usage
 
 1. Open the file that contains the list you want to sort.
-2. Open the command palette (<kbd>Ctrl</kbd>+<kbd>P</kbd> or <kbd>Cmd</kbd>+<kbd>P</kbd>) and search for "Sort Markdown List".
+2. Open the command palette (<kbd>Ctrl</kbd>+<kbd>P</kbd> or <kbd>Cmd</kbd>+<kbd>P</kbd>) and search for "Alpha Bullet".
 3. Choose your preferred sorting option (ascending, descending, or advanced).
 4. The list will be sorted instantly.
 

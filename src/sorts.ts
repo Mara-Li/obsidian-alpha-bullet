@@ -3,7 +3,7 @@ import "uniformize";
 const MARKDOWN_PREFIX = /^[\*+-] /;
 const TITLE_PREFIX = /^#+ /;
 
-export class Sorts {
+export class BulletSort {
 	constructor(private headingLevel: number = 1) {}
 
 	getHeading(): string {

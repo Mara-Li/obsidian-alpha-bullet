@@ -4,16 +4,16 @@ import {
 	PluginSettingTab,
 	Setting,
 } from "obsidian";
-import type { SortMarkdownListSettings } from "./interfaces";
-import type SortMarkdownList from "./main";
+import type { AlphaBulletSettings } from "./interfaces";
+import type AlphaBullet from "./main";
 import dedent from "dedent";
 import i18next from "i18next";
 
 export class MarkdownListSortSettings extends PluginSettingTab {
-	plugin: SortMarkdownList;
-	settings: SortMarkdownListSettings;
+	plugin: AlphaBullet;
+	settings: AlphaBulletSettings;
 
-	constructor(app: App, plugin: SortMarkdownList) {
+	constructor(app: App, plugin: AlphaBullet) {
 		super(app, plugin);
 		this.plugin = plugin;
 		this.settings = plugin.settings;
