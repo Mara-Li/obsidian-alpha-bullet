@@ -144,8 +144,8 @@ const FRONTMATTER_TEST = [
 	"title: Test Document",
 	"date: 2023-10-01",
 	"tags: ",
-	"	- test",
-	"	- example",
+	"  - test",
+	"  - example",
 	"---",
 	"",
 ].join("\n");

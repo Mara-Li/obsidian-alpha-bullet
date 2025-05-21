@@ -1,10 +1,12 @@
 import * as path from "node:path";
+import {ReportAggregator } from 'wdio-html-nice-reporter';
 import * as os from "node:os";
 import dotenv from "dotenv";
 import {
 	obsidianBetaAvailable,
 	resolveObsidianVersions,
 } from "wdio-obsidian-service";
+import stripAnsi from "strip-ansi";
 const cacheDir = path.resolve(os.tmpdir(), ".obsidian-cache");
 dotenv.config();
 
@@ -35,7 +37,7 @@ if (process.env.OBSIDIAN_VERSIONS) {
 } else {
 	versions = [["latest", "latest"]];
 }
-
+let reportAggregator : ReportAggregator;
 export const config: WebdriverIO.Config = {
 	runner: "local",
 
@@ -60,7 +62,6 @@ export const config: WebdriverIO.Config = {
 	services: ["obsidian"],
 	// You can use any wdio reporter, but by default they show the chromium version instead of the Obsidian version a
 	// test is running on. obsidian-reporter is just a wrapper around spec-reporter that shows the Obsidian version.
-	reporters: ["obsidian"],
 
 	mochaOpts: {
 		ui: "bdd",
@@ -74,5 +75,29 @@ export const config: WebdriverIO.Config = {
 
 	cacheDir: cacheDir,
 
-	logLevel: "warn",
-};
+	logLevel: "debug",
+	reporters: [
+    ["html-nice", {
+            debug: false,
+            outputDir: './reports/html-reports/',
+            filename: 'report.html',
+            reportTitle: 'Web Test Report',
+            useOnAfterCommandForScreenshot: false,
+            linkScreenshots: true,
+			showInBrowser: true,
+			theme: 'dark',
+			produceJson: false,
+			produceHtml: true,
+			plugins: [
+				'wdio-html-nice-reporter',
+				'wdio-obsidian-reporter'
+			]
+        }]  
+  ],
+  afterTest: function (test, context, {error}) {
+	if (error && typeof error.message === "string") {
+		error.message = stripAnsi(error.message);
+	}
+  }
+
+}

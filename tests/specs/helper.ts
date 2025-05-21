@@ -26,12 +26,12 @@ export function stringifyFrontmatter(frontmatter?: Options): string {
 	if (!frontmatter) return "";
 	return [
 		"---",
-		`sml_sort: ${frontmatter.sml_sort};`,
-		`sml_descending: ${frontmatter.sml_descending};`,
-		`sml_advanced: ${frontmatter.sml_advanced};`,
-		`sml_level: ${frontmatter.sml_level};`,
+		`sml_sort: ${frontmatter.sml_sort}`,
+		`sml_descending: ${frontmatter.sml_descending}`,
+		`sml_advanced: ${frontmatter.sml_advanced}`,
+		`sml_level: ${frontmatter.sml_level}`,
 		"---",
-		"", // ligne vide après le frontmatter (séparateur YAML)
+		"",
 	].join("\n");
 }
 
