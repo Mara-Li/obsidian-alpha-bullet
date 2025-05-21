@@ -1,3 +1,12 @@
+## [0.1.0](https://github.com/Mara-Li/obsidian-list-sort/compare/0.0.2...0.1.0) (2025-05-21)
+### ⚠ BREAKING CHANGES
+
+* rename plugin
+
+### Features
+
+* rename plugin ([0adfba0](https://github.com/Mara-Li/obsidian-list-sort/commit/0adfba0fcffb73046787820015aa2cea17b03121))
+
 ## [0.0.2](https://github.com/Mara-Li/obsidian-list-sort/compare/0.0.1...0.0.2) (2025-05-21)
 ### Bug Fixes
 
