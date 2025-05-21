@@ -16,8 +16,6 @@ import fs from "node:fs";
 import type SortMarkdownList from "../../src/main";
 
 export function expectMarkdownEqual(received: string, expected: string) {
-	console.log("Received:\n", received);
-	console.log("Expected:\n", expected);
 	expect(normalize(received)).toBe(normalize(expected));
 }
 
