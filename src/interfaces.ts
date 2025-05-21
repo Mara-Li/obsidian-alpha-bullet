@@ -15,7 +15,7 @@ export const DEFAULT_SETTINGS: SortMarkdownListSettings = {
 
 export enum ECommands {
 	Ascending = "ascending",
-	descending = "descending",
+	Descending = "descending",
 	AdvancedAsc = "advanced-ascending",
 	AdvancedDesc = "reverse-advanced",
 	AutoOnFrontmatter = "auto-on-frontmatter",
