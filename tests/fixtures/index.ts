@@ -1,18 +1,18 @@
 export interface Expectation {
-	alpha: string;
-	withTitle: string;
-	alphaReverse: string;
-	withTitleReverse: string;
+	ascending: string;
+	advanced: string;
+	advancedAsc: string;
+	AdvancedDesc: string;
 }
 
 export const EXPECT_SIMPLE_LIST: Expectation = {
-	alpha: [
+	ascending: [
 		"- Arcane: book",
 		"  - sub: page",
 		"- Magic: wand",
 		"  - sub: spell",
 	].join("\n"),
-	withTitle: [
+	advanced: [
 		"## A",
 		"- Arcane: book",
 		"  - sub: page",
@@ -20,13 +20,13 @@ export const EXPECT_SIMPLE_LIST: Expectation = {
 		"- Magic: wand",
 		"  - sub: spell",
 	].join("\n"),
-	alphaReverse: [
+	advancedAsc: [
 		"- Magic: wand",
 		"  - sub: spell",
 		"- Arcane: book",
 		"  - sub: page",
 	].join("\n"),
-	withTitleReverse: [
+	AdvancedDesc: [
 		"## M",
 		"- Magic: wand",
 		"  - sub: spell",
@@ -37,7 +37,7 @@ export const EXPECT_SIMPLE_LIST: Expectation = {
 };
 
 export const EXPECT_FRUITS_ANIMALS: Expectation = {
-	alpha: [
+	ascending: [
 		"- Apple: fruit",
 		"  - sub: red",
 		"- Banana: fruit",
@@ -45,7 +45,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Zebra: animal",
 		"  - sub: stripes",
 	].join("\n"),
-	withTitle: [
+	advanced: [
 		"## A",
 		"- Apple: fruit",
 		"  - sub: red",
@@ -56,7 +56,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Zebra: animal",
 		"  - sub: stripes",
 	].join("\n"),
-	alphaReverse: [
+	advancedAsc: [
 		"- Zebra: animal",
 		"  - sub: stripes",
 		"- Banana: fruit",
@@ -64,7 +64,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Apple: fruit",
 		"  - sub: red",
 	].join("\n"),
-	withTitleReverse: [
+	AdvancedDesc: [
 		"## Z",
 		"- Zebra: animal",
 		"  - sub: stripes",
@@ -78,7 +78,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 };
 
 export const EXPECT_MIXED_CONTENT: Expectation = {
-	alpha: [
+	ascending: [
 		"Introduction",
 		"",
 		"- Apple: green",
@@ -89,7 +89,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"- Cat: furry",
 		"- Zebra: black and white",
 	].join("\n"),
-	withTitle: [
+	advanced: [
 		"Introduction",
 		"",
 		"## A",
@@ -104,7 +104,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"## Z",
 		"- Zebra: black and white",
 	].join("\n"),
-	alphaReverse: [
+	advancedAsc: [
 		"Introduction",
 		"",
 		"- Banana: yellow",
@@ -115,7 +115,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"- Zebra: black and white",
 		"- Cat: furry",
 	].join("\n"),
-	withTitleReverse: [
+	AdvancedDesc: [
 		"Introduction",
 		"",
 		"## B",
@@ -133,12 +133,10 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 };
 
 export const EXPECT_ACCENTS_CASE: Expectation = {
-	alpha: ["- Été: été", "- Zèbre: animal"].join("\n"),
-	withTitle: ["## E", "- Été: été", "## Z", "- Zèbre: animal"].join("\n"),
-	alphaReverse: ["- Zèbre: animal", "- Été: été"].join("\n"),
-	withTitleReverse: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join(
-		"\n",
-	),
+	ascending: ["- Été: été", "- Zèbre: animal"].join("\n"),
+	advanced: ["## E", "- Été: été", "## Z", "- Zèbre: animal"].join("\n"),
+	advancedAsc: ["- Zèbre: animal", "- Été: été"].join("\n"),
+	AdvancedDesc: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join("\n"),
 };
 
 const FRONTMATTER_TEST = [
@@ -153,8 +151,8 @@ const FRONTMATTER_TEST = [
 ].join("\n");
 
 export const WITH_FRONTMATTER: Expectation = {
-	alpha: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.alpha,
-	withTitle: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.withTitle,
-	alphaReverse: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.alphaReverse,
-	withTitleReverse: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.withTitleReverse,
+	ascending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.ascending,
+	advanced: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advanced,
+	advancedAsc: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advancedAsc,
+	AdvancedDesc: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.AdvancedDesc,
 };

@@ -22,13 +22,13 @@ function testAllListTypes(input: string, expected: Expectation) {
 	const types = ["-", "*", "+"];
 	for (const type of types) {
 		const inputList = input.replace(/^- /gm, `${type} `);
-		const alphaExpected = expected.alpha.replace(/^- /gm, `${type} `);
-		const withTitleExpected = expected.withTitle.replace(/^- /gm, `${type} `);
-		const alphaExpectedReverse = expected.alphaReverse.replace(
+		const alphaExpected = expected.ascending.replace(/^- /gm, `${type} `);
+		const withTitleExpected = expected.advanced.replace(/^- /gm, `${type} `);
+		const alphaExpectedReverse = expected.advancedAsc.replace(
 			/^- /gm,
 			`${type} `,
 		);
-		const withTitleExpectedReverse = expected.withTitleReverse.replace(
+		const withTitleExpectedReverse = expected.AdvancedDesc.replace(
 			/^- /gm,
 			`${type} `,
 		);
