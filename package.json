@@ -35,7 +35,6 @@
 	},
 	"dependencies": {
 		"@delucis/if-env": "^1.1.2",
-		"@rpii/wdio-commands": "^8.0.2",
 		"@types/bun": "^1.2.13",
 		"@types/mocha": "^10.0.10",
 		"@wdio/cli": "^9.14.0",
@@ -52,7 +51,6 @@
 		"strip-ansi": "^7.1.0",
 		"uniformize": "^2.4.0",
 		"wdio-html-nice-reporter": "^8.1.7",
-		"wdio-json-html-reporter": "^1.5.9",
 		"wdio-obsidian-reporter": "^1.2.0",
 		"wdio-obsidian-service": "^1.2.0"
 	},
