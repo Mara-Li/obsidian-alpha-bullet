@@ -25,7 +25,7 @@ jobs:
         uses: mara-li/reusable-workflows/.github/workflows/obsidian-plugin-release.yaml@main
 
         with:
-            PLUGIN_NAME: sort-markdown-list
+            PLUGIN_NAME: alpha-bullet
             CACHE: "bun"
         secrets:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,7 +34,7 @@ jobs:
         if: ${{ inputs.bump || false }}
         uses: mara-li/reusable-workflows/.github/workflows/obsidian-plugin-bump-version.yaml@main
         with:
-            PLUGIN_NAME: sort-markdown-list
+            PLUGIN_NAME: alpha-bullet
             BETA: ${{ inputs.beta || false}}
             CACHE: "bun"
         secrets:
