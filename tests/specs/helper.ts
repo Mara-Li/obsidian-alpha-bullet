@@ -1,8 +1,6 @@
-/** biome-ignore-all lint/style/useNamingConvention: snake case for frontmatter */
-
 import * as fs from "fs";
 import * as path from "path";
-import { ECommands, Alphtype aBulletSettings } from "../../src/interfaces";
+import { ECommands, AlphaBulletSettings } from "../../src/interfaces";
 import {
 	EXPECT_SIMPLE_LIST,
 	EXPECT_FRONTMATTER,

@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { BulletSort } from "../../src/sorts";
-import dedent from "dedent";
 
 describe("cleanSortByGroup", () => {
 	const sorter = new BulletSort(2); // heading level ##
@@ -18,10 +17,7 @@ describe("cleanSortByGroup", () => {
 	);
 
 	test("from Z → A to A → Z", () => {
-		const sorted = sorter.cleanSortByGroup(
-			unorderedList,
-			false,
-		);
+		const sorted = sorter.cleanSortByGroup(unorderedList, false);
 		expect(normalizeNewlines(sorted)).toBe(normalizeNewlines(expectedAZ));
 	});
 
