@@ -26,7 +26,7 @@ export function stringifyFrontmatter(frontmatter?: Options): string {
 		"---",
 		`sml_sort: ${frontmatter.sml_sort}`,
 		`sml_descending: ${frontmatter.sml_descending}`,
-		`sml_group: ${frontmatter.sml_group}`,
+		`sml_glossary: ${frontmatter.sml_glossary}`,
 		`sml_level: ${frontmatter.sml_level}`,
 		`sml_items_desc: ${frontmatter.sml_items_desc}`,
 		"---",
@@ -58,13 +58,13 @@ export function getExpectedKey(title?: string) {
 			return "ascending";
 		case ECommands.Descending:
 			return "descending";
-		case ECommands.GroupFullAsc:
+		case ECommands.GlossaryFullAsc:
 			return "group.ascending";
-		case ECommands.GroupFullDesc:
+		case ECommands.GlossaryFullDesc:
 			return "group.descending";
-		case ECommands.GroupAscItemDesc:
+		case ECommands.GlossaryAscItemsDesc:
 			return "onlyReverseItems.ascending";
-		case ECommands.GroupDescItemAsc:
+		case ECommands.GlossaryDescItemAsc:
 			return "onlyReverseItems.descending";
 		default:
 			throw new Error(`Unknown command: ${title}`);

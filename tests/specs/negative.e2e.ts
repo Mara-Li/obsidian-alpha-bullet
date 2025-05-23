@@ -39,7 +39,7 @@ describe("Negative tests", () => {
 			title: "Disabled sort",
 			sml_sort: false,
 			sml_descending: true,
-			sml_group: true,
+			sml_glossary: true,
 			sml_level: 1,
 			sml_items_desc: false,
 		});

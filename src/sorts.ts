@@ -11,6 +11,10 @@ export class BulletSort {
 		return "#".repeat(level);
 	}
 
+	isList(line: string): boolean {
+		return line.match(MARKDOWN_PREFIX) !== null;
+	}
+
 	private getSortableText(line: string): string {
 		return (line.split(":")[0].replace(/\W+/g, "") ?? line).standardize();
 	}

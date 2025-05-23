@@ -1,22 +1,31 @@
 {
-	"group": "Groupe",
-	"commands": {
-		"groupAlpha": "Ordre croissant avancé (A-Z)",
-		"alphabetical": "Ordre croissant (A-Z)",
-		"auto": "Trier en se basant sur le frontmatter",
-		"groupAscItemDesc": "Groupe : Lettres initiales croissantes (A-Z) | Articles décroissants (Z-A)",
-		"reverse": "Ordre décroissant (Z-A)",
-		"reverseAdvanced": "Groupe : Ordre décroissant complet (Z-A)"
-	},
-	"keys": "clés",
-	"level": "Niveau de cap",
-	"reverse": "Inverse",
-	"settings": {
-		"group": "Utilisez le tri avancé (chaque lettre sera un titre)",
-		"description": "Le frontmatter permet d'utiliser automatiquement les commandes de droite en fonction de la masse de front. \nConvention lorsqu'il est utilisé avec le plugin Linter et d'autres macros.",
-		"disable": "Désactiver la commande (peut être forcée à l'aide d'autres commandes)",
-		"level": "Niveau de cap pour le tri avancé (1-6)",
-		"reverse": "Inverser l'ordre du tri (Z-A)"
-	},
-	"sort": "Trie"
+  "commands": {
+    "alphabetical": "Ordre croissant (A-Z)",
+    "auto": "Trier en se basant sur le frontmatter",
+    "groupAlpha": "Ordre croissant avancé (A-Z)",
+    "groupAscItemDesc": "Glossaire : Croissant (A-Z) | Articles décroissants (Z-A)",
+    "groupDescItemAsc": "Glossaire : Décroissant (Z-A) | Articles croissants (A-Z)",
+    "reverse": "Ordre décroissant (Z-A)",
+    "reverseAdvanced": "Groupe : Ordre décroissant complet (Z-A)",
+    "reverseGroup": "Group: Ordre décroissant complet (Z-A)"
+  },
+  "group": "Groupe",
+  "keys": "clés",
+  "level": "Niveau de cap",
+  "menu": {
+    "asc": "Ordre croissant",
+    "auto": "Par le frontmatter",
+    "desc": "Ordre décroissant",
+    "group": "Lexique",
+    "sortSelection": "Trier la liste"
+  },
+  "reverse": "Inverse",
+  "settings": {
+    "description": "Le frontmatter permet d'utiliser automatiquement les commandes de droite en fonction de la masse de front. \nConvention lorsqu'il est utilisé avec le plugin Linter et d'autres macros.",
+    "disable": "Désactiver la commande (peut être forcée à l'aide d'autres commandes)",
+    "group": "Créer un \"glossaire\" en groupant par la première lettre.",
+    "level": "Niveau de cap pour le tri avancé (1-6)",
+    "reverse": "Inverser l'ordre du tri (Z-A)"
+  },
+  "sort": "Trie"
 }

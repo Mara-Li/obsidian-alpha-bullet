@@ -14,7 +14,7 @@ import {
 import { ECommands } from "../../src/interfaces";
 import path from "node:path";
 import fs from "node:fs";
-import type AlphaBullet from "../../src/main";
+import type { AlphaBullet } from "../../src/main";
 
 export function expectMarkdownEqual(received: string, expected: string) {
 	expect(normalize(received)).toBe(normalize(expected));
@@ -89,7 +89,7 @@ describe("Commands test", () => {
 			});
 			it("group sort - ASC (A-Z)", async () => {
 				const expectedFm = generatedFm(item.expected);
-				const result = await runTestWithFixture(item.fileName, ECommands.GroupFullAsc);
+				const result = await runTestWithFixture(item.fileName, ECommands.GlossaryFullAsc);
 				expectMarkdownEqual(result, expectedFm.group.ascending);
 			});
 			it("sort descending (Z-A)", async () => {
@@ -99,7 +99,10 @@ describe("Commands test", () => {
 			});
 			it("Sort group desc (Z-A)", async () => {
 				const expectedFm = generatedFm(item.expected);
-				const result = await runTestWithFixture(item.fileName, ECommands.GroupFullDesc);
+				const result = await runTestWithFixture(
+					item.fileName,
+					ECommands.GlossaryFullDesc
+				);
 				expectMarkdownEqual(result, expectedFm.group.descending);
 			});
 		});

@@ -1,22 +1,30 @@
 {
-	"group": "Group",
-	"commands": {
-		"groupAlpha": "Group ascending order (A-Z)",
-		"alphabetical": "Ascending order (A-Z)",
-		"auto": "Sort based on frontmatter",
-		"groupAscItemDesc": "Group: Initial letters ascending (A-Z) | Items descending (Z-A)",
-		"reverse": "Descending order (Z-A)",
-		"reverseGroup": "Group: full descending order (Z-A)"
-	},
-	"keys": "keys",
-	"level": "Heading level",
-	"reverse": "Reverse",
-	"settings": {
-		"group": "Use the group sort (each letter will be a heading)",
-		"description": " \t\tThe frontmatter allows to use automatically the right commands based on the frontmatter. Conveniant when used with the linter plugin and other macros.",
-		"disable": "Disable the command (can be forced using other commands)",
-		"level": "Heading level for the group sort (1-6)",
-		"reverse": "Reverse the order of the sort (Z-A)"
-	},
-	"sort": "Sort"
+  "commands": {
+    "alphabetical": "Ascending order (A-Z)",
+    "auto": "Sort based on frontmatter",
+    "groupAlpha": "Group ascending order (A-Z)",
+    "groupAscItemDesc": "Glossary: Ascending (A-Z) | Items descending (Z-A)",
+    "groupDescItemAsc": "Glossary: Descending (Z-A) | Items ascending (A-Z)",
+    "reverse": "Descending order (Z-A)",
+    "reverseGroup": "Group: full descending order (Z-A)"
+  },
+  "group": "Group",
+  "keys": "keys",
+  "level": "Heading level",
+  "menu": {
+    "asc": "Ascending",
+    "auto": "By frontmatter",
+    "desc": "Descending",
+    "group": "Lexicon",
+    "sortSelection": "Sort list"
+  },
+  "reverse": "Reverse",
+  "settings": {
+    "description": " \t\tThe frontmatter allows to use automatically the right commands based on the frontmatter. Conveniant when used with the linter plugin and other macros.",
+    "disable": "Disable the command (can be forced using other commands)",
+    "group": "Create a \"glossary\" by group per initial letter.",
+    "level": "Heading level for the group sort (1-6)",
+    "reverse": "Reverse the order of the sort (Z-A)"
+  },
+  "sort": "Sort"
 }
