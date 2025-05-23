@@ -35,13 +35,22 @@ export default class AlphaBullet extends Plugin {
 			),
 			sml_group: this.convertStrToBool(this.settings.sml_group, frontmatter.sml_group),
 			sml_level: this.levelNumber(this.settings.sml_level, frontmatter.sml_level),
+			sml_items_desc: this.convertStrToBool(
+				this.settings.sml_items_desc,
+				frontmatter.sml_items_desc
+			),
 		};
 	}
 
 	async chooseCommands(file: TFile, options: AlphaBulletSettings) {
 		const content = await this.app.vault.read(file);
 		const sort = new BulletSort(options.sml_level);
-		if (options.sml_group) return sort.cleanSortByGroup(content, options.sml_descending);
+		if (options.sml_group)
+			return sort.cleanSortByGroup(
+				content,
+				options.sml_descending,
+				options.sml_items_desc
+			);
 		return sort.cleanSort(content, options.sml_descending);
 	}
 
