@@ -1,18 +1,19 @@
-/** biome-ignore-all lint/style/useNamingConvention: <explanation> */
+/** biome-ignore-all lint/style/useNamingConvention: frontmatter key is snake_case */
+
+import { browser } from "@wdio/globals";
+import fs from "fs";
+import path from "path";
 import { obsidianPage } from "wdio-obsidian-service";
+import { ECommands } from "../../src/interfaces";
 import {
 	expecteds,
 	generatedFm,
 	getExpectedKey,
 	manifest,
-	stringifyFrontmatter,
+	normalize,
 	type Options,
+	stringifyFrontmatter,
 } from "./helper";
-import { ECommands } from "../../src/interfaces";
-import path from "path";
-import fs from "fs";
-import { normalize } from "./helper";
-import { browser } from "@wdio/globals";
 
 const allFrontmatterPossibles: Options[] = [
 	{
