@@ -1,8 +1,8 @@
 export interface Expectation {
 	ascending: string;
-	advanced: Order;
+	group: Order;
 	descending: string;
-	reverseGroup?: Order;
+	onlyReverseItems?: Order;
 }
 
 export type Order = {
@@ -11,13 +11,10 @@ export type Order = {
 };
 
 export const EXPECT_SIMPLE_LIST: Expectation = {
-	ascending: [
-		"- Arcane: book",
-		"  - sub: page",
-		"- Magic: wand",
-		"  - sub: spell",
-	].join("\n"),
-	advanced: {
+	ascending: ["- Arcane: book", "  - sub: page", "- Magic: wand", "  - sub: spell"].join(
+		"\n"
+	),
+	group: {
 		ascending: [
 			"## A",
 			"- Arcane: book",
@@ -35,12 +32,9 @@ export const EXPECT_SIMPLE_LIST: Expectation = {
 			"  - sub: page",
 		].join("\n"),
 	},
-	descending: [
-		"- Magic: wand",
-		"  - sub: spell",
-		"- Arcane: book",
-		"  - sub: page",
-	].join("\n"),
+	descending: ["- Magic: wand", "  - sub: spell", "- Arcane: book", "  - sub: page"].join(
+		"\n"
+	),
 };
 
 export const EXPECT_FRUITS_ANIMALS: Expectation = {
@@ -52,7 +46,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Zebra: animal",
 		"  - sub: stripes",
 	].join("\n"),
-	advanced: {
+	group: {
 		ascending: [
 			"## A",
 			"- Apple: fruit",
@@ -98,7 +92,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"- Cat: furry",
 		"- Zebra: black and white",
 	].join("\n"),
-	advanced: {
+	group: {
 		ascending: [
 			"Introduction",
 			"",
@@ -145,7 +139,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 
 export const EXPECT_ACCENTS_CASE: Expectation = {
 	ascending: ["- Été: été", "- Zèbre: animal"].join("\n"),
-	advanced: {
+	group: {
 		ascending: ["## E", "- Été: été", "## Z", "- Zèbre: animal"].join("\n"),
 		descending: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join("\n"),
 	},
@@ -165,16 +159,16 @@ const FRONTMATTER_TEST = [
 
 export const EXPECT_FRONTMATTER: Expectation = {
 	ascending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.ascending,
-	advanced: {
-		ascending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advanced.ascending,
-		descending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advanced.descending,
+	group: {
+		ascending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.group.ascending,
+		descending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.group.descending,
 	},
 	descending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.descending,
 };
 
 export const EXPECT_NATURAL_ORDER: Expectation = {
 	ascending: ["- item1", "- item2", "- item10"].join("\n"),
-	advanced: {
+	group: {
 		ascending: ["## I", "- item1", "- item2", "- item10"].join("\n"),
 		descending: ["## I", "- item10", "- item2", "- item1"].join("\n"),
 	},
@@ -246,7 +240,7 @@ export const EXPECT_REVERSE_GROUP: Expectation = {
 		"- Ananas",
 	].join("\n"),
 
-	advanced: {
+	group: {
 		ascending: [
 			"## A",
 			"- Ananas",
@@ -339,9 +333,8 @@ export const EXPECT_REVERSE_GROUP: Expectation = {
 			"- Ananas",
 		].join("\n"),
 	},
-	reverseGroup: {
+	onlyReverseItems: {
 		ascending: [
-			//grouped ASC but list is DESC
 			"## A",
 			"- Avocado",
 			"- Apple",
@@ -387,7 +380,6 @@ export const EXPECT_REVERSE_GROUP: Expectation = {
 			"- Zucchini",
 		].join("\n"),
 		descending: [
-			//grouped DESC but list is ASC
 			"## Z",
 			"- Zucchini",
 			"## W",

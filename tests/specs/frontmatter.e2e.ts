@@ -17,28 +17,28 @@ const allFrontmatterPossibles: Options[] = [
 		title: ECommands.Ascending,
 		sml_sort: true,
 		sml_descending: false,
-		sml_advanced: false,
+		sml_group: false,
 		sml_level: 2,
 	},
 	{
 		title: ECommands.Descending,
 		sml_sort: true,
 		sml_descending: true,
-		sml_advanced: false,
+		sml_group: false,
 		sml_level: 2,
 	},
 	{
-		title: ECommands.AdvancedAsc,
+		title: ECommands.GroupFullAsc,
 		sml_sort: true,
 		sml_descending: false,
-		sml_advanced: true,
+		sml_group: true,
 		sml_level: 2,
 	},
 	{
-		title: ECommands.AdvancedDesc,
+		title: ECommands.GroupFullDesc,
 		sml_sort: true,
 		sml_descending: true,
-		sml_advanced: true,
+		sml_group: true,
 		sml_level: 2,
 	},
 ];
@@ -46,10 +46,7 @@ const allFrontmatterPossibles: Options[] = [
 async function createFixture(fixtureName: string, frontmatter?: Options) {
 	const folder = path.resolve(__dirname, "..");
 	const fixtures = path.resolve(folder, "fixtures");
-	const fixtureContent = fs.readFileSync(
-		path.join(fixtures, fixtureName),
-		"utf-8",
-	);
+	const fixtureContent = fs.readFileSync(path.join(fixtures, fixtureName), "utf-8");
 	const frontmatterContent = stringifyFrontmatter(frontmatter);
 	await browser.executeObsidian(
 		async ({ app }, content, fileName, fm) => {
@@ -58,40 +55,33 @@ async function createFixture(fixtureName: string, frontmatter?: Options) {
 		},
 		fixtureContent,
 		fixtureName,
-		frontmatterContent,
+		frontmatterContent
 	);
 	await obsidianPage.openFile(fixtureName);
-	const fileOpened = await browser.executeObsidian(
-		async ({ app, obsidian }) => {
-			const leaf = app.workspace.getActiveViewOfType(
-				obsidian.MarkdownView,
-			)?.leaf;
-			if (leaf?.view instanceof obsidian.MarkdownView) {
-				return leaf.view.file?.path;
-			}
-			return null;
-		},
-	);
+	const fileOpened = await browser.executeObsidian(async ({ app, obsidian }) => {
+		const leaf = app.workspace.getActiveViewOfType(obsidian.MarkdownView)?.leaf;
+		if (leaf?.view instanceof obsidian.MarkdownView) {
+			return leaf.view.file?.path;
+		}
+		return null;
+	});
 	expect(fileOpened).toBe(fixtureName);
 }
 
 async function runTestWithFixture(
 	fixtureName: string,
 	command: ECommands,
-	frontmatter?: Options,
+	frontmatter?: Options
 ) {
 	await createFixture(fixtureName, frontmatter);
 	await browser.executeObsidianCommand(`${manifest.id}:${command}`);
-	const res = await browser.executeObsidian(
-		async ({ app, obsidian }, fileName) => {
-			const file = app.vault.getAbstractFileByPath(fileName);
-			if (file && file instanceof obsidian.TFile) {
-				return await app.vault.read(file);
-			}
-			return "";
-		},
-		fixtureName,
-	);
+	const res = await browser.executeObsidian(async ({ app, obsidian }, fileName) => {
+		const file = app.vault.getAbstractFileByPath(fileName);
+		if (file && file instanceof obsidian.TFile) {
+			return await app.vault.read(file);
+		}
+		return "";
+	}, fixtureName);
 	return normalize(res);
 }
 
@@ -107,30 +97,26 @@ describe("Automated frontmatter sort", () => {
 					const result = await runTestWithFixture(
 						item.fileName,
 						ECommands.AutoOnFrontmatter,
-						frontmatter,
+						frontmatter
 					);
 					const expectedKey = getExpectedKey(frontmatter.title);
-					if (expectedKey.startsWith("advanced.")) {
-						const key = expectedKey.replace("advanced.", "");
+					if (expectedKey.startsWith("group.")) {
+						const key = expectedKey.replace("group.", "");
 						if (
-							key === "reverseGroup" &&
-							generatedExpected.reverseGroup?.ascending
+							key === "onlyReverseItems" &&
+							generatedExpected.onlyReverseItems?.ascending
 						) {
 							expect(result).toBe(
-								normalize(generatedExpected.reverseGroup.descending),
+								normalize(generatedExpected.onlyReverseItems.descending)
 							);
 						} else if (key === "ascending" || key === "descending") {
 							expect(result).toBe(
-								normalize(
-									generatedExpected.advanced[key as "ascending" | "descending"],
-								),
+								normalize(generatedExpected.group[key as "ascending" | "descending"])
 							);
 						}
 					} else {
 						expect(result).toBe(
-							normalize(
-								generatedExpected[expectedKey as "ascending" | "descending"],
-							),
+							normalize(generatedExpected[expectedKey as "ascending" | "descending"])
 						);
 					}
 				});

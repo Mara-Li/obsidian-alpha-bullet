@@ -25,54 +25,49 @@ function testAllListTypes(input: string, expected: Expectation) {
 	for (const type of types) {
 		const inputList = input.replace(/^- /gm, `${type} `);
 		const alphaExpected = expected.ascending.replace(/^- /gm, `${type} `);
-		const advancedAsc = expected.advanced.ascending.replace(
+		const groupAsc = expected.group.ascending.replace(/^- /gm, `${type} `);
+		const groupDesc = expected.descending.replace(/^- /gm, `${type} `);
+		const withTitleExpectedReverse = expected.group.descending.replace(
 			/^- /gm,
-			`${type} `,
+			`${type} `
 		);
-		const advancedDesc = expected.descending.replace(/^- /gm, `${type} `);
-		const withTitleExpectedReverse = expected.advanced.descending.replace(
+		const groupOnlyAsc = expected.onlyReverseItems?.ascending.replace(
 			/^- /gm,
-			`${type} `,
+			`${type} `
 		);
-		const groupOnlyAsc = expected.reverseGroup?.ascending.replace(
+		const groupOnlyDesc = expected.onlyReverseItems?.descending.replace(
 			/^- /gm,
-			`${type} `,
-		);
-		const groupOnlyDesc = expected.reverseGroup?.descending.replace(
-			/^- /gm,
-			`${type} `,
+			`${type} `
 		);
 
 		test(`ascending (${type})`, () => {
 			expect(sort.sort(inputList)).toEqual(alphaExpected);
 		});
-		test(`ascending advanced (${type})`, () => {
-			expect(sort.sortByLetter(inputList)).toEqual(advancedAsc);
+		test(`ascending group (${type})`, () => {
+			expect(sort.sortByLetter(inputList, false, false)).toEqual(groupAsc);
 		});
-		test(`Replace: ascending advanced (${type})`, () => {
-			expect(sort.cleanSortByGroup(inputList)).toEqual(advancedAsc);
+		test(`Replace: ascending group (${type})`, () => {
+			expect(sort.cleanSortByGroup(inputList, false, false)).toEqual(groupAsc);
 		});
 
 		// Tests inversés
 		test(`descending (${type})`, () => {
-			expect(sort.sort(inputList, true)).toEqual(advancedDesc);
+			expect(sort.sort(inputList, true)).toEqual(groupDesc);
 		});
-		test(`descending advanced (${type})`, () => {
-			expect(sort.sortByLetter(inputList, true)).toEqual(
-				withTitleExpectedReverse,
+		test(`descending group (${type})`, () => {
+			expect(sort.sortByLetter(inputList, true, true)).toEqual(withTitleExpectedReverse);
+		});
+		test(`replace: descending group (${type})`, () => {
+			expect(sort.cleanSortByGroup(inputList, true, true)).toEqual(
+				withTitleExpectedReverse
 			);
 		});
-		test(`replace: descending advanced (${type})`, () => {
-			expect(sort.cleanSortByGroup(inputList, true)).toEqual(
-				withTitleExpectedReverse,
-			);
-		});
-		if (expected.reverseGroup) {
-			test(`asc group only - reverse (${type})`, () => {
-				expect(sort.sortByLetter(inputList, true, true)).toEqual(groupOnlyDesc);
-			});
-			test(`asc group only - reverse (${type})`, () => {
+		if (expected.onlyReverseItems) {
+			test(`Only Item: ASC (group) - DESC (element) (${type})`, () => {
 				expect(sort.sortByLetter(inputList, false, true)).toEqual(groupOnlyAsc);
+			});
+			test(`Only Item : DESC (group) - ASC (element) (${type})`, () => {
+				expect(sort.sortByLetter(inputList, true, false)).toEqual(groupOnlyDesc);
 			});
 		}
 	}

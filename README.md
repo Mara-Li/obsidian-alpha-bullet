@@ -20,7 +20,11 @@ Whether you're managing notes, inventories, or worldbuilding content, keeping th
 4. Choose one of the available commands:
    - **Sort ascending**
    - **Sort descending**
-   - **Advanced sort (with letter headers)**
+   - **Group sort (with letter as headers)** with:
+     - Full ascending 
+     - Full descending
+     - Group (aka first letter) ascending and the items ascending
+     - Group (aka first letter) descending and the items ascending
    - **Sort based on frontmatter**
 5. Your list is instantly sorted!
 
@@ -30,7 +34,7 @@ Whether you're managing notes, inventories, or worldbuilding content, keeping th
 - **Ascending**: A → Z
 - **Descending**: Z → A
 
-### Advanced Sorting
+### Group Sorting
 Group items under a heading based on their initial letter.
 
 **Example:**
@@ -76,7 +80,7 @@ This allows seamless integration with other tools like Linter, Macros, Dataview,
 ---
 sml_sort: true
 sml_descending: false
-sml_advanced: true
+sml_group: true
 sml_level: 2
 ---
 ```
@@ -85,7 +89,7 @@ sml_level: 2
 
 * `sml_sort`: Enable/disable sorting
 * `sml_descending`: Reverse sort order
-* `sml_advanced`: Group items by letter
+* `sml_group`: Group items by letter
 * `sml_level`: Heading level (1 to 6)
 
 > [!TIP]

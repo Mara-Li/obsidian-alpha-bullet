@@ -20,10 +20,7 @@ export function expectMarkdownEqual(received: string, expected: string) {
 }
 
 async function createFixture(fixtureName: string, frontmatter?: Options) {
-	const fixtureContent = fs.readFileSync(
-		path.join(fixtures, fixtureName),
-		"utf-8",
-	);
+	const fixtureContent = fs.readFileSync(path.join(fixtures, fixtureName), "utf-8");
 	const frontmatterContent = stringifyFrontmatter(frontmatter);
 	await browser.executeObsidian(
 		async ({ app }, content, fileName, fm) => {
@@ -32,7 +29,7 @@ async function createFixture(fixtureName: string, frontmatter?: Options) {
 		},
 		fixtureContent,
 		fixtureName,
-		frontmatterContent,
+		frontmatterContent
 	);
 
 	await obsidianPage.openFile(fixtureName);
@@ -50,20 +47,17 @@ async function createFixture(fixtureName: string, frontmatter?: Options) {
 async function runTestWithFixture(
 	fixtureName: string,
 	command: ECommands,
-	frontmatter?: Options,
+	frontmatter?: Options
 ) {
 	await createFixture(fixtureName, frontmatter);
 	await browser.executeObsidianCommand(`${manifest.id}:${command}`);
-	const res = await browser.executeObsidian(
-		async ({ app, obsidian }, fileName) => {
-			const file = app.vault.getAbstractFileByPath(fileName);
-			if (file && file instanceof obsidian.TFile) {
-				return await app.vault.read(file);
-			}
-			return "";
-		},
-		fixtureName,
-	);
+	const res = await browser.executeObsidian(async ({ app, obsidian }, fileName) => {
+		const file = app.vault.getAbstractFileByPath(fileName);
+		if (file && file instanceof obsidian.TFile) {
+			return await app.vault.read(file);
+		}
+		return "";
+	}, fixtureName);
 	return res;
 }
 
@@ -81,7 +75,7 @@ describe("Commands test", () => {
 				}
 				return null;
 			},
-			manifest,
+			manifest
 		);
 		expect(plug).not.toBeNull();
 		expect(plug?.sml_level).toBe(2);
@@ -90,35 +84,23 @@ describe("Commands test", () => {
 		describe(item.fileName, () => {
 			it("sort ascending (A-Z)", async () => {
 				const expectedFm = generatedFm(item.expected);
-				const result = await runTestWithFixture(
-					item.fileName,
-					ECommands.Ascending,
-				);
+				const result = await runTestWithFixture(item.fileName, ECommands.Ascending);
 				expectMarkdownEqual(result, expectedFm.ascending);
 			});
-			it("Advanced sort - ASC (A-Z)", async () => {
+			it("group sort - ASC (A-Z)", async () => {
 				const expectedFm = generatedFm(item.expected);
-				const result = await runTestWithFixture(
-					item.fileName,
-					ECommands.AdvancedAsc,
-				);
-				expectMarkdownEqual(result, expectedFm.advanced.ascending);
+				const result = await runTestWithFixture(item.fileName, ECommands.GroupFullAsc);
+				expectMarkdownEqual(result, expectedFm.group.ascending);
 			});
 			it("sort descending (Z-A)", async () => {
 				const expectedFm = generatedFm(item.expected);
-				const result = await runTestWithFixture(
-					item.fileName,
-					ECommands.Descending,
-				);
+				const result = await runTestWithFixture(item.fileName, ECommands.Descending);
 				expectMarkdownEqual(result, expectedFm.descending);
 			});
-			it("Sort advanced desc (Z-A)", async () => {
+			it("Sort group desc (Z-A)", async () => {
 				const expectedFm = generatedFm(item.expected);
-				const result = await runTestWithFixture(
-					item.fileName,
-					ECommands.AdvancedDesc,
-				);
-				expectMarkdownEqual(result, expectedFm.advanced.descending);
+				const result = await runTestWithFixture(item.fileName, ECommands.GroupFullDesc);
+				expectMarkdownEqual(result, expectedFm.group.descending);
 			});
 		});
 	}

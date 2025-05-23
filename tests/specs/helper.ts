@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { ECommands, AlphaBulletSettings } from "../../src/interfaces";
+import { ECommands, type AlphaBulletSettings } from "../../src/interfaces";
 import {
 	EXPECT_SIMPLE_LIST,
 	EXPECT_FRONTMATTER,
@@ -11,13 +11,9 @@ import {
 	EXPECT_NATURAL_ORDER,
 	EXPECT_REVERSE_GROUP,
 } from "../fixtures";
-import { reverse } from "dns";
 
 export const manifest = JSON.parse(
-	fs.readFileSync(
-		`${path.resolve(__dirname, "..", "..", "manifest.json")}`,
-		"utf-8",
-	),
+	fs.readFileSync(`${path.resolve(__dirname, "..", "..", "manifest.json")}`, "utf-8")
 ) as { id: string; name: string; version: string };
 
 export type Options = {
@@ -30,29 +26,26 @@ export function stringifyFrontmatter(frontmatter?: Options): string {
 		"---",
 		`sml_sort: ${frontmatter.sml_sort}`,
 		`sml_descending: ${frontmatter.sml_descending}`,
-		`sml_advanced: ${frontmatter.sml_advanced}`,
+		`sml_group: ${frontmatter.sml_group}`,
 		`sml_level: ${frontmatter.sml_level}`,
 		"---",
 		"",
 	].join("\n");
 }
 
-export function generatedFm(
-	expected: Expectation,
-	frontmatter?: Options,
-): Expectation {
+export function generatedFm(expected: Expectation, frontmatter?: Options): Expectation {
 	const fm = stringifyFrontmatter(frontmatter);
 	return {
 		ascending: normalize(`${fm}${expected.ascending}`),
 		descending: normalize(`${fm}${expected.descending}`),
-		advanced: {
-			ascending: normalize(`${fm}${expected.advanced.ascending}`),
-			descending: normalize(`${fm}${expected.advanced.descending}`),
+		group: {
+			ascending: normalize(`${fm}${expected.group.ascending}`),
+			descending: normalize(`${fm}${expected.group.descending}`),
 		},
-		reverseGroup: expected.reverseGroup
+		onlyReverseItems: expected.onlyReverseItems
 			? {
-					ascending: normalize(`${fm}${expected.reverseGroup.ascending}`),
-					descending: normalize(`${fm}${expected.reverseGroup.descending}`),
+					ascending: normalize(`${fm}${expected.onlyReverseItems.ascending}`),
+					descending: normalize(`${fm}${expected.onlyReverseItems.descending}`),
 				}
 			: undefined,
 	};
@@ -64,14 +57,14 @@ export function getExpectedKey(title?: string) {
 			return "ascending";
 		case ECommands.Descending:
 			return "descending";
-		case ECommands.AdvancedAsc:
-			return "advanced.ascending";
-		case ECommands.AdvancedDesc:
-			return "advanced.descending";
-		case ECommands.GroupOnlyAsc:
-			return "reverseGroup.ascending";
-		case ECommands.GroupOnlyDesc:
-			return "reverseGroup.descending";
+		case ECommands.GroupFullAsc:
+			return "group.ascending";
+		case ECommands.GroupFullDesc:
+			return "group.descending";
+		case ECommands.GroupAscItemDesc:
+			return "onlyReverseItems.ascending";
+		case ECommands.GroupDescItemAsc:
+			return "onlyReverseItems.descending";
 		default:
 			throw new Error(`Unknown command: ${title}`);
 	}

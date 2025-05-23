@@ -41,7 +41,7 @@ describe("Negative tests", () => {
 			title: "Disabled sort",
 			sml_sort: false,
 			sml_descending: true,
-			sml_advanced: true,
+			sml_group: true,
 			sml_level: 1,
 		});
 		let error = false;
