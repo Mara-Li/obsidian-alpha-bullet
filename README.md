@@ -1,28 +1,40 @@
-# Alpha Bullet
+# AlphaBullet
 
-A simple and efficient Obsidian plugin to quickly sort your markdown lists. It sorts alphabetically based on the first word of each line, with advanced options available.
+**AlphaBullet** is a simple yet powerful Obsidian plugin that lets you sort your unordered markdown lists alphabetically — with optional grouping by initial letter.
+
+Whether you're managing notes, inventories, or worldbuilding content, keeping things clean and organized has never been easier.
 
 ## ✨ Features
 
 - Sort unordered lists alphabetically (A-Z or Z-A)
-- Advanced sorting with grouping by initial letter
-- Multi-language support (English, French)
-- Seamless integration with the Obsidian interface
+- Optional grouping by first letter (`## A`, `## B`, etc.)
+- Supports Obsidian frontmatter for auto-sorting per file
+- Multi-language support (English & French)
 
-## ⚙️ Usage
 
-1. Open the file that contains the list you want to sort.
-2. Open the command palette (<kbd>Ctrl</kbd>+<kbd>P</kbd> or <kbd>Cmd</kbd>+<kbd>P</kbd>) and search for "Alpha Bullet".
-3. Choose your preferred sorting option (ascending, descending, or advanced).
-4. The list will be sorted instantly.
+## ⚙️ How to Use
 
-## 🔧 Examples
+1. Open the note containing the list you want to sort.
+2. Open the command palette (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>P</kbd>)
+3. Search for “AlphaBullet”
+4. Choose one of the available commands:
+   - **Sort ascending**
+   - **Sort descending**
+   - **Advanced sort (with letter headers)**
+   - **Sort based on frontmatter**
+5. Your list is instantly sorted!
+
+## 🔧 Commands
+
 ### Basic Sorting
-- **Ascending**: Sorts the list items in alphabetical order (A-Z).
-- **Descending**: Sorts the list items in reverse alphabetical order (Z-A).
+- **Ascending**: A → Z
+- **Descending**: Z → A
 
 ### Advanced Sorting
-Advanced sorting groups list items under a heading for their initial letter. For example, if you have a list like this:
+Group items under a heading based on their initial letter.
+
+**Example:**
+Before:
 ```md
 Introduction
 
@@ -33,8 +45,10 @@ Some text.
 
 - Zebra: black and white
 - Cat: furry
-```
-It will be sorted like this:
+````
+
+After:
+
 ```md
 Introduction
 
@@ -51,10 +65,13 @@ Some text.
 - Zebra: black and white
 ```
 
-### Frontmatter Support
-You can configure sorting options directly in your note's frontmatter, allowing seamless interaction with other plugins (such as Linter, Macros, etc.) by using the `Sort based on frontmatter` command.
+## 🛠 Frontmatter Support
 
-**Example frontmatter:**
+You can configure how lists are sorted using YAML frontmatter in your notes.
+This allows seamless integration with other tools like Linter, Macros, Dataview, etc.
+
+**Example:**
+
 ```yaml
 ---
 sml_sort: true
@@ -64,51 +81,49 @@ sml_level: 2
 ---
 ```
 
+**Available keys:**
+
+* `sml_sort`: Enable/disable sorting
+* `sml_descending`: Reverse sort order
+* `sml_advanced`: Group items by letter
+* `sml_level`: Heading level (1 to 6)
+
 > [!TIP]
-> The plugin's settings let you define default values if no frontmatter keys are found.
+> You can also define default behavior globally in the plugin settings.
 
-**Supported frontmatter keys:**
-- `sml_sort`: Enable or disable sorting for the list. (`true` or `false`)
-- `sml_descending`: Sort the list in descending order. (`true` or `false`)
-- `sml_advanced`: Group items by their initial letter. (`true` or `false`)
-- `sml_level`: Heading level for grouping (number between 1 and 6).
+## 📦 Installation
 
-## 📥 Installation
+* [ ] Available via Obsidian’s Community Plugins (coming soon)
+* [x] Via [BRAT](https://github.com/TfTHacker/obsidian42-brat) using:
+  `https://github.com/Mara-Li/obsidian-alpha-bullet`
+* [x] Manual install:
+  1. Download the latest release
+  2. Unzip the `alpha-bullet.zip` to your `.obsidian/plugins/` folder
+  3. Reload Obsidian and enable the plugin in settings
 
-- [ ] From Obsidian's community plugins
-- [x] Using BRAT with `https://github.com/Mara-Li/obsidian-list-sort`
-- [x] From the release page:
-    - Download the latest release
-    - Unzip `sort-markdown-list.zip` into your `.obsidian/plugins/` folder
-    - In Obsidian settings, reload the plugin
-    - Enable the plugin
+## 🌐 Languages
 
-## 🌍 Languages
+* [x] English
+* [x] French
 
-- [x] English
-- [x] French
+Want to help translate? Here’s how:
+1. Fork the repo
+2. Add your translation in `src/i18n/locales/<lang>.json`
+3. Edit `i18n/i18next.ts` to import and register the new locale
 
-To add a translation:
-1. Fork the repository
-2. Add the translation in the `src/i18n/locales` folder (e.g., `fr.json`).
-    - You can get your locale language from Obsidian using [obsidian translation](https://github.com/obsidianmd/obsidian-translations) or with `<% tp.obsidian.moment.locale() %>`
-    - Copy the content of [`en.json`](./src/i18n/locales/en.json) into the new file
-    - Translate the content
-3. Edit `i18n/i18next.ts`:
-    - Add `import * as <lang> from "./locales/<lang>.json";`
-    - Add to the `resource` section: `<lang>: {translation: <lang>}`
+> Use [obsidian-translations](https://github.com/obsidianmd/obsidian-translations) or `tp.obsidian.moment.locale()` to find your language code.
 
-## 💬 Support & Contributions
+## 🙋 Support & Contributions
 
-For questions, suggestions, or bug reports, open an issue on [GitHub](https://github.com/Mara-Li/obsidian-list-sort/issues).
+Found a bug? Want a new feature?
+Open an issue or pull request on [GitHub](https://github.com/Mara-Li/obsidian-list-sort/issues).
 
-Contributions are welcome!
+> [!NOTE]
+> English is not my native language — feel free to correct mistakes!
+> However, please submit issues in English so everyone can benefit from the discussion.
 
-> [!WARNING]
-> English is not my native language, so if you find any mistakes, please let me know!
-> Also, issue must be in English, please! I will not answer in other languages, even if I understand them. I think it is better for everyone to use English for the sake of references and future readers.
-> Thank you for your understanding!
+## ❤️ Credits & Thanks
 
----
-## Credits & Acknowledgements
-- [Jesse Hines](https://github.com/jesse-r-s-hines/wdio-obsidian-service) for wdio obsidian service, that finally made me able to test the plugin in a real obsidian environment automatically. It mean a lot for a QA tester like me!
+Special thanks to [Jesse Hines](https://github.com/jesse-r-s-hines/wdio-obsidian-service) for the [wdio-obsidian-service](https://github.com/jesse-r-s-hines/wdio-obsidian-service), which allowed me to test this plugin inside a real Obsidian vault — a dream come true for a QA engineer like me!
+
+
