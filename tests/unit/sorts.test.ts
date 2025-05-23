@@ -8,6 +8,7 @@ import {
 	EXPECT_SIMPLE_LIST,
 	EXPECT_FRONTMATTER,
 	type Expectation,
+	EXPECT_NATURAL_ORDER,
 } from "../fixtures";
 
 function loadFixture(name: string): string {
@@ -24,11 +25,11 @@ function testAllListTypes(input: string, expected: Expectation) {
 		const inputList = input.replace(/^- /gm, `${type} `);
 		const alphaExpected = expected.ascending.replace(/^- /gm, `${type} `);
 		const withTitleExpected = expected.advanced.replace(/^- /gm, `${type} `);
-		const alphaExpectedReverse = expected.advancedAsc.replace(
+		const alphaExpectedReverse = expected.descending.replace(
 			/^- /gm,
 			`${type} `,
 		);
-		const withTitleExpectedReverse = expected.AdvancedDesc.replace(
+		const withTitleExpectedReverse = expected.advancedDesc.replace(
 			/^- /gm,
 			`${type} `,
 		);
@@ -40,9 +41,7 @@ function testAllListTypes(input: string, expected: Expectation) {
 			expect(sort.sortByLetter(inputList)).toEqual(withTitleExpected);
 		});
 		test(`Replace: ascending advanced (${type})`, () => {
-			expect(sort.cleanSortByGroup(inputList)).toEqual(
-				withTitleExpected,
-			);
+			expect(sort.cleanSortByGroup(inputList)).toEqual(withTitleExpected);
 		});
 
 		// Tests inversés
@@ -85,6 +84,11 @@ describe("accents_case", () => {
 describe("with_frontmatter", () => {
 	const input = loadFixture("with_frontmatter.md");
 	testAllListTypes(input, EXPECT_FRONTMATTER);
+});
+
+describe("natural_sort", () => {
+	const input = loadFixture("natural_order.md");
+	testAllListTypes(input, EXPECT_NATURAL_ORDER);
 });
 
 describe("Verify heading level", () => {

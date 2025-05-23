@@ -2,7 +2,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { ECommands, AlphaBulletSettings } from "../../src/interfaces";
+import { ECommands, Alphtype aBulletSettings } from "../../src/interfaces";
 import {
 	EXPECT_SIMPLE_LIST,
 	EXPECT_FRONTMATTER,
@@ -40,9 +40,9 @@ export function generatedFm(expected: Expectation, frontmatter?: Options) {
 	const fm = stringifyFrontmatter(frontmatter);
 	return {
 		alpha: normalize(`${fm}${expected.ascending}`),
-		alphaReverse: normalize(`${fm}${expected.advancedAsc}`),
+		alphaReverse: normalize(`${fm}${expected.descending}`),
 		withTitle: normalize(`${fm}${expected.advanced}`),
-		withTitleReverse: normalize(`${fm}${expected.AdvancedDesc}`),
+		withTitleReverse: normalize(`${fm}${expected.advancedDesc}`),
 	};
 }
 

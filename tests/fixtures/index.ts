@@ -1,8 +1,8 @@
 export interface Expectation {
 	ascending: string;
 	advanced: string;
-	advancedAsc: string;
-	AdvancedDesc: string;
+	descending: string;
+	advancedDesc: string;
 }
 
 export const EXPECT_SIMPLE_LIST: Expectation = {
@@ -20,13 +20,13 @@ export const EXPECT_SIMPLE_LIST: Expectation = {
 		"- Magic: wand",
 		"  - sub: spell",
 	].join("\n"),
-	advancedAsc: [
+	descending: [
 		"- Magic: wand",
 		"  - sub: spell",
 		"- Arcane: book",
 		"  - sub: page",
 	].join("\n"),
-	AdvancedDesc: [
+	advancedDesc: [
 		"## M",
 		"- Magic: wand",
 		"  - sub: spell",
@@ -56,7 +56,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Zebra: animal",
 		"  - sub: stripes",
 	].join("\n"),
-	advancedAsc: [
+	descending: [
 		"- Zebra: animal",
 		"  - sub: stripes",
 		"- Banana: fruit",
@@ -64,7 +64,7 @@ export const EXPECT_FRUITS_ANIMALS: Expectation = {
 		"- Apple: fruit",
 		"  - sub: red",
 	].join("\n"),
-	AdvancedDesc: [
+	advancedDesc: [
 		"## Z",
 		"- Zebra: animal",
 		"  - sub: stripes",
@@ -104,7 +104,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"## Z",
 		"- Zebra: black and white",
 	].join("\n"),
-	advancedAsc: [
+	descending: [
 		"Introduction",
 		"",
 		"- Banana: yellow",
@@ -115,7 +115,7 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 		"- Zebra: black and white",
 		"- Cat: furry",
 	].join("\n"),
-	AdvancedDesc: [
+	advancedDesc: [
 		"Introduction",
 		"",
 		"## B",
@@ -135,8 +135,8 @@ export const EXPECT_MIXED_CONTENT: Expectation = {
 export const EXPECT_ACCENTS_CASE: Expectation = {
 	ascending: ["- Été: été", "- Zèbre: animal"].join("\n"),
 	advanced: ["## E", "- Été: été", "## Z", "- Zèbre: animal"].join("\n"),
-	advancedAsc: ["- Zèbre: animal", "- Été: été"].join("\n"),
-	AdvancedDesc: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join("\n"),
+	descending: ["- Zèbre: animal", "- Été: été"].join("\n"),
+	advancedDesc: ["## Z", "- Zèbre: animal", "## E", "- Été: été"].join("\n"),
 };
 
 const FRONTMATTER_TEST = [
@@ -153,6 +153,13 @@ const FRONTMATTER_TEST = [
 export const EXPECT_FRONTMATTER: Expectation = {
 	ascending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.ascending,
 	advanced: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advanced,
-	advancedAsc: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advancedAsc,
-	AdvancedDesc: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.AdvancedDesc,
+	descending: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.descending,
+	advancedDesc: FRONTMATTER_TEST + EXPECT_MIXED_CONTENT.advancedDesc,
+};
+
+export const EXPECT_NATURAL_ORDER: Expectation = {
+	ascending: ["- item1", "- item2", "- item10"].join("\n"),
+	advanced: ["## I", "- item1", "- item2", "- item10"].join("\n"),
+	descending: ["- item10", "- item2", "- item1"].join("\n"),
+	advancedDesc: ["## I", "- item10", "- item2", "- item1"].join("\n"),
 };

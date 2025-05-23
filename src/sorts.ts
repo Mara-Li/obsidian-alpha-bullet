@@ -41,11 +41,21 @@ export class BulletSort {
 	}
 
 	private sortBlocks(blocks: string[][], reverse: boolean): string[][] {
-		return blocks.sort((a, b) =>
-			reverse
-				? this.getSortableText(b[0]).localeCompare(this.getSortableText(a[0]))
-				: this.getSortableText(a[0]).localeCompare(this.getSortableText(b[0])),
-		);
+		return blocks.sort((a, b) => {
+			const collator = new Intl.Collator(undefined, {
+				numeric: true,
+				sensitivity: "base",
+			});
+			return reverse
+				? collator.compare(
+						this.getSortableText(b[0]),
+						this.getSortableText(a[0]),
+					)
+				: collator.compare(
+						this.getSortableText(a[0]),
+						this.getSortableText(b[0]),
+					);
+		});
 	}
 
 	sort(markdown: string, reverse = false): string {
