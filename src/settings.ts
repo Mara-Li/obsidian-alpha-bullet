@@ -30,7 +30,7 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 		- \`sml_advanced\` *(\`boolean\`)*: ${i18next.t("settings.advanced")}
 		- \`sml_level\` *(\`number\`)* : ${i18next.t("settings.level")}
 		- \`sml_sort\` *(\`boolean\`)* : ${i18next.t("settings.disable")}
-		`);
+		- \`sml_advanced_group_only\` *(\`boolean\`)*: `);
 
 		await MarkdownRenderer.render(
 			this.app,

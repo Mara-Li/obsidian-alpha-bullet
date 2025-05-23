@@ -149,7 +149,15 @@ export class BulletSort {
 		return this.sort(this.cleanLines(content), reverse);
 	}
 
-	cleanSortByGroup(content: string, reverse = false): string {
-		return this.sortByLetter(this.cleanLines(content), reverse);
+	cleanSortByGroup(
+		content: string,
+		reverse = false,
+		reverseGroupsOnly?: boolean,
+	): string {
+		return this.sortByLetter(
+			this.cleanLines(content),
+			reverse,
+			reverseGroupsOnly,
+		);
 	}
 }
