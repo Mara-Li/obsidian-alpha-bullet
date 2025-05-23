@@ -34,30 +34,28 @@ function testAllListTypes(input: string, expected: Expectation) {
 		);
 
 		test(`ascending (${type})`, () => {
-			expect(sort.sortAlphabetical(inputList)).toEqual(alphaExpected);
+			expect(sort.sort(inputList)).toEqual(alphaExpected);
 		});
 		test(`ascending advanced (${type})`, () => {
-			expect(sort.alphabeticalWithTitle(inputList)).toEqual(withTitleExpected);
+			expect(sort.sortByLetter(inputList)).toEqual(withTitleExpected);
 		});
 		test(`Replace: ascending advanced (${type})`, () => {
-			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toEqual(
+			expect(sort.cleanSortByGroup(inputList)).toEqual(
 				withTitleExpected,
 			);
 		});
 
 		// Tests inversés
 		test(`descending (${type})`, () => {
-			expect(sort.sortAlphabetical(inputList, true)).toEqual(
-				alphaExpectedReverse,
-			);
+			expect(sort.sort(inputList, true)).toEqual(alphaExpectedReverse);
 		});
 		test(`descending advanced (${type})`, () => {
-			expect(sort.alphabeticalWithTitle(inputList, true)).toEqual(
+			expect(sort.sortByLetter(inputList, true)).toEqual(
 				withTitleExpectedReverse,
 			);
 		});
 		test(`replace: descending advanced (${type})`, () => {
-			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList, true)).toEqual(
+			expect(sort.cleanSortByGroup(inputList, true)).toEqual(
 				withTitleExpectedReverse,
 			);
 		});

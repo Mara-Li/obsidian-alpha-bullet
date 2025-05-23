@@ -1,6 +1,6 @@
 import "uniformize";
 
-const MARKDOWN_PREFIX = /^[\*+-] /;
+const MARKDOWN_PREFIX = /^[*+-] /;
 const TITLE_PREFIX = /^#+ /;
 
 export class BulletSort {
@@ -48,7 +48,7 @@ export class BulletSort {
 		);
 	}
 
-	sortAlphabetical(markdown: string, reverse = false): string {
+	sort(markdown: string, reverse = false): string {
 		const lines = markdown.split("\n");
 		const result: string[] = [];
 
@@ -67,7 +67,7 @@ export class BulletSort {
 		return result.join("\n");
 	}
 
-	alphabeticalWithTitle(markdown: string, reverse = false): string {
+	sortByLetter(markdown: string, reverse = false): string {
 		const lines = markdown.split("\n");
 		const result: string[] = [];
 
@@ -114,45 +114,6 @@ export class BulletSort {
 		return result.join("\n");
 	}
 
-	toggleAlphaListWithTitleOrder(markdown: string): string {
-		const lines = markdown.split("\n");
-		const sections: { title: string; content: string[] }[] = [];
-
-		let i = 0;
-		while (i < lines.length) {
-			if (lines[i].match(TITLE_PREFIX)) {
-				const title = lines[i++];
-				const content: string[] = [];
-
-				while (i < lines.length && !lines[i].match(TITLE_PREFIX)) {
-					content.push(lines[i++]);
-				}
-
-				sections.push({ title, content });
-			} else {
-				const content: string[] = [];
-
-				while (i < lines.length && !lines[i].match(TITLE_PREFIX)) {
-					content.push(lines[i++]);
-				}
-
-				if (content.length > 0) {
-					sections.push({ title: "", content });
-				}
-			}
-		}
-
-		const titles = sections
-			.filter((s) => s.title)
-			.map((s) => s.title.replace(TITLE_PREFIX, "").trim().toUpperCase());
-
-		const isAscending = titles.join("") <= [...titles].sort().join("");
-
-		return (isAscending ? sections.reverse() : sections.slice().reverse())
-			.map((s) => (s.title ? s.title + "\n" : "") + s.content.join("\n"))
-			.join("\n");
-	}
-
 	private cleanLines(content: string): string {
 		const lines = content.split("\n");
 		return lines
@@ -165,14 +126,11 @@ export class BulletSort {
 			.join("\n");
 	}
 
-	replaceAlphaListInMarkdown(content: string, reverse = false): string {
-		return this.sortAlphabetical(this.cleanLines(content), reverse);
+	cleanSort(content: string, reverse = false): string {
+		return this.sort(this.cleanLines(content), reverse);
 	}
 
-	replaceAlphaListWithTitleInMarkdown(
-		content: string,
-		reverse = false,
-	): string {
-		return this.alphabeticalWithTitle(this.cleanLines(content), reverse);
+	cleanSortByGroup(content: string, reverse = false): string {
+		return this.sortByLetter(this.cleanLines(content), reverse);
 	}
 }

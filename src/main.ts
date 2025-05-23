@@ -55,11 +55,8 @@ export default class AlphaBullet extends Plugin {
 		const content = await this.app.vault.read(file);
 		const sort = new BulletSort(options.sml_level);
 		if (options.sml_advanced)
-			return sort.replaceAlphaListWithTitleInMarkdown(
-				content,
-				options.sml_descending,
-			);
-		return sort.replaceAlphaListInMarkdown(content, options.sml_descending);
+			return sort.cleanSortByGroup(content, options.sml_descending);
+		return sort.cleanSort(content, options.sml_descending);
 	}
 
 	async onload() {
@@ -86,7 +83,7 @@ export default class AlphaBullet extends Plugin {
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							return this.sorts.replaceAlphaListInMarkdown(content);
+							return this.sorts.cleanSort(content);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
@@ -108,10 +105,7 @@ export default class AlphaBullet extends Plugin {
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							return this.sorts.replaceAlphaListWithTitleInMarkdown(
-								content,
-								false,
-							);
+							return this.sorts.cleanSortByGroup(content, false);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
@@ -133,7 +127,7 @@ export default class AlphaBullet extends Plugin {
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							return this.sorts.replaceAlphaListInMarkdown(content, true);
+							return this.sorts.cleanSort(content, true);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
@@ -155,10 +149,7 @@ export default class AlphaBullet extends Plugin {
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							return this.sorts.replaceAlphaListWithTitleInMarkdown(
-								content,
-								true,
-							);
+							return this.sorts.cleanSortByGroup(content, true);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
