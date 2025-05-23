@@ -8,7 +8,10 @@ import {
 	EXPECT_FRUITS_ANIMALS,
 	EXPECT_MIXED_CONTENT,
 	EXPECT_ACCENTS_CASE,
+	EXPECT_NATURAL_ORDER,
+	EXPECT_REVERSE_GROUP,
 } from "../fixtures";
+import { reverse } from "dns";
 
 export const manifest = JSON.parse(
 	fs.readFileSync(
@@ -34,26 +37,41 @@ export function stringifyFrontmatter(frontmatter?: Options): string {
 	].join("\n");
 }
 
-export function generatedFm(expected: Expectation, frontmatter?: Options) {
+export function generatedFm(
+	expected: Expectation,
+	frontmatter?: Options,
+): Expectation {
 	const fm = stringifyFrontmatter(frontmatter);
 	return {
-		alpha: normalize(`${fm}${expected.ascending}`),
-		alphaReverse: normalize(`${fm}${expected.descending}`),
-		withTitle: normalize(`${fm}${expected.advanced}`),
-		withTitleReverse: normalize(`${fm}${expected.advancedDesc}`),
+		ascending: normalize(`${fm}${expected.ascending}`),
+		descending: normalize(`${fm}${expected.descending}`),
+		advanced: {
+			ascending: normalize(`${fm}${expected.advanced.ascending}`),
+			descending: normalize(`${fm}${expected.advanced.descending}`),
+		},
+		reverseGroup: expected.reverseGroup
+			? {
+					ascending: normalize(`${fm}${expected.reverseGroup.ascending}`),
+					descending: normalize(`${fm}${expected.reverseGroup.descending}`),
+				}
+			: undefined,
 	};
 }
 
 export function getExpectedKey(title?: string) {
 	switch (title) {
 		case ECommands.Ascending:
-			return "alpha";
+			return "ascending";
 		case ECommands.Descending:
-			return "alphaReverse";
+			return "descending";
 		case ECommands.AdvancedAsc:
-			return "withTitle";
+			return "advanced.ascending";
 		case ECommands.AdvancedDesc:
-			return "withTitleReverse";
+			return "advanced.descending";
+		case ECommands.GroupOnlyAsc:
+			return "reverseGroup.ascending";
+		case ECommands.GroupOnlyDesc:
+			return "reverseGroup.descending";
 		default:
 			throw new Error(`Unknown command: ${title}`);
 	}
@@ -79,6 +97,14 @@ export const expecteds = [
 	{
 		fileName: "with_frontmatter.md",
 		expected: EXPECT_FRONTMATTER,
+	},
+	{
+		fileName: "natural_order.md",
+		expected: EXPECT_NATURAL_ORDER,
+	},
+	{
+		fileName: "reverse_group.md",
+		expected: EXPECT_REVERSE_GROUP,
 	},
 ];
 

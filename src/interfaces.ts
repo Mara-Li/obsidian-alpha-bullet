@@ -17,7 +17,8 @@ export enum ECommands {
 	Ascending = "ascending",
 	Descending = "descending",
 	AdvancedAsc = "advanced-ascending",
-	AdvancedDesc = "reverse-advanced",
+	AdvancedDesc = "advanced-descending",
 	AutoOnFrontmatter = "auto-on-frontmatter",
-	ReverseGroupOnly = "reverse-advanced-group-only",
+	GroupOnlyAsc = "group-only-ascending",
+	GroupOnlyDesc = "group-only-descending",
 }

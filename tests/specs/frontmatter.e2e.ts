@@ -110,7 +110,29 @@ describe("Automated frontmatter sort", () => {
 						frontmatter,
 					);
 					const expectedKey = getExpectedKey(frontmatter.title);
-					expect(result).toBe(normalize(generatedExpected[expectedKey]));
+					if (expectedKey.startsWith("advanced.")) {
+						const key = expectedKey.replace("advanced.", "");
+						if (
+							key === "reverseGroup" &&
+							generatedExpected.reverseGroup?.ascending
+						) {
+							expect(result).toBe(
+								normalize(generatedExpected.reverseGroup.descending),
+							);
+						} else if (key === "ascending" || key === "descending") {
+							expect(result).toBe(
+								normalize(
+									generatedExpected.advanced[key as "ascending" | "descending"],
+								),
+							);
+						}
+					} else {
+						expect(result).toBe(
+							normalize(
+								generatedExpected[expectedKey as "ascending" | "descending"],
+							),
+						);
+					}
 				});
 			}
 		});

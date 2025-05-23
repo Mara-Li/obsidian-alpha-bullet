@@ -94,7 +94,7 @@ describe("Commands test", () => {
 					item.fileName,
 					ECommands.Ascending,
 				);
-				expectMarkdownEqual(result, expectedFm.alpha);
+				expectMarkdownEqual(result, expectedFm.ascending);
 			});
 			it("Advanced sort - ASC (A-Z)", async () => {
 				const expectedFm = generatedFm(item.expected);
@@ -102,7 +102,7 @@ describe("Commands test", () => {
 					item.fileName,
 					ECommands.AdvancedAsc,
 				);
-				expectMarkdownEqual(result, expectedFm.withTitle);
+				expectMarkdownEqual(result, expectedFm.advanced.ascending);
 			});
 			it("sort descending (Z-A)", async () => {
 				const expectedFm = generatedFm(item.expected);
@@ -110,7 +110,7 @@ describe("Commands test", () => {
 					item.fileName,
 					ECommands.Descending,
 				);
-				expectMarkdownEqual(result, expectedFm.alphaReverse);
+				expectMarkdownEqual(result, expectedFm.descending);
 			});
 			it("Sort advanced desc (Z-A)", async () => {
 				const expectedFm = generatedFm(item.expected);
@@ -118,7 +118,7 @@ describe("Commands test", () => {
 					item.fileName,
 					ECommands.AdvancedDesc,
 				);
-				expectMarkdownEqual(result, expectedFm.withTitleReverse);
+				expectMarkdownEqual(result, expectedFm.advanced.descending);
 			});
 		});
 	}

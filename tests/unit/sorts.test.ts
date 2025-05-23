@@ -9,6 +9,7 @@ import {
 	EXPECT_FRONTMATTER,
 	type Expectation,
 	EXPECT_NATURAL_ORDER,
+	EXPECT_REVERSE_GROUP,
 } from "../fixtures";
 
 function loadFixture(name: string): string {
@@ -24,12 +25,20 @@ function testAllListTypes(input: string, expected: Expectation) {
 	for (const type of types) {
 		const inputList = input.replace(/^- /gm, `${type} `);
 		const alphaExpected = expected.ascending.replace(/^- /gm, `${type} `);
-		const withTitleExpected = expected.advanced.replace(/^- /gm, `${type} `);
-		const alphaExpectedReverse = expected.descending.replace(
+		const advancedAsc = expected.advanced.ascending.replace(
 			/^- /gm,
 			`${type} `,
 		);
-		const withTitleExpectedReverse = expected.advancedDesc.replace(
+		const advancedDesc = expected.descending.replace(/^- /gm, `${type} `);
+		const withTitleExpectedReverse = expected.advanced.descending.replace(
+			/^- /gm,
+			`${type} `,
+		);
+		const groupOnlyAsc = expected.reverseGroup?.ascending.replace(
+			/^- /gm,
+			`${type} `,
+		);
+		const groupOnlyDesc = expected.reverseGroup?.descending.replace(
 			/^- /gm,
 			`${type} `,
 		);
@@ -38,15 +47,15 @@ function testAllListTypes(input: string, expected: Expectation) {
 			expect(sort.sort(inputList)).toEqual(alphaExpected);
 		});
 		test(`ascending advanced (${type})`, () => {
-			expect(sort.sortByLetter(inputList)).toEqual(withTitleExpected);
+			expect(sort.sortByLetter(inputList)).toEqual(advancedAsc);
 		});
 		test(`Replace: ascending advanced (${type})`, () => {
-			expect(sort.cleanSortByGroup(inputList)).toEqual(withTitleExpected);
+			expect(sort.cleanSortByGroup(inputList)).toEqual(advancedAsc);
 		});
 
 		// Tests inversés
 		test(`descending (${type})`, () => {
-			expect(sort.sort(inputList, true)).toEqual(alphaExpectedReverse);
+			expect(sort.sort(inputList, true)).toEqual(advancedDesc);
 		});
 		test(`descending advanced (${type})`, () => {
 			expect(sort.sortByLetter(inputList, true)).toEqual(
@@ -58,6 +67,14 @@ function testAllListTypes(input: string, expected: Expectation) {
 				withTitleExpectedReverse,
 			);
 		});
+		if (expected.reverseGroup) {
+			test(`asc group only - reverse (${type})`, () => {
+				expect(sort.sortByLetter(inputList, true, true)).toEqual(groupOnlyDesc);
+			});
+			test(`asc group only - reverse (${type})`, () => {
+				expect(sort.sortByLetter(inputList, false, true)).toEqual(groupOnlyAsc);
+			});
+		}
 	}
 }
 
@@ -89,6 +106,11 @@ describe("with_frontmatter", () => {
 describe("natural_sort", () => {
 	const input = loadFixture("natural_order.md");
 	testAllListTypes(input, EXPECT_NATURAL_ORDER);
+});
+
+describe("Reverse group", () => {
+	const input = loadFixture("reverse_group.md");
+	testAllListTypes(input, EXPECT_REVERSE_GROUP);
 });
 
 describe("Verify heading level", () => {
