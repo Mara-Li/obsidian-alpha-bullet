@@ -1,3 +1,8 @@
+## [0.1.1](https://github.com/Mara-Li/obsidian-list-sort/compare/0.1.0...0.1.1) (2025-05-23)
+### Features
+
+* glossary "item" order ([ce69c0a](https://github.com/Mara-Li/obsidian-list-sort/commit/ce69c0acd25a0a3b434ac560823cb9f3b9274a4f))
+
 ## [0.1.0](https://github.com/Mara-Li/obsidian-list-sort/compare/0.0.2...0.1.0) (2025-05-21)
 ### ⚠ BREAKING CHANGES
 
