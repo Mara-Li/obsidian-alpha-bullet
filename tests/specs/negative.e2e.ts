@@ -3,11 +3,9 @@ import { ECommands } from "../../src/interfaces";
 import { fixtures, stringifyFrontmatter, type Options } from "./helper";
 import path from "path";
 import fs from "fs";
+import { browser } from "@wdio/globals";
 async function createFixture(fixtureName: string, frontmatter?: Options) {
-	const fixtureContent = fs.readFileSync(
-		path.join(fixtures, fixtureName),
-		"utf-8",
-	);
+	const fixtureContent = fs.readFileSync(path.join(fixtures, fixtureName), "utf-8");
 	const frontmatterContent = stringifyFrontmatter(frontmatter);
 	await browser.executeObsidian(
 		async ({ app }, content, fileName, fm) => {
@@ -16,7 +14,7 @@ async function createFixture(fixtureName: string, frontmatter?: Options) {
 		},
 		fixtureContent,
 		fixtureName,
-		frontmatterContent,
+		frontmatterContent
 	);
 
 	await obsidianPage.openFile(fixtureName);
@@ -41,8 +39,9 @@ describe("Negative tests", () => {
 			title: "Disabled sort",
 			sml_sort: false,
 			sml_descending: true,
-			sml_advanced: true,
+			sml_glossary: true,
 			sml_level: 1,
+			sml_glossary_desc: false,
 		});
 		let error = false;
 		try {

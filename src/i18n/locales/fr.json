@@ -1,21 +1,58 @@
 {
-  "advanced": "Avancé",
   "commands": {
-    "advancedAlpha": "Ordre croissant avancé (A-Z)",
     "alphabetical": "Ordre croissant (A-Z)",
-    "auto": "Trié en se basant sur le frontmatter",
+    "auto": "Trier en se basant sur le frontmatter",
+    "groupAlpha": "Ordre croissant avancé (A-Z)",
+    "groupAscItemDesc": "Glossaire : Croissant (A-Z) | Articles décroissants (Z-A)",
+    "groupDescItemAsc": "Glossaire : Décroissant (Z-A) | Articles croissants (A-Z)",
     "reverse": "Ordre décroissant (Z-A)",
-    "reverseAdvanced": "Ordre décroissant avancé (Z-A)"
+    "reverseGroup": "Group: Ordre décroissant complet (Z-A)"
   },
+  "enableMenu": {
+    "desc": "Permet d'utiliser les commandes en sélectionnant une liste en mode édition",
+    "title": "Menu d'édition"
+  },
+  "frontmatter": "Frontmatter",
+  "group": "Groupe",
+  "items": "Élements de la liste",
   "keys": "clés",
-  "level": "Niveau de cap",
-  "reverse": "Inverse",
-  "settings": {
-    "advanced": "Utilisez le tri avancé (chaque lettre sera un titre)",
-    "description": "Le frontmatter permet d'utiliser automatiquement les commandes de droite en fonction de la masse de front. \nConvention lorsqu'il est utilisé avec le plugin Linter et d'autres macros.",
-    "disable": "Désactiver la commande (peut être forcée à l'aide d'autres commandes)",
-    "level": "Niveau de cap pour le tri avancé (1-6)",
-    "reverse": "Inverser l'ordre du tri (Z-A)"
+  "level": "Niveau des titres",
+  "menu": {
+    "asc": "Ordre croissant",
+    "auto": "Par le frontmatter",
+    "desc": "Ordre décroissant",
+    "glossary": {
+      "asc": {
+        "items": "Par ordre décroissant des éléments",
+        "title": "Trier en glossaire (A-Z)"
+      },
+      "desc": {
+        "items": "Par ordre croissant des éléments",
+        "title": "Trier en glossaire (Z-A)"
+      },
+      "full": "Tri complet"
+    },
+    "sortSelection": "Trier la liste"
   },
-  "sort": "Trie"
+  "reverse": "Ordre descendant",
+  "settings": {
+    "descending": {
+      "desc": "Inverse l'ordre du tri (Z-A)"
+    },
+    "description": "Le frontmatter permet d'utiliser automatiquement les bonnes commandes en se basant sur les valeurs de propriétés suivantes.",
+    "disable": {
+      "desc": "Désactive la commande \"automatique\" (les autres commandes restent utilisables)"
+    },
+    "glossary": {
+      "desc": "Crée un \"glossaire\" en groupant par la première lettre. Par défaut, groupera les éléments de liste par ordre ascendant, sauf si <code>sml_glossary_reverse</code> est utilisé.",
+      "title": "Glossaire"
+    },
+    "items": {
+      "desc": "Trie les éléments par ordre descendant quand le glossaire est utilisé."
+    },
+    "level": {
+      "desc": "Niveau des titres pour le tri en glossaire (1-6)"
+    }
+  },
+  "sort": "Tri"
 }

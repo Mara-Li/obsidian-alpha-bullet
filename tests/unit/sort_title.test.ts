@@ -1,8 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { BulletSort } from "../../src/sorts";
-import dedent from "dedent";
 
-describe("replaceAlphaListWithTitleInMarkdown", () => {
+describe("cleanSortByGroup", () => {
 	const sorter = new BulletSort(2); // heading level ##
 
 	const unorderedList = ["## Z", "+ Zèbre: animal", "## É", "+ Été: été"].join(
@@ -18,15 +17,12 @@ describe("replaceAlphaListWithTitleInMarkdown", () => {
 	);
 
 	test("from Z → A to A → Z", () => {
-		const sorted = sorter.replaceAlphaListWithTitleInMarkdown(
-			unorderedList,
-			false,
-		);
+		const sorted = sorter.cleanSortByGroup(unorderedList, false);
 		expect(normalizeNewlines(sorted)).toBe(normalizeNewlines(expectedAZ));
 	});
 
 	test("from A → Z to Z → A", () => {
-		const sorted = sorter.replaceAlphaListWithTitleInMarkdown(expectedAZ, true);
+		const sorted = sorter.cleanSortByGroup(expectedAZ, true);
 		expect(normalizeNewlines(sorted)).toBe(normalizeNewlines(expectedZA));
 	});
 });

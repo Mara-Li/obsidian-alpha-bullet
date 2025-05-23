@@ -8,6 +8,8 @@ import {
 	EXPECT_SIMPLE_LIST,
 	EXPECT_FRONTMATTER,
 	type Expectation,
+	EXPECT_NATURAL_ORDER,
+	EXPECT_REVERSE_GROUP,
 } from "../fixtures";
 
 function loadFixture(name: string): string {
@@ -23,44 +25,51 @@ function testAllListTypes(input: string, expected: Expectation) {
 	for (const type of types) {
 		const inputList = input.replace(/^- /gm, `${type} `);
 		const alphaExpected = expected.ascending.replace(/^- /gm, `${type} `);
-		const withTitleExpected = expected.advanced.replace(/^- /gm, `${type} `);
-		const alphaExpectedReverse = expected.advancedAsc.replace(
+		const groupAsc = expected.group.ascending.replace(/^- /gm, `${type} `);
+		const groupDesc = expected.descending.replace(/^- /gm, `${type} `);
+		const withTitleExpectedReverse = expected.group.descending.replace(
 			/^- /gm,
-			`${type} `,
+			`${type} `
 		);
-		const withTitleExpectedReverse = expected.AdvancedDesc.replace(
+		const groupOnlyAsc = expected.onlyReverseItems?.ascending.replace(
 			/^- /gm,
-			`${type} `,
+			`${type} `
+		);
+		const groupOnlyDesc = expected.onlyReverseItems?.descending.replace(
+			/^- /gm,
+			`${type} `
 		);
 
 		test(`ascending (${type})`, () => {
-			expect(sort.sortAlphabetical(inputList)).toEqual(alphaExpected);
+			expect(sort.sort(inputList)).toEqual(alphaExpected);
 		});
-		test(`ascending advanced (${type})`, () => {
-			expect(sort.alphabeticalWithTitle(inputList)).toEqual(withTitleExpected);
+		test(`ascending group (${type})`, () => {
+			expect(sort.sortByLetter(inputList, false, false)).toEqual(groupAsc);
 		});
-		test(`Replace: ascending advanced (${type})`, () => {
-			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList)).toEqual(
-				withTitleExpected,
-			);
+		test(`Replace: ascending group (${type})`, () => {
+			expect(sort.cleanSortByGroup(inputList, false, false)).toEqual(groupAsc);
 		});
 
 		// Tests inversés
 		test(`descending (${type})`, () => {
-			expect(sort.sortAlphabetical(inputList, true)).toEqual(
-				alphaExpectedReverse,
+			expect(sort.sort(inputList, true)).toEqual(groupDesc);
+		});
+		test(`descending group (${type})`, () => {
+			expect(sort.sortByLetter(inputList, true, true)).toEqual(withTitleExpectedReverse);
+		});
+		test(`replace: descending group (${type})`, () => {
+			expect(sort.cleanSortByGroup(inputList, true, true)).toEqual(
+				withTitleExpectedReverse
 			);
 		});
-		test(`descending advanced (${type})`, () => {
-			expect(sort.alphabeticalWithTitle(inputList, true)).toEqual(
-				withTitleExpectedReverse,
-			);
-		});
-		test(`replace: descending advanced (${type})`, () => {
-			expect(sort.replaceAlphaListWithTitleInMarkdown(inputList, true)).toEqual(
-				withTitleExpectedReverse,
-			);
-		});
+		if (expected.onlyReverseItems) {
+			test(`Only Item: ASC (group) - DESC (element) (${type})`, () => {
+				expect(sort.sortByLetter(inputList, false, true)).toEqual(groupOnlyAsc);
+			});
+			test(`Only Item : DESC (group) - ASC (element) (${type})`, () => {
+				expect(sort.sortByLetter(inputList, true, false)).toEqual(groupOnlyDesc);
+			});
+		}
 	}
 }
 
@@ -87,6 +96,16 @@ describe("accents_case", () => {
 describe("with_frontmatter", () => {
 	const input = loadFixture("with_frontmatter.md");
 	testAllListTypes(input, EXPECT_FRONTMATTER);
+});
+
+describe("natural_sort", () => {
+	const input = loadFixture("natural_order.md");
+	testAllListTypes(input, EXPECT_NATURAL_ORDER);
+});
+
+describe("Reverse group", () => {
+	const input = loadFixture("reverse_group.md");
+	testAllListTypes(input, EXPECT_REVERSE_GROUP);
 });
 
 describe("Verify heading level", () => {

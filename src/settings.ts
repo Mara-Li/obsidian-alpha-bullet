@@ -1,13 +1,7 @@
-import {
-	type App,
-	MarkdownRenderer,
-	PluginSettingTab,
-	Setting,
-} from "obsidian";
+import i18next from "i18next";
+import { type App, PluginSettingTab, Setting, sanitizeHTMLToDom } from "obsidian";
 import type { AlphaBulletSettings } from "./interfaces";
 import type AlphaBullet from "./main";
-import dedent from "dedent";
-import i18next from "i18next";
 
 export class MarkdownListSortSettings extends PluginSettingTab {
 	plugin: AlphaBullet;
@@ -22,26 +16,27 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 	async display(): Promise<void> {
 		const { containerEl } = this;
 		containerEl.empty();
-
-		const markdownDesc = dedent(`${i18next.t("settings.description")}
-		
-		<u>${i18next.t("keys")}</u>:
-		- \`sml_descending\` *(\`boolean\`)* : ${i18next.t("settings.reverse")}
-		- \`sml_advanced\` *(\`boolean\`)*: ${i18next.t("settings.advanced")}
-		- \`sml_level\` *(\`number\`)* : ${i18next.t("settings.level")}
-		- \`sml_sort\` *(\`boolean\`)* : ${i18next.t("settings.disable")}
-		`);
-
-		await MarkdownRenderer.render(
-			this.app,
-			markdownDesc,
-			containerEl,
-			"",
-			this.plugin,
-		);
+		containerEl.addClass("alpha-bullet");
 
 		new Setting(containerEl)
-			.setName(`${i18next.t("level")}`)
+			.setName(i18next.t("enableMenu.title"))
+			.setDesc(i18next.t("enableMenu.desc"))
+			.addToggle((toggle) =>
+				toggle.setValue(this.settings.enableMenu).onChange(async (value) => {
+					this.settings.enableMenu = value;
+					await this.plugin.saveSettings();
+				})
+			);
+
+		new Setting(containerEl)
+			.setName(i18next.t("frontmatter"))
+			.setHeading()
+			.setDesc(`${i18next.t("settings.description")}`);
+
+		new Setting(containerEl)
+			.setClass("p-4")
+			.setName(sanitizeHTMLToDom(`${i18next.t("level")} (<code>sml_level</code>)`))
+			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.level.desc")}`))
 			.addSlider((slider) =>
 				slider
 					.setValue(this.settings.sml_level)
@@ -50,36 +45,61 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 						this.settings.sml_level = value;
 						await this.plugin.saveSettings();
 					})
-					.setDynamicTooltip(),
+					.setDynamicTooltip()
 			);
 
 		new Setting(containerEl)
-			.setName(`${i18next.t("sort")}`)
+			.setClass("p-4")
+
+			.setName(sanitizeHTMLToDom(`${i18next.t("sort")} (<code>sml_sort</code>)`))
+			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.disable.desc")}`))
 			.addToggle((toggle) =>
 				toggle.setValue(this.settings.sml_sort).onChange(async (value) => {
 					this.settings.sml_sort = value;
 					await this.plugin.saveSettings();
-				}),
+				})
 			);
 
 		new Setting(containerEl)
-			.setName(`${i18next.t("reverse")}`)
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.settings.sml_descending)
-					.onChange(async (value) => {
-						this.settings.sml_descending = value;
-						await this.plugin.saveSettings();
-					}),
-			);
+			.setClass("p-4")
 
-		new Setting(containerEl)
-			.setName(`${i18next.t("advanced")}`)
+			.setName(sanitizeHTMLToDom(`${i18next.t("reverse")} <code>(sml_descending)</code>`))
+			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.descending.desc")}`))
 			.addToggle((toggle) =>
-				toggle.setValue(this.settings.sml_advanced).onChange(async (value) => {
-					this.settings.sml_advanced = value;
+				toggle.setValue(this.settings.sml_descending).onChange(async (value) => {
+					this.settings.sml_descending = value;
 					await this.plugin.saveSettings();
-				}),
+				})
+			);
+
+		new Setting(containerEl)
+			.setClass("p-4")
+
+			.setName(
+				sanitizeHTMLToDom(
+					`${i18next.t("settings.glossary.title")} (<code>sml_glossary</code>)`
+				)
+			)
+			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.glossary.desc")}`))
+			.addToggle((toggle) =>
+				toggle.setValue(this.settings.sml_glossary).onChange(async (value) => {
+					this.settings.sml_glossary = value;
+					await this.plugin.saveSettings();
+				})
+			);
+
+		new Setting(containerEl)
+			.setClass("p-4")
+
+			.setName(
+				sanitizeHTMLToDom(`${i18next.t("items")} (<code>sml_glossary_reverse</code>)`)
+			)
+			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.items.desc")}`))
+			.addToggle((toggle) =>
+				toggle.setValue(this.settings.sml_glossary_desc).onChange(async (value) => {
+					this.settings.sml_glossary_desc = value;
+					await this.plugin.saveSettings();
+				})
 			);
 	}
 }
