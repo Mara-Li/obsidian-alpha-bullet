@@ -12,7 +12,7 @@ export class BulletSort {
 	}
 
 	isList(line: string): boolean {
-		return line.match(MARKDOWN_PREFIX) !== null;
+		return line.match(/^\s*[*+-] /) !== null && line.split("\n").length > 1;
 	}
 
 	private getSortableText(line: string): string {

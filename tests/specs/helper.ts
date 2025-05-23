@@ -28,7 +28,7 @@ export function stringifyFrontmatter(frontmatter?: Options): string {
 		`sml_descending: ${frontmatter.sml_descending}`,
 		`sml_glossary: ${frontmatter.sml_glossary}`,
 		`sml_level: ${frontmatter.sml_level}`,
-		`sml_items_desc: ${frontmatter.sml_items_desc}`,
+		`sml_items_desc: ${frontmatter.sml_glossary_reverse}`,
 		"---",
 		"",
 	].join("\n");

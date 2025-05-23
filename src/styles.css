@@ -1,0 +1,9 @@
+.alpha-bullet code {
+	font-family: var(--font-monospace);
+}
+
+.alpha-bullet {
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	user-select: text;
+}

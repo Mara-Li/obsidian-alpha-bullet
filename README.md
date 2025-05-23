@@ -20,11 +20,11 @@ Whether you're managing notes, inventories, or worldbuilding content, keeping th
 4. Choose one of the available commands:
    - **Sort ascending**
    - **Sort descending**
-   - **Group sort (with letter as headers)** with:
+   - **Create a glossary** with:
      - Full ascending 
      - Full descending
-     - Group (aka first letter) ascending and the items ascending
-     - Group (aka first letter) descending and the items ascending
+     - Ascending with the items ascending
+     - Descending with the items ascending
    - **Sort based on frontmatter**
 5. Your list is instantly sorted!
 

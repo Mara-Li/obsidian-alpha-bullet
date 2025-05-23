@@ -4,7 +4,7 @@ export interface AlphaBulletSettings {
 	sml_descending: boolean;
 	sml_glossary: boolean;
 	sml_level: number;
-	sml_items_desc: boolean;
+	sml_glossary_reverse: boolean;
 }
 
 export const DEFAULT_SETTINGS: AlphaBulletSettings = {
@@ -12,7 +12,7 @@ export const DEFAULT_SETTINGS: AlphaBulletSettings = {
 	sml_descending: false,
 	sml_glossary: false,
 	sml_level: 1,
-	sml_items_desc: false,
+	sml_glossary_reverse: false,
 };
 
 export enum ECommands {

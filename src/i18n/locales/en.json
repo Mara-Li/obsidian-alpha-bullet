@@ -9,22 +9,45 @@
     "reverseGroup": "Group: full descending order (Z-A)"
   },
   "group": "Group",
+  "items": "Item's list",
   "keys": "keys",
   "level": "Heading level",
   "menu": {
     "asc": "Ascending",
     "auto": "By frontmatter",
     "desc": "Descending",
-    "group": "Lexicon",
+    "glossary": {
+      "asc": {
+        "items": "In descending items order",
+        "title": "Sort as glossary (A-Z)"
+      },
+      "desc": {
+        "items": "In ascening items order",
+        "title": "Sort as glossary (Z-A)"
+      },
+      "full": "Full sort"
+    },
     "sortSelection": "Sort list"
   },
-  "reverse": "Reverse",
+  "reverse": "Descending order",
   "settings": {
-    "description": " \t\tThe frontmatter allows to use automatically the right commands based on the frontmatter. Conveniant when used with the linter plugin and other macros.",
-    "disable": "Disable the command (can be forced using other commands)",
-    "group": "Create a \"glossary\" by group per initial letter.",
-    "level": "Heading level for the group sort (1-6)",
-    "reverse": "Reverse the order of the sort (Z-A)"
+    "descending": {
+      "desc": "Reverse the order of the sort (Z-A)"
+    },
+    "description": "The frontmatter allows to use automatically the right commands based on the value of the following properties :",
+    "disable": {
+      "desc": "Disables the \"automatic\" command (other commands can still be used)"
+    },
+    "glossary": {
+      "desc": "Creates a \"glossary\" by group per initial letter. By default, list's elements will be sorted by ascending order, unless <code>sml_glossary_reverse</code> is used.",
+      "title": "Glossary"
+    },
+    "items": {
+      "desc": "Sorts items in descending order when the glossary is used."
+    },
+    "level": {
+      "desc": "Heading level for the glossary sort (1-6)"
+    }
   },
   "sort": "Sort"
 }
