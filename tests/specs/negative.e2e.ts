@@ -41,7 +41,7 @@ describe("Negative tests", () => {
 			sml_descending: true,
 			sml_glossary: true,
 			sml_level: 1,
-			sml_items_desc: false,
+			sml_glossary_reverse: false,
 		});
 		let error = false;
 		try {

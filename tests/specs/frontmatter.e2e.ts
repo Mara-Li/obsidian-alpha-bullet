@@ -22,7 +22,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: false,
 		sml_glossary: false,
 		sml_level: 2,
-		sml_items_desc: false,
+		sml_glossary_reverse: false,
 	},
 	{
 		title: ECommands.Descending,
@@ -30,7 +30,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: true,
 		sml_glossary: false,
 		sml_level: 2,
-		sml_items_desc: false,
+		sml_glossary_reverse: false,
 	},
 	{
 		title: ECommands.GlossaryFullAsc,
@@ -38,7 +38,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: false,
 		sml_glossary: true,
 		sml_level: 2,
-		sml_items_desc: false,
+		sml_glossary_reverse: false,
 	},
 	{
 		title: ECommands.GlossaryFullDesc,
@@ -46,7 +46,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: true,
 		sml_glossary: true,
 		sml_level: 2,
-		sml_items_desc: true,
+		sml_glossary_reverse: true,
 	},
 	{
 		title: ECommands.GlossaryAscItemsDesc,
@@ -54,7 +54,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: false,
 		sml_glossary: true,
 		sml_level: 2,
-		sml_items_desc: true,
+		sml_glossary_reverse: true,
 	},
 	{
 		title: ECommands.GlossaryDescItemAsc,
@@ -62,7 +62,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: true,
 		sml_glossary: true,
 		sml_level: 2,
-		sml_items_desc: false,
+		sml_glossary_reverse: false,
 	},
 ];
 
