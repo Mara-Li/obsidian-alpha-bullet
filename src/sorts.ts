@@ -77,7 +77,11 @@ export class BulletSort {
 		return result.join("\n");
 	}
 
-	sortByLetter(markdown: string, reverse = false): string {
+	sortByLetter(
+		markdown: string,
+		reverse = false,
+		reverseGroupsOnly = false,
+	): string {
 		const lines = markdown.split("\n");
 		const result: string[] = [];
 
@@ -106,11 +110,16 @@ export class BulletSort {
 				}
 
 				const sortedKeys = Array.from(groups.keys()).sort((a, b) =>
-					reverse ? b.localeCompare(a) : a.localeCompare(b),
+					reverse || reverseGroupsOnly
+						? b.localeCompare(a)
+						: a.localeCompare(b),
 				);
 
 				for (const key of sortedKeys) {
-					const blocks = this.sortBlocks(groups.get(key)!, reverse);
+					const blocks = this.sortBlocks(
+						groups.get(key)!,
+						reverseGroupsOnly ? false : reverse,
+					);
 					result.push(`${this.getHeading()} ${key.toUpperCase()}`);
 					result.push(...blocks.map((block) => block.join("\n")));
 				}
