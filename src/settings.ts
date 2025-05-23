@@ -27,10 +27,10 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 		
 		<u>${i18next.t("keys")}</u>:
 		- \`sml_descending\` *(\`boolean\`)* : ${i18next.t("settings.reverse")}
-		- \`sml_advanced\` *(\`boolean\`)*: ${i18next.t("settings.advanced")}
+		- \`sml_group\` *(\`boolean\`)*: ${i18next.t("settings.group")}
 		- \`sml_level\` *(\`number\`)* : ${i18next.t("settings.level")}
 		- \`sml_sort\` *(\`boolean\`)* : ${i18next.t("settings.disable")}
-		- \`sml_advanced_group_only\` *(\`boolean\`)*: `);
+		- \`sml_group_group_only\` *(\`boolean\`)*: `);
 
 		await MarkdownRenderer.render(
 			this.app,
@@ -74,10 +74,10 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName(`${i18next.t("advanced")}`)
+			.setName(`${i18next.t("group")}`)
 			.addToggle((toggle) =>
-				toggle.setValue(this.settings.sml_advanced).onChange(async (value) => {
-					this.settings.sml_advanced = value;
+				toggle.setValue(this.settings.sml_group).onChange(async (value) => {
+					this.settings.sml_group = value;
 					await this.plugin.saveSettings();
 				}),
 			);

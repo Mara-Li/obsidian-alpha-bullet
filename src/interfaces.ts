@@ -2,23 +2,23 @@
 export interface AlphaBulletSettings {
 	sml_sort: boolean;
 	sml_descending: boolean;
-	sml_advanced: boolean;
+	sml_group: boolean;
 	sml_level: number;
 }
 
 export const DEFAULT_SETTINGS: AlphaBulletSettings = {
 	sml_sort: true,
 	sml_descending: false,
-	sml_advanced: false,
+	sml_group: false,
 	sml_level: 1,
 };
 
 export enum ECommands {
 	Ascending = "ascending",
 	Descending = "descending",
-	AdvancedAsc = "advanced-ascending",
-	AdvancedDesc = "advanced-descending",
+	GroupFullAsc = "group-full-ascending",
+	GroupFullDesc = "group-full-descending",
 	AutoOnFrontmatter = "auto-on-frontmatter",
-	GroupOnlyAsc = "group-only-ascending",
-	GroupOnlyDesc = "group-only-descending",
+	GroupAscItemDesc = "group-asc-item-desc",
+	GroupDescItemAsc = "group-desc-item-asc",
 }

@@ -20,10 +20,7 @@ export class BulletSort {
 	}
 
 	// Extrait un groupe de blocs markdown (avec sous-lignes indentées)
-	private extractListBlocks(
-		lines: string[],
-		start: number,
-	): [number, string[][]] {
+	private extractListBlocks(lines: string[], start: number): [number, string[][]] {
 		const blocks: string[][] = [];
 		let i = start;
 
@@ -47,14 +44,8 @@ export class BulletSort {
 				sensitivity: "base",
 			});
 			return reverse
-				? collator.compare(
-						this.getSortableText(b[0]),
-						this.getSortableText(a[0]),
-					)
-				: collator.compare(
-						this.getSortableText(a[0]),
-						this.getSortableText(b[0]),
-					);
+				? collator.compare(this.getSortableText(b[0]), this.getSortableText(a[0]))
+				: collator.compare(this.getSortableText(a[0]), this.getSortableText(b[0]));
 		});
 	}
 
@@ -77,11 +68,7 @@ export class BulletSort {
 		return result.join("\n");
 	}
 
-	sortByLetter(
-		markdown: string,
-		reverse = false,
-		reverseGroupsOnly = false,
-	): string {
+	sortByLetter(markdown: string, reverseGroup = false, reverseItems = false): string {
 		const lines = markdown.split("\n");
 		const result: string[] = [];
 
@@ -110,18 +97,13 @@ export class BulletSort {
 				}
 
 				const sortedKeys = Array.from(groups.keys()).sort((a, b) =>
-					reverse || reverseGroupsOnly
-						? b.localeCompare(a)
-						: a.localeCompare(b),
+					reverseGroup ? b.localeCompare(a) : a.localeCompare(b)
 				);
 
 				for (const key of sortedKeys) {
-					const blocks = this.sortBlocks(
-						groups.get(key)!,
-						reverseGroupsOnly ? false : reverse,
-					);
+					const sortedBlocks = this.sortBlocks(groups.get(key)!, reverseItems);
 					result.push(`${this.getHeading()} ${key.toUpperCase()}`);
-					result.push(...blocks.map((block) => block.join("\n")));
+					result.push(...sortedBlocks.map((block) => block.join("\n")));
 				}
 
 				i = end;
@@ -151,13 +133,9 @@ export class BulletSort {
 
 	cleanSortByGroup(
 		content: string,
-		reverse = false,
-		reverseGroupsOnly?: boolean,
+		reverseGroup = false,
+		reverseItems?: boolean
 	): string {
-		return this.sortByLetter(
-			this.cleanLines(content),
-			reverse,
-			reverseGroupsOnly,
-		);
+		return this.sortByLetter(this.cleanLines(content), reverseGroup, reverseItems);
 	}
 }

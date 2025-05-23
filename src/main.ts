@@ -2,11 +2,7 @@
 import i18next from "i18next";
 import { Plugin, type TFile } from "obsidian";
 import { resources, translationLanguage } from "./i18n";
-import {
-	DEFAULT_SETTINGS,
-	ECommands,
-	type AlphaBulletSettings,
-} from "./interfaces";
+import { DEFAULT_SETTINGS, ECommands, type AlphaBulletSettings } from "./interfaces";
 import { BulletSort } from "./sorts";
 import { MarkdownListSortSettings } from "./settings";
 
@@ -32,30 +28,20 @@ export default class AlphaBullet extends Plugin {
 		const frontmatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
 		if (!frontmatter) return this.settings;
 		return {
-			sml_sort: this.convertStrToBool(
-				this.settings.sml_sort,
-				frontmatter.sml_sort,
-			),
+			sml_sort: this.convertStrToBool(this.settings.sml_sort, frontmatter.sml_sort),
 			sml_descending: this.convertStrToBool(
 				this.settings.sml_descending,
-				frontmatter.sml_descending,
+				frontmatter.sml_descending
 			),
-			sml_advanced: this.convertStrToBool(
-				this.settings.sml_advanced,
-				frontmatter.sml_advanced,
-			),
-			sml_level: this.levelNumber(
-				this.settings.sml_level,
-				frontmatter.sml_level,
-			),
+			sml_group: this.convertStrToBool(this.settings.sml_group, frontmatter.sml_group),
+			sml_level: this.levelNumber(this.settings.sml_level, frontmatter.sml_level),
 		};
 	}
 
 	async chooseCommands(file: TFile, options: AlphaBulletSettings) {
 		const content = await this.app.vault.read(file);
 		const sort = new BulletSort(options.sml_level);
-		if (options.sml_advanced)
-			return sort.cleanSortByGroup(content, options.sml_descending);
+		if (options.sml_group) return sort.cleanSortByGroup(content, options.sml_descending);
 		return sort.cleanSort(content, options.sml_descending);
 	}
 
@@ -95,17 +81,17 @@ export default class AlphaBullet extends Plugin {
 			},
 		});
 
-		//command 2: Sort "advanced" with title as letter
+		//command 2: Sort "group" with title as letter - ASC
 		this.addCommand({
-			id: ECommands.AdvancedAsc,
-			name: i18next.t("commands.advancedAlpha"),
+			id: ECommands.GroupFullAsc,
+			name: i18next.t("commands.groupAlpha"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							return this.sorts.cleanSortByGroup(content, false);
+							return this.sorts.cleanSortByGroup(content, false, false);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
@@ -139,17 +125,39 @@ export default class AlphaBullet extends Plugin {
 			},
 		});
 
-		//command 4: sort reverse with title as letter
+		//command 4: Full reverse with title as letter
 		this.addCommand({
-			id: ECommands.AdvancedDesc,
-			name: i18next.t("commands.reverseAdvanced"),
+			id: ECommands.GroupFullDesc,
+			name: i18next.t("commands.reverseGroup"),
 			checkCallback: (checking: boolean) => {
 				const file = this.app.workspace.getActiveFile();
 				const fileIsMarkdownOpened = file?.extension === "md";
 				if (file && fileIsMarkdownOpened) {
 					if (!checking) {
 						const content = this.app.vault.read(file).then((content) => {
-							return this.sorts.cleanSortByGroup(content, true);
+							return this.sorts.cleanSortByGroup(content, true, true);
+						});
+						content.then((content) => {
+							this.app.vault.modify(file, content);
+						});
+					}
+					return true;
+				}
+				return false;
+			},
+		});
+
+		//command 6: group ASC Letters - DESC Items
+		this.addCommand({
+			id: ECommands.GroupAscItemDesc,
+			name: i18next.t("commands.groupAscItemDesc"),
+			checkCallback: (checking: boolean) => {
+				const file = this.app.workspace.getActiveFile();
+				const fileIsMarkdownOpened = file?.extension === "md";
+				if (file && fileIsMarkdownOpened) {
+					if (!checking) {
+						const content = this.app.vault.read(file).then((content) => {
+							return this.sorts.cleanSortByGroup(content, false, true);
 						});
 						content.then((content) => {
 							this.app.vault.modify(file, content);
