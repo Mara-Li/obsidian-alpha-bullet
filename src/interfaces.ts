@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/style/useNamingConvention: pythonic frontmatter key */
-export interface AlphaBulletSettings {
+export interface AlphaBulletFrontmatter {
 	sml_sort: boolean;
 	sml_descending: boolean;
 	sml_glossary: boolean;
@@ -7,12 +7,17 @@ export interface AlphaBulletSettings {
 	sml_glossary_reverse: boolean;
 }
 
+export type AlphaBulletSettings = {
+	enableMenu: boolean;
+} & AlphaBulletFrontmatter;
+
 export const DEFAULT_SETTINGS: AlphaBulletSettings = {
 	sml_sort: true,
 	sml_descending: false,
 	sml_glossary: false,
 	sml_level: 1,
 	sml_glossary_reverse: false,
+	enableMenu: true,
 };
 
 export enum ECommands {

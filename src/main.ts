@@ -2,7 +2,12 @@
 import i18next from "i18next";
 import { Plugin, TFile } from "obsidian";
 import { resources, translationLanguage } from "./i18n";
-import { DEFAULT_SETTINGS, ECommands, type AlphaBulletSettings } from "./interfaces";
+import {
+	DEFAULT_SETTINGS,
+	ECommands,
+	type AlphaBulletFrontmatter,
+	type AlphaBulletSettings,
+} from "./interfaces";
 import { MarkdownListSortSettings } from "./settings";
 import { BulletSort } from "./sorts";
 
@@ -24,7 +29,7 @@ export default class AlphaBullet extends Plugin {
 		return isNaN(num) ? defaultValue : num;
 	}
 
-	readFrontmatter(file: TFile): AlphaBulletSettings {
+	readFrontmatter(file: TFile): AlphaBulletFrontmatter {
 		const frontmatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
 		if (!frontmatter) return this.settings;
 		return {
@@ -40,12 +45,12 @@ export default class AlphaBullet extends Plugin {
 			sml_level: this.levelNumber(this.settings.sml_level, frontmatter.sml_level),
 			sml_glossary_reverse: this.convertStrToBool(
 				this.settings.sml_glossary_reverse,
-				frontmatter.sml_items_desc
+				frontmatter.sml_glossary_reverse
 			),
 		};
 	}
 
-	private async chooseCommands(file: TFile | string, options: AlphaBulletSettings) {
+	private async chooseCommands(file: TFile | string, options: AlphaBulletFrontmatter) {
 		const content = file instanceof TFile ? await this.app.vault.read(file) : file;
 		const sort = new BulletSort(options.sml_level);
 		if (options.sml_glossary)
@@ -232,7 +237,8 @@ export default class AlphaBullet extends Plugin {
 				const selection = editor.getSelection();
 				const frontmatter = this.app.metadataCache.getFileCache(view.file)?.frontmatter;
 				//if no selection or not a list, return
-				if (!selection || !this.sorts.isList(selection)) return;
+				if (!selection || !this.sorts.isList(selection) || !this.settings.enableMenu)
+					return;
 				menu.addItem((item) => {
 					item.setTitle(i18next.t("menu.sortSelection"));
 					item.setIcon("arrow-down-up");
