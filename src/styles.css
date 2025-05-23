@@ -7,3 +7,9 @@
 	-moz-user-select: text;
 	user-select: text;
 }
+
+.alpha-bullet .p-4 {
+	padding-left: 1em;
+	margin-left: 1em;
+	border-left: 1px solid var(--background-modifier-border);
+}

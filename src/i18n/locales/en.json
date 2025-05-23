@@ -8,6 +8,11 @@
     "reverse": "Descending order (Z-A)",
     "reverseGroup": "Group: full descending order (Z-A)"
   },
+  "enableMenu": {
+    "desc": "Enables commands to be used when selecting a list in edit mode",
+    "title": "Editor menu"
+  },
+  "frontmatter": "Frontmatter",
   "group": "Group",
   "items": "Item's list",
   "keys": "keys",
@@ -34,7 +39,7 @@
     "descending": {
       "desc": "Reverse the order of the sort (Z-A)"
     },
-    "description": "The frontmatter allows to use automatically the right commands based on the value of the following properties :",
+    "description": "The frontmatter allows to use automatically the right commands based on the value of the following properties.",
     "disable": {
       "desc": "Disables the \"automatic\" command (other commands can still be used)"
     },

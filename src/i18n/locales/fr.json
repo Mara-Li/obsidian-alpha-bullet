@@ -8,6 +8,11 @@
     "reverse": "Ordre décroissant (Z-A)",
     "reverseGroup": "Group: Ordre décroissant complet (Z-A)"
   },
+  "enableMenu": {
+    "desc": "Permet d'utiliser les commandes en sélectionnant une liste en mode édition",
+    "title": "Menu d'édition"
+  },
+  "frontmatter": "Frontmatter",
   "group": "Groupe",
   "items": "Élements de la liste",
   "keys": "clés",
@@ -34,7 +39,7 @@
     "descending": {
       "desc": "Inverse l'ordre du tri (Z-A)"
     },
-    "description": "Le frontmatter permet d'utiliser automatiquement les bonnes commandes en se basant sur les valeurs de propriétés suivants :",
+    "description": "Le frontmatter permet d'utiliser automatiquement les bonnes commandes en se basant sur les valeurs de propriétés suivantes.",
     "disable": {
       "desc": "Désactive la commande \"automatique\" (les autres commandes restent utilisables)"
     },

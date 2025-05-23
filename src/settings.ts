@@ -1,14 +1,7 @@
-import {
-	type App,
-	MarkdownRenderer,
-	PluginSettingTab,
-	sanitizeHTMLToDom,
-	Setting,
-} from "obsidian";
+import i18next from "i18next";
+import { type App, PluginSettingTab, Setting, sanitizeHTMLToDom } from "obsidian";
 import type { AlphaBulletSettings } from "./interfaces";
 import type AlphaBullet from "./main";
-import dedent from "dedent";
-import i18next from "i18next";
 
 export class MarkdownListSortSettings extends PluginSettingTab {
 	plugin: AlphaBullet;
@@ -25,11 +18,23 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 		containerEl.empty();
 		containerEl.addClass("alpha-bullet");
 
-		const markdownDesc = dedent(`${i18next.t("settings.description")}`);
-
-		await MarkdownRenderer.render(this.app, markdownDesc, containerEl, "", this.plugin);
+		new Setting(containerEl)
+			.setName(i18next.t("enableMenu.title"))
+			.setDesc(i18next.t("enableMenu.desc"))
+			.addToggle((toggle) =>
+				toggle.setValue(this.settings.enableMenu).onChange(async (value) => {
+					this.settings.enableMenu = value;
+					await this.plugin.saveSettings();
+				})
+			);
 
 		new Setting(containerEl)
+			.setName(i18next.t("frontmatter"))
+			.setHeading()
+			.setDesc(`${i18next.t("settings.description")}`);
+
+		new Setting(containerEl)
+			.setClass("p-4")
 			.setName(sanitizeHTMLToDom(`${i18next.t("level")} (<code>sml_level</code>)`))
 			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.level.desc")}`))
 			.addSlider((slider) =>
@@ -44,6 +49,8 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
+			.setClass("p-4")
+
 			.setName(sanitizeHTMLToDom(`${i18next.t("sort")} (<code>sml_sort</code>)`))
 			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.disable.desc")}`))
 			.addToggle((toggle) =>
@@ -54,6 +61,8 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
+			.setClass("p-4")
+
 			.setName(sanitizeHTMLToDom(`${i18next.t("reverse")} <code>(sml_descending)</code>`))
 			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.descending.desc")}`))
 			.addToggle((toggle) =>
@@ -64,6 +73,8 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
+			.setClass("p-4")
+
 			.setName(
 				sanitizeHTMLToDom(
 					`${i18next.t("settings.glossary.title")} (<code>sml_glossary</code>)`
@@ -78,6 +89,8 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
+			.setClass("p-4")
+
 			.setName(
 				sanitizeHTMLToDom(`${i18next.t("items")} (<code>sml_glossary_reverse</code>)`)
 			)
