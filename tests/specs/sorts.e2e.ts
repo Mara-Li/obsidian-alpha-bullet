@@ -14,7 +14,7 @@ import {
 import { ECommands } from "../../src/interfaces";
 import path from "node:path";
 import fs from "node:fs";
-import type { AlphaBullet } from "../../src/main";
+import type AlphaBullet from "../../src/main";
 
 export function expectMarkdownEqual(received: string, expected: string) {
 	expect(normalize(received)).toBe(normalize(expected));

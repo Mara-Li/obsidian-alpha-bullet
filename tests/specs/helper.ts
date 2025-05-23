@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { ECommands, type AlphaBulletSettings } from "../../src/interfaces";
+import { ECommands, type AlphaBulletFrontmatter } from "../../src/interfaces";
 import {
 	EXPECT_SIMPLE_LIST,
 	EXPECT_FRONTMATTER,
@@ -18,7 +18,7 @@ export const manifest = JSON.parse(
 
 export type Options = {
 	title?: ECommands | string;
-} & AlphaBulletSettings;
+} & AlphaBulletFrontmatter;
 
 export function stringifyFrontmatter(frontmatter?: Options): string {
 	if (!frontmatter) return "";
@@ -28,7 +28,7 @@ export function stringifyFrontmatter(frontmatter?: Options): string {
 		`sml_descending: ${frontmatter.sml_descending}`,
 		`sml_glossary: ${frontmatter.sml_glossary}`,
 		`sml_level: ${frontmatter.sml_level}`,
-		`sml_items_desc: ${frontmatter.sml_glossary_reverse}`,
+		`sml_glossary_reverse: ${frontmatter.sml_glossary_reverse}`,
 		"---",
 		"",
 	].join("\n");
