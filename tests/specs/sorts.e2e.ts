@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/style/useNamingConvention: snake case for frontmatter */
 
 import { obsidianPage } from "wdio-obsidian-service";
+import { browser } from "@wdio/globals";
 import {
 	expecteds,
 	fixtures,
@@ -51,14 +52,13 @@ async function runTestWithFixture(
 ) {
 	await createFixture(fixtureName, frontmatter);
 	await browser.executeObsidianCommand(`${manifest.id}:${command}`);
-	const res = await browser.executeObsidian(async ({ app, obsidian }, fileName) => {
+	return await browser.executeObsidian(async ({ app, obsidian }, fileName) => {
 		const file = app.vault.getAbstractFileByPath(fileName);
 		if (file && file instanceof obsidian.TFile) {
 			return await app.vault.read(file);
 		}
 		return "";
 	}, fixtureName);
-	return res;
 }
 
 describe("Commands test", () => {

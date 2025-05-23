@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/useNamingConvention: <explanation> */
 import { obsidianPage } from "wdio-obsidian-service";
 import {
 	expecteds,
@@ -11,6 +12,7 @@ import { ECommands } from "../../src/interfaces";
 import path from "path";
 import fs from "fs";
 import { normalize } from "./helper";
+import { browser } from "@wdio/globals";
 
 const allFrontmatterPossibles: Options[] = [
 	{
@@ -19,6 +21,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: false,
 		sml_group: false,
 		sml_level: 2,
+		sml_items_desc: false,
 	},
 	{
 		title: ECommands.Descending,
@@ -26,6 +29,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: true,
 		sml_group: false,
 		sml_level: 2,
+		sml_items_desc: false,
 	},
 	{
 		title: ECommands.GroupFullAsc,
@@ -33,6 +37,7 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: false,
 		sml_group: true,
 		sml_level: 2,
+		sml_items_desc: false,
 	},
 	{
 		title: ECommands.GroupFullDesc,
@@ -40,6 +45,23 @@ const allFrontmatterPossibles: Options[] = [
 		sml_descending: true,
 		sml_group: true,
 		sml_level: 2,
+		sml_items_desc: true,
+	},
+	{
+		title: ECommands.GroupAscItemDesc,
+		sml_sort: true,
+		sml_descending: false,
+		sml_group: true,
+		sml_level: 2,
+		sml_items_desc: true,
+	},
+	{
+		title: ECommands.GroupDescItemAsc,
+		sml_sort: true,
+		sml_descending: true,
+		sml_group: true,
+		sml_level: 2,
+		sml_items_desc: false,
 	},
 ];
 
@@ -101,19 +123,20 @@ describe("Automated frontmatter sort", () => {
 					);
 					const expectedKey = getExpectedKey(frontmatter.title);
 					if (expectedKey.startsWith("group.")) {
-						const key = expectedKey.replace("group.", "");
-						if (
-							key === "onlyReverseItems" &&
-							generatedExpected.onlyReverseItems?.ascending
-						) {
-							expect(result).toBe(
-								normalize(generatedExpected.onlyReverseItems.descending)
-							);
-						} else if (key === "ascending" || key === "descending") {
-							expect(result).toBe(
-								normalize(generatedExpected.group[key as "ascending" | "descending"])
-							);
-						}
+						const key = expectedKey.replace("group.", "") as "ascending" | "descending";
+						expect(result).toBe(
+							normalize(generatedExpected.group[key as "ascending" | "descending"])
+						);
+					} else if (expectedKey.startsWith("onlyReverseItems.")) {
+						if (!generatedExpected.onlyReverseItems) return;
+						const key = expectedKey.replace("onlyReverseItems.", "") as
+							| "ascending"
+							| "descending";
+						expect(result).toBe(
+							normalize(
+								generatedExpected.onlyReverseItems![key as "ascending" | "descending"]
+							)
+						);
 					} else {
 						expect(result).toBe(
 							normalize(generatedExpected[expectedKey as "ascending" | "descending"])
