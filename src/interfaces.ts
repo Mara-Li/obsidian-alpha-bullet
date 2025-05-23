@@ -4,7 +4,7 @@ export interface AlphaBulletFrontmatter {
 	sml_descending: boolean;
 	sml_glossary: boolean;
 	sml_level: number;
-	sml_glossary_reverse: boolean;
+	sml_glossary_desc: boolean;
 }
 
 export type AlphaBulletSettings = {
@@ -16,7 +16,7 @@ export const DEFAULT_SETTINGS: AlphaBulletSettings = {
 	sml_descending: false,
 	sml_glossary: false,
 	sml_level: 1,
-	sml_glossary_reverse: false,
+	sml_glossary_desc: false,
 	enableMenu: true,
 };
 

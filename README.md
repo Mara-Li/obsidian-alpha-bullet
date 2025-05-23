@@ -1,133 +1,106 @@
 # AlphaBullet
 
-**AlphaBullet** is a simple yet powerful Obsidian plugin that lets you sort your unordered markdown lists alphabetically — with optional grouping by initial letter.
+**AlphaBullet** is a simple yet powerful Obsidian plugin that sorts your unordered markdown lists using **natural order sorting** — with optional grouping by the initial letter.
 
-Whether you're managing notes, inventories, or worldbuilding content, keeping things clean and organized has never been easier.
+Whether you're organizing notes, inventories, glossaries, or worldbuilding content, keeping things neat and readable has never been easier.
 
 ## ✨ Features
 
-- Sort unordered lists alphabetically (A-Z or Z-A)
-- Optional grouping by first letter (`## A`, `## B`, etc.)
-- Supports Obsidian frontmatter for auto-sorting per file
+- Sort unordered lists alphabetically using **natural order** (e.g., `item2` comes before `item10`)
+- Sort in ascending (A → Z) or descending (Z → A) order
+- Optionally group items under a heading based on their first letter (`## A`, `## B`, etc.)
+- Supports YAML frontmatter for per-file auto-sorting
+- Plugin-wide default settings available
 - Multi-language support (English & French)
-
 
 ## ⚙️ How to Use
 
-1. Open the note containing the list you want to sort.
-2. Open the command palette (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>P</kbd>)
+1. Open a note containing the list you want to sort.
+2. Open the command palette (<kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>P</kbd>)
 3. Search for “AlphaBullet”
-4. Choose one of the available commands:
+4. Choose a command:
    - **Sort ascending**
    - **Sort descending**
-   - **Create a glossary** with:
-     - Full ascending 
+   - **Create glossary**, with options:
+     - Full ascending
      - Full descending
-     - Ascending with the items ascending
-     - Descending with the items ascending
+     - Ascending (groups descending, items ascending)
+     - Descending (groups descending, items ascending)
    - **Sort based on frontmatter**
-5. Your list is instantly sorted!
+5. Your list will be instantly sorted!
 
-## 🔧 Commands
+> [!TIP]
+> You can also use the editor context menu to sort a selected list!
 
-### Basic Sorting
-- **Ascending**: A → Z
-- **Descending**: Z → A
 
-### Group Sorting
-Group items under a heading based on their initial letter.
+## 🔍 Understanding "Grouping" and "Items" Sorting
 
-**Example:**
-Before:
-```md
-Introduction
+AlphaBullet uses **natural order sorting**, which means values like `item2` are placed before `item10` (unlike strict ASCII sorting).
 
-- Banana: yellow
-- Apple: green
-
-Some text.
-
-- Zebra: black and white
-- Cat: furry
-````
-
-After:
+When grouping is enabled (`group: true`), items are organized under headings based on their initial letter:
 
 ```md
-Introduction
-
 ## A
-- Apple: green
+- Apple
 ## B
-- Banana: yellow
-
-Some text.
-
-## C
-- Cat: furry
-## Z
-- Zebra: black and white
+- Banana
 ```
 
-## 🛠 Frontmatter Support
+There are two levels of sorting:
 
-You can configure how lists are sorted using YAML frontmatter in your notes.
-This allows seamless integration with other tools like Linter, Macros, Dataview, etc.
+1. **Group headings** (e.g., `## A`, `## B`) can be sorted in ascending or descending order.
+2. **Items within each group** are also sorted alphabetically.
 
-**Example:**
+> 🧠 Tricky part: The `sml_glossary_desc` setting lets you sort groups in **descending** order while keeping items inside each group sorted **ascending**.
+>
+> This is useful when creating reverse glossaries or highlighting last-letter groups first while keeping internal coherence.
+
+## 🛠 Frontmatter Configuration
+
+You can configure sorting behavior directly in your note using YAML frontmatter:
 
 ```yaml
 ---
-sml_sort: true
-sml_descending: false
-sml_group: true
-sml_level: 2
+sml_sort: true              # Enable sorting
+sml_descending: false       # Sort order: false = A→Z, true = Z→A
+sml_group: true             # Enable grouping by first letter
+sml_level: 2                # Heading level used for group titles (## = level 2)
+sml_glossary_desc: false    # Sort groups descending, but items ascending
 ---
 ```
 
-**Available keys:**
-
-* `sml_sort`: Enable/disable sorting
-* `sml_descending`: Reverse sort order
-* `sml_group`: Group items by letter
-* `sml_level`: Heading level (1 to 6)
-
-> [!TIP]
-> You can also define default behavior globally in the plugin settings.
+> 💡 You can also set these options globally via the plugin settings in Obsidian.
 
 ## 📦 Installation
 
-* [ ] Available via Obsidian’s Community Plugins (coming soon)
-* [x] Via [BRAT](https://github.com/TfTHacker/obsidian42-brat) using:
+- [ ] Coming soon to Obsidian’s Community Plugins
+- [x] Available via [BRAT](https://github.com/TfTHacker/obsidian42-brat):
   `https://github.com/Mara-Li/obsidian-alpha-bullet`
-* [x] Manual install:
+- [x] Manual installation:
   1. Download the latest release
-  2. Unzip the `alpha-bullet.zip` to your `.obsidian/plugins/` folder
-  3. Reload Obsidian and enable the plugin in settings
+  2. Unzip the folder into `.obsidian/plugins/`
+  3. Reload Obsidian and enable the plugin
 
 ## 🌐 Languages
 
-* [x] English
-* [x] French
+- [x] English
+- [x] French
 
-Want to help translate? Here’s how:
-1. Fork the repo
-2. Add your translation in `src/i18n/locales/<lang>.json`
-3. Edit `i18n/i18next.ts` to import and register the new locale
+Want to help translate?
+1. Fork the repository
+2. Add your translation to `src/i18n/locales/<lang>.json`
+3. Register your locale in `i18n/i18next.ts`
 
 > Use [obsidian-translations](https://github.com/obsidianmd/obsidian-translations) or `tp.obsidian.moment.locale()` to find your language code.
 
 ## 🙋 Support & Contributions
 
-Found a bug? Want a new feature?
-Open an issue or pull request on [GitHub](https://github.com/Mara-Li/obsidian-list-sort/issues).
+Found a bug? Have a feature request?  
+Please open an issue or pull request on [GitHub](https://github.com/Mara-Li/obsidian-list-sort/issues).
 
-> [!NOTE]
-> English is not my native language — feel free to correct mistakes!
-> However, please submit issues in English so everyone can benefit from the discussion.
+> ✏️ English isn’t my native language — feel free to suggest improvements!
+> But please use English for issues so others can follow along.
 
-## ❤️ Credits & Thanks
+## ❤️ Credits
 
-Special thanks to [Jesse Hines](https://github.com/jesse-r-s-hines/wdio-obsidian-service) for the [wdio-obsidian-service](https://github.com/jesse-r-s-hines/wdio-obsidian-service), which allowed me to test this plugin inside a real Obsidian vault — a dream come true for a QA engineer like me!
-
-
+Huge thanks to [Jesse Hines](https://github.com/jesse-r-s-hines/wdio-obsidian-service) for the [wdio-obsidian-service](https://github.com/jesse-r-s-hines/wdio-obsidian-service), which allowed me to run automated tests in a real Obsidian vault — a dream come true for a QA engineer!

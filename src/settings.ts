@@ -96,8 +96,8 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 			)
 			.setDesc(sanitizeHTMLToDom(`${i18next.t("settings.items.desc")}`))
 			.addToggle((toggle) =>
-				toggle.setValue(this.settings.sml_glossary_reverse).onChange(async (value) => {
-					this.settings.sml_glossary_reverse = value;
+				toggle.setValue(this.settings.sml_glossary_desc).onChange(async (value) => {
+					this.settings.sml_glossary_desc = value;
 					await this.plugin.saveSettings();
 				})
 			);

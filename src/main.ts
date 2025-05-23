@@ -43,8 +43,8 @@ export default class AlphaBullet extends Plugin {
 				frontmatter.sml_glossary
 			),
 			sml_level: this.levelNumber(this.settings.sml_level, frontmatter.sml_level),
-			sml_glossary_reverse: this.convertStrToBool(
-				this.settings.sml_glossary_reverse,
+			sml_glossary_desc: this.convertStrToBool(
+				this.settings.sml_glossary_desc,
 				frontmatter.sml_glossary_reverse
 			),
 		};
@@ -57,7 +57,7 @@ export default class AlphaBullet extends Plugin {
 			return sort.cleanSortByGroup(
 				content,
 				options.sml_descending,
-				options.sml_glossary_reverse
+				options.sml_glossary_desc
 			);
 		return sort.cleanSort(content, options.sml_descending);
 	}
