@@ -10,6 +10,10 @@
   },
   "enableMenu": {
     "desc": "Enables commands to be used when selecting a list in edit mode",
+    "onlyFrontmatter": {
+      "desc": "The button will only displayed if {{- sml_sort}} is on {{- value}}.",
+      "title": "Enable only the auto sort on frontmatter properties"
+    },
     "title": "Editor menu"
   },
   "frontmatter": "Frontmatter",
@@ -32,6 +36,7 @@
       },
       "full": "Full sort"
     },
+    "sortFrontmatter": "Sort by frontmatter",
     "sortSelection": "Sort list"
   },
   "reverse": "Descending order",

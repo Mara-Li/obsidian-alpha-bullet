@@ -22,11 +22,33 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 			.setName(i18next.t("enableMenu.title"))
 			.setDesc(i18next.t("enableMenu.desc"))
 			.addToggle((toggle) =>
-				toggle.setValue(this.settings.enableMenu).onChange(async (value) => {
-					this.settings.enableMenu = value;
+				toggle.setValue(this.settings.editorMenu.enabled).onChange(async (value) => {
+					this.settings.editorMenu.enabled = value;
 					await this.plugin.saveSettings();
 				})
 			);
+
+		if (this.settings.editorMenu.enabled) {
+			new Setting(containerEl)
+				.setName(i18next.t("enableMenu.onlyFrontmatter.title"))
+				.setDesc(
+					sanitizeHTMLToDom(
+						i18next.t("enableMenu.onlyFrontmatter.desc", {
+							// biome-ignore lint/style/useNamingConvention: frontmatter key in translation
+							sml_sort: "<code>sml_sort</code>",
+							value: "<code>true</code>",
+						})
+					)
+				)
+				.addToggle((toggle) =>
+					toggle
+						.setValue(this.settings.editorMenu.onlyFrontmatter)
+						.onChange(async (value) => {
+							this.settings.editorMenu.onlyFrontmatter = value;
+							await this.plugin.saveSettings();
+						})
+				);
+		}
 
 		new Setting(containerEl)
 			.setName(i18next.t("frontmatter"))

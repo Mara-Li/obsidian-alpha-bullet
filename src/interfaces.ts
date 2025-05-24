@@ -8,7 +8,10 @@ export interface AlphaBulletFrontmatter {
 }
 
 export type AlphaBulletSettings = {
-	enableMenu: boolean;
+	editorMenu: {
+		enabled: boolean;
+		onlyFrontmatter: boolean;
+	};
 } & AlphaBulletFrontmatter;
 
 export const DEFAULT_SETTINGS: AlphaBulletSettings = {
@@ -17,7 +20,10 @@ export const DEFAULT_SETTINGS: AlphaBulletSettings = {
 	sml_glossary: false,
 	sml_level: 1,
 	sml_glossary_desc: false,
-	enableMenu: true,
+	editorMenu: {
+		enabled: true,
+		onlyFrontmatter: false,
+	},
 };
 
 export enum ECommands {

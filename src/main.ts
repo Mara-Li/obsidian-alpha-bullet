@@ -237,85 +237,95 @@ export default class AlphaBullet extends Plugin {
 				const selection = editor.getSelection();
 				const frontmatter = this.app.metadataCache.getFileCache(view.file)?.frontmatter;
 				//if no selection or not a list, return
-				if (!selection || !this.sorts.isList(selection) || !this.settings.enableMenu)
+				if (!selection || !this.sorts.isList(selection) || !this.settings.editorMenu)
 					return;
-				menu.addItem((item) => {
-					item.setTitle(i18next.t("menu.sortSelection"));
-					item.setIcon("arrow-down-up");
-					const subMenu = item.setSubmenu();
-					if (frontmatter?.sml_sort) {
-						subMenu.addItem((sub) => {
-							sub.setTitle(i18next.t("menu.auto"));
-							sub.setIcon("notepad-text");
-							sub.onClick(async () => {
-								const selectedText = editor.getSelection();
-								if (selectedText) {
-									const newContent = await this.chooseCommands(selectedText, options);
-									editor.replaceSelection(newContent);
-								}
-							});
-						});
-					}
-					subMenu.addItem((sub) => {
-						sub.setTitle(i18next.t("menu.asc"));
-						sub.setIcon("move-up-right");
-						sub.onClick(async () => {
-							const content = this.sorts.cleanSort(selection, false);
-							editor.replaceSelection(content);
-						});
-					});
-					subMenu.addItem((sub) => {
-						sub.setTitle(i18next.t("menu.desc"));
-						sub.setIcon("move-down-right");
-						sub.onClick(async () => {
-							const content = this.sorts.cleanSort(selection, true);
-							editor.replaceSelection(content);
-						});
-					});
-				});
-				menu.addItem((item) => {
-					item.setTitle(i18next.t("menu.glossary.asc.title"));
-					item.setIcon("arrow-down-az");
-					const subMenu = item.setSubmenu();
-					subMenu.addItem((sub) => {
-						sub
-							.setTitle(i18next.t("menu.glossary.full"))
-							.setIcon("arrow-down-narrow-wide")
-							.onClick(() => {
-								const newContent = this.sorts.cleanSortByGroup(selection, false, false);
-								editor.replaceSelection(newContent);
-							});
-					});
-					subMenu.addItem((sub) => {
-						sub
-							.setTitle(i18next.t("menu.glossary.asc.items"))
-							.setIcon("arrow-up-za")
-							.onClick(() => {
-								const newContent = this.sorts.cleanSortByGroup(selection, false, true);
-								editor.replaceSelection(newContent);
-							});
-					});
-				});
-				menu.addItem((item) => {
-					item.setTitle(i18next.t("menu.glossary.desc.title")).setIcon("arrow-down-za");
-					const subMenu = item.setSubmenu();
-					subMenu.addItem((sub) => {
-						sub
-							.setTitle(i18next.t("menu.glossary.full"))
-							.setIcon("arrow-down-wide-narrow")
-							.onClick(() => {
-								const newContent = this.sorts.cleanSortByGroup(selection, true, true);
-								editor.replaceSelection(newContent);
-							});
-					});
-					subMenu.addItem((sub) => {
-						sub.setTitle(i18next.t("menu.glossary.desc.items"));
-						sub.setIcon("arrow-up-az").onClick(() => {
-							const newContent = this.sorts.cleanSortByGroup(selection, true, false);
+				if (this.settings.editorMenu.onlyFrontmatter) {
+					menu.addItem((item) => {
+						item.setTitle(i18next.t("menu.sortFrontmatter")).setIcon("notepad-text");
+						item.onClick(async () => {
+							const newContent = await this.chooseCommands(selection, options);
 							editor.replaceSelection(newContent);
 						});
 					});
-				});
+				} else {
+					menu.addItem((item) => {
+						item.setTitle(i18next.t("menu.sortSelection"));
+						item.setIcon("arrow-down-up");
+						const subMenu = item.setSubmenu();
+						if (frontmatter?.sml_sort) {
+							subMenu.addItem((sub) => {
+								sub.setTitle(i18next.t("menu.auto"));
+								sub.setIcon("notepad-text");
+								sub.onClick(async () => {
+									const selectedText = editor.getSelection();
+									if (selectedText) {
+										const newContent = await this.chooseCommands(selectedText, options);
+										editor.replaceSelection(newContent);
+									}
+								});
+							});
+						}
+						subMenu.addItem((sub) => {
+							sub.setTitle(i18next.t("menu.asc"));
+							sub.setIcon("move-up-right");
+							sub.onClick(async () => {
+								const content = this.sorts.cleanSort(selection, false);
+								editor.replaceSelection(content);
+							});
+						});
+						subMenu.addItem((sub) => {
+							sub.setTitle(i18next.t("menu.desc"));
+							sub.setIcon("move-down-right");
+							sub.onClick(async () => {
+								const content = this.sorts.cleanSort(selection, true);
+								editor.replaceSelection(content);
+							});
+						});
+					});
+					menu.addItem((item) => {
+						item.setTitle(i18next.t("menu.glossary.asc.title"));
+						item.setIcon("arrow-down-az");
+						const subMenu = item.setSubmenu();
+						subMenu.addItem((sub) => {
+							sub
+								.setTitle(i18next.t("menu.glossary.full"))
+								.setIcon("arrow-down-narrow-wide")
+								.onClick(() => {
+									const newContent = this.sorts.cleanSortByGroup(selection, false, false);
+									editor.replaceSelection(newContent);
+								});
+						});
+						subMenu.addItem((sub) => {
+							sub
+								.setTitle(i18next.t("menu.glossary.asc.items"))
+								.setIcon("arrow-up-za")
+								.onClick(() => {
+									const newContent = this.sorts.cleanSortByGroup(selection, false, true);
+									editor.replaceSelection(newContent);
+								});
+						});
+					});
+					menu.addItem((item) => {
+						item.setTitle(i18next.t("menu.glossary.desc.title")).setIcon("arrow-down-za");
+						const subMenu = item.setSubmenu();
+						subMenu.addItem((sub) => {
+							sub
+								.setTitle(i18next.t("menu.glossary.full"))
+								.setIcon("arrow-down-wide-narrow")
+								.onClick(() => {
+									const newContent = this.sorts.cleanSortByGroup(selection, true, true);
+									editor.replaceSelection(newContent);
+								});
+						});
+						subMenu.addItem((sub) => {
+							sub.setTitle(i18next.t("menu.glossary.desc.items"));
+							sub.setIcon("arrow-up-az").onClick(() => {
+								const newContent = this.sorts.cleanSortByGroup(selection, true, false);
+								editor.replaceSelection(newContent);
+							});
+						});
+					});
+				}
 			})
 		);
 	}

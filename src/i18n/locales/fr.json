@@ -10,6 +10,10 @@
   },
   "enableMenu": {
     "desc": "Permet d'utiliser les commandes en sélectionnant une liste en mode édition",
+    "onlyFrontmatter": {
+      "desc": "Le bouton ne sera affiché que si {{- sml_sort}} est sur {{- value}}.",
+      "title": "Activer uniquement le tri automatique via les propriétés du frontmatter"
+    },
     "title": "Menu d'édition"
   },
   "frontmatter": "Frontmatter",
@@ -32,6 +36,7 @@
       },
       "full": "Tri complet"
     },
+    "sortFrontmatter": "Trier par le frontmatter",
     "sortSelection": "Trier la liste"
   },
   "reverse": "Ordre descendant",
