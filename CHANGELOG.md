@@ -1,3 +1,8 @@
+## [0.1.2](https://github.com/Mara-Li/obsidian-list-sort/compare/0.1.1...0.1.2) (2025-05-24)
+### Features
+
+* add frontmatter sorting option to editor menu ([c0d683d](https://github.com/Mara-Li/obsidian-list-sort/commit/c0d683d1819b73e438c167d04d3eb158e3ea0763))
+
 ## [0.1.1](https://github.com/Mara-Li/obsidian-list-sort/compare/0.1.0...0.1.1) (2025-05-23)
 ### Features
 
