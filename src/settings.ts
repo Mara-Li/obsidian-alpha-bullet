@@ -25,11 +25,13 @@ export class MarkdownListSortSettings extends PluginSettingTab {
 				toggle.setValue(this.settings.editorMenu.enabled).onChange(async (value) => {
 					this.settings.editorMenu.enabled = value;
 					await this.plugin.saveSettings();
+					await this.display();
 				})
 			);
 
 		if (this.settings.editorMenu.enabled) {
 			new Setting(containerEl)
+				.setClass("p-4")
 				.setName(i18next.t("enableMenu.onlyFrontmatter.title"))
 				.setDesc(
 					sanitizeHTMLToDom(
