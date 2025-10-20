@@ -1,3 +1,8 @@
+## [0.1.3](https://github.com/Mara-Li/obsidian-list-sort/compare/0.1.2...0.1.3) (2025-10-20)
+### Bug Fixes
+
+* should sort with HTML tags too! ([1adbcb8](https://github.com/Mara-Li/obsidian-list-sort/commit/1adbcb8805cbff79e0b8571be99da3313897864c))
+
 ## [0.1.2](https://github.com/Mara-Li/obsidian-list-sort/compare/0.1.1...0.1.2) (2025-05-24)
 ### Features
 
