@@ -15,8 +15,16 @@ export class BulletSort {
 		return line.match(/^\s*[*+-] /) !== null && line.split("\n").length > 1;
 	}
 
+	private removeHtmlTags(text: string): string {
+		return text
+			.replace(/<[^>]*>/g, "")
+			.replace(/[\W_]+/g, "")
+			.trim();
+	}
+
 	private getSortableText(line: string): string {
-		return (line.split(":")[0].replace(/\W+/g, "") ?? line).standardize();
+		line = this.removeHtmlTags(line);
+		return (line.split(":")[0] ?? line).standardize();
 	}
 
 	private isIndented(line: string): boolean {
